@@ -3,6 +3,7 @@
 Uso: python src/build.py   (executar a partir da raiz do repositório)
 """
 import os
+import re
 import shutil
 import yaml
 from jinja2 import Environment, FileSystemLoader
@@ -11,11 +12,115 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, "src")
 DATA = os.path.join(SRC, "data")
 DOCS = os.path.join(ROOT, "docs")
+IMG_PERFIS = os.path.join(SRC, "assets", "img", "perfis")
 
 # Camadas de marca a publicar nesta rodada de build.
 # Ordem de trabalho combinada: Solução completa e validada primeiro,
 # Blindex entra depois (segunda passada de tema sobre os mesmos dados).
 MARCAS_ATIVAS = ["solucao"]
+
+# {CODIGO}-{detalhe_snake_case}.jpg  ou  {CODIGO}-{detalhe_snake_case}-isometrico.jpg
+IMG_PATTERN = re.compile(r"^[A-Z]{2,3}-\d{3,4}-[a-z0-9_]+(-isometrico)?\.jpg$")
+
+
+def _infere_nome_correto(fname, codigos_validos):
+    """Tenta inferir a forma correta de um nome de imagem fora do padrão.
+
+    Retorna o novo nome se for possível corrigir com segurança, ou None
+    caso o código do perfil ou o detalhe não possam ser inferidos sem
+    adivinhação (ex: extensão diferente de .jpg, que pode indicar um
+    formato de arquivo real diferente do nome).
+    """
+    nome, ext = os.path.splitext(fname)
+    if ext.lower() != ".jpg":
+        return None
+
+    codigo = next((c for c in codigos_validos if nome.upper().startswith(c.upper() + "-")), None)
+    if codigo is None:
+        return None
+
+    resto = nome[len(codigo) + 1:]
+    if not resto:
+        return None
+
+    isometrico = bool(re.search(r"[-_]isometric[oa]?$", resto, re.IGNORECASE))
+    if isometrico:
+        resto = re.sub(r"[-_]isometric[oa]?$", "", resto, flags=re.IGNORECASE)
+
+    detalhe = re.sub(r"[^a-zA-Z0-9]+", "_", resto).strip("_").lower()
+    if not detalhe:
+        return None
+
+    novo = f"{codigo}-{detalhe}{'-isometrico' if isometrico else ''}.jpg"
+    return novo if IMG_PATTERN.match(novo) else None
+
+
+def _substitui_referencia_yaml(yaml_path, antigo, novo):
+    if not os.path.exists(yaml_path):
+        return
+    with open(yaml_path, "r", encoding="utf-8", newline="") as f:
+        texto = f.read()
+    if antigo not in texto:
+        return
+    with open(yaml_path, "w", encoding="utf-8", newline="") as f:
+        f.write(texto.replace(antigo, novo))
+
+
+def verifica_imagens_perfis(perfis, img_dir=IMG_PERFIS, perfis_dir=None):
+    """Varre as imagens de perfis e corrige automaticamente nomes fora do
+    padrão {CODIGO}-{detalhe}[-isometrico].jpg, atualizando também a
+    referência correspondente no YAML do perfil. Interrompe o build se
+    encontrar algum arquivo que não possa ser corrigido com segurança.
+    """
+    perfis_dir = perfis_dir or os.path.join(DATA, "perfis")
+    if not os.path.isdir(img_dir):
+        return
+
+    codigos_validos = sorted(
+        {p.get("codigo") for p in perfis.values() if p.get("codigo")},
+        key=len, reverse=True,
+    )
+
+    corrigidos = []
+    nao_corrigidos = []
+
+    for fname in sorted(os.listdir(img_dir)):
+        if IMG_PATTERN.match(fname):
+            continue
+
+        novo = _infere_nome_correto(fname, codigos_validos)
+        old_path = os.path.join(img_dir, fname)
+        if novo is None or os.path.exists(os.path.join(img_dir, novo)):
+            nao_corrigidos.append(fname)
+            continue
+
+        os.rename(old_path, os.path.join(img_dir, novo))
+        corrigidos.append((fname, novo))
+
+        codigo = next((c for c in codigos_validos if fname.upper().startswith(c.upper() + "-")), None)
+        for slug, p in perfis.items():
+            if p.get("codigo") != codigo:
+                continue
+            _substitui_referencia_yaml(os.path.join(perfis_dir, f"{slug}.yaml"), fname, novo)
+            for campo in ("imagem_desenho", "imagem_isometrica"):
+                if p.get(campo) == fname:
+                    p[campo] = novo
+
+    if corrigidos:
+        print("Correção automática de nomes de imagem em src/assets/img/perfis/:")
+        for antigo, novo in corrigidos:
+            print(f"  {antigo}  ->  {novo}")
+    else:
+        print("Checagem de nomes de imagem: todos os arquivos já seguem o padrão.")
+
+    if nao_corrigidos:
+        print("ATENÇÃO: arquivos fora do padrão que NÃO foram corrigidos automaticamente (decisão manual necessária):")
+        for fname in nao_corrigidos:
+            print(f"  {fname}")
+        raise SystemExit(
+            "Build interrompido: revise manualmente os arquivos listados acima em "
+            f"{img_dir} antes de rodar o build novamente."
+        )
 
 
 def br_num(value):
@@ -68,6 +173,8 @@ def main():
     # normaliza categorias em cada perfil para lista (alguns podem vir com 1 item)
     for p in perfis.values():
         p.setdefault("categorias", [])
+
+    verifica_imagens_perfis(perfis)
 
     env = Environment(loader=FileSystemLoader(os.path.join(SRC, "templates")), autoescape=False)
     env.filters["categoria_titulo"] = lambda slug: categorias.get(slug, {}).get("titulo", slug)
