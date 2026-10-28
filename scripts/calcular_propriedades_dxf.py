@@ -5,8 +5,8 @@ Uso:
   python scripts/calcular_propriedades_dxf.py SS-108 [FE-0202 ...]   # imprime e gera PNG
   python scripts/calcular_propriedades_dxf.py --csv FE-0202 ...      # tambem grava relatorios/calculo_dxf.csv
   --escala N força o fator para mm (o INSUNITS do DXF pode estar errado: SS-108 diz polegada mas esta em mm)
-  --girados A,B  perfis cujo DXF esta girado 90 graus em relacao a ficha (confira pelas cotas)
-  --jx x|y   Ix calculado (x) ou Iy calculado (y) corresponde ao Jx da ficha
+  --orient COD:modo,...  transformacao do DXF para a orientacao da ficha (ccw, cw, antitransp, ...)
+  --teste    valida as formulas com um retangulo 20x40
 
 DXF em cad-fonte/ARQUIVOS/CALCULO/<CODIGO>.dxf. Contornos fechados vindos de LWPOLYLINE,
 POLYLINE, LINE+ARC encadeados, CIRCLE etc.; furos por contencao (profundidade impar);
@@ -27,6 +27,17 @@ from PIL import Image, ImageDraw
 RAIZ = Path(__file__).resolve().parent.parent
 CALC = RAIZ / "cad-fonte" / "ARQUIVOS" / "CALCULO"
 SAIDA = RAIZ / "relatorios"
+# DXF -> orientacao da ficha (x para a direita, y para cima); reflexoes nao alteram Jx, Jy
+TRANSFORMA = {
+    None: lambda x, y: (x, y),
+    "ccw": lambda x, y: (-y, x),          # gira 90 graus anti-horario
+    "cw": lambda x, y: (y, -x),           # gira 90 graus horario
+    "antitransp": lambda x, y: (-y, -x),  # reflexao pela diagonal secundaria
+    "transp": lambda x, y: (y, x),
+    "espelho_v": lambda x, y: (x, -y),
+    "espelho_h": lambda x, y: (-x, y),
+    "giro180": lambda x, y: (-x, -y),
+}
 ESCALA_UNIDADE = {0: 1.0, 1: 25.4, 2: 304.8, 4: 1.0, 5: 10.0, 6: 1000.0}
 
 
@@ -126,7 +137,7 @@ def propriedades(pts):
     return a * s, sx * s, sy * s, ix * s, iy * s, per
 
 
-def analisar(codigo, escala=None):
+def analisar(codigo, escala=None, orient=None):
     arq = CALC / ("%s.dxf" % codigo)
     doc = ezdxf.readfile(str(arq))
     insunits = doc.header.get("$INSUNITS", 0)
@@ -145,6 +156,17 @@ def analisar(codigo, escala=None):
     if not lacos:
         raise SystemExit("%s: nenhum contorno fechado" % codigo)
     lacos = [[(x * esc, y * esc) for x, y in lc] for lc in lacos]
+    lacos = [[TRANSFORMA[orient](x, y) for x, y in lc] for lc in lacos]
+    r = medidas(lacos)
+    r.update({
+        "codigo": codigo, "insunits": insunits, "escala": esc, "orient": orient,
+        "bbox_raw": (max(xs) - min(xs), max(ys) - min(ys)),
+        "soltas": soltas, "tol_juncao": tol_uso, "ignoradas": sorted(set(ignoradas))})
+    return r
+
+
+def medidas(lacos):
+    """Propriedades da secao (mm, mm4) na orientacao dos pontos dados."""
     prof = []
     for i, lc in enumerate(lacos):
         n = sum(1 for j, o in enumerate(lacos) if j != i and dentro(lc[0], o))
@@ -160,15 +182,32 @@ def analisar(codigo, escala=None):
         IY += sinal * iy
         P += per
     cx, cy = SX / A, SY / A
+    pts = [p for lc in lacos for p in lc]
+    x0, x1 = min(p[0] for p in pts), max(p[0] for p in pts)
+    y0, y1 = min(p[1] for p in pts), max(p[1] for p in pts)
+    ix, iy = IX - A * cy * cy, IY - A * cx * cx
     return {
-        "codigo": codigo, "insunits": insunits, "escala": esc,
-        "bbox_raw": (max(xs) - min(xs), max(ys) - min(ys)),
-        "bbox_mm": ((max(xs) - min(xs)) * esc, (max(ys) - min(ys)) * esc),
-        "area": A, "perimetro": P, "cx": cx, "cy": cy,
-        "ix": IX - A * cy * cy, "iy": IY - A * cx * cx,
+        "bbox_mm": (x1 - x0, y1 - y0), "area": A, "perimetro": P, "cx": cx, "cy": cy,
+        "ix": ix, "iy": iy,
+        "centroide_x_mm": cx - x0, "centroide_y_mm": cy - y0,
+        "wx": ix / max(y1 - cy, cy - y0), "wy": iy / max(x1 - cx, cx - x0),
         "contornos": sum(1 for n in prof if n % 2 == 0), "furos": sum(1 for n in prof if n % 2 == 1),
-        "soltas": soltas, "tol_juncao": tol_uso, "ignoradas": sorted(set(ignoradas)), "lacos": lacos, "prof": prof,
+        "lacos": lacos, "prof": prof,
     }
+
+
+def teste_retangulo():
+    """Caso analitico: retangulo b x h = 20 x 40 -> Ix = b h^3/12, Wx = b h^2/6, Wy = h b^2/6."""
+    b, h = 20.0, 40.0
+    r = medidas([[(5, 7), (5 + b, 7), (5 + b, 7 + h), (5, 7 + h)]])
+    esp = {"area": b * h, "perimetro": 2 * (b + h), "ix": b * h ** 3 / 12, "iy": h * b ** 3 / 12,
+           "wx": b * h * h / 6, "wy": h * b * b / 6, "centroide_x_mm": b / 2, "centroide_y_mm": h / 2}
+    ok = True
+    for k, v in esp.items():
+        ok &= abs(r[k] - v) / v < 1e-9
+        print("  retangulo 20x40 %-15s calc=%.4f analitico=%.4f" % (k, r[k], v))
+    print("teste do retangulo:", "OK" if ok else "DIVERGE")
+    return ok
 
 
 def png(r):
@@ -203,38 +242,39 @@ def ficha(codigo):
 
 def main():
     args = sys.argv[1:]
+    if "--teste" in args:
+        sys.exit(0 if teste_retangulo() else 1)
     gravar = "--csv" in args
-    eixo = "x"  # convencao: Jx da ficha = Ix calculado (x) ou Iy calculado (y)
-    if "--jx" in args:
-        eixo = args[args.index("--jx") + 1]
-    girados = args[args.index("--girados") + 1].split(",") if "--girados" in args else []
+    # --orient FE-0202:antitransp,LT-077:ccw  (transformacao do DXF para a orientacao da ficha)
+    orient = dict(i.split(":") for i in args[args.index("--orient") + 1].split(",")) if "--orient" in args else {}
     escala = float(args[args.index("--escala") + 1]) if "--escala" in args else None
     codigos = list(dict.fromkeys(a for a in args if re.match(r"^[A-Za-z]{2,3}-\d+$", a)))
     linhas = []
     for c in codigos:
-        r = analisar(c, escala)
+        r = analisar(c, escala, orient.get(c))
         png(r)
-        # --girados: DXF desenhado girado 90 graus em relacao a ficha (troca Ix e Iy)
-        troca = (eixo == "y") != (c in girados)
-        jx, jy = (r["iy"], r["ix"]) if troca else (r["ix"], r["iy"])
-        print("%s INSUNITS=%s escala=%s bbox_raw=%.3f x %.3f bbox_mm=%.2f x %.2f" % (
-            c, r["insunits"], r["escala"], *r["bbox_raw"], *r["bbox_mm"]))
-        print("  area=%.2f perimetro=%.2f centroide=(%.3f, %.3f) Ix=%.2f Iy=%.2f contornos=%d furos=%d soltas=%d tol_juncao=%.4f ignoradas=%s"
-              % (r["area"], r["perimetro"], r["cx"], r["cy"], r["ix"], r["iy"], r["contornos"], r["furos"],
-                 r["soltas"], r["tol_juncao"], r["ignoradas"]))
+        print("%s INSUNITS=%s escala=%s orient=%s bbox_raw=%.3f x %.3f bbox_mm=%.2f x %.2f" % (
+            c, r["insunits"], r["escala"], r["orient"], *r["bbox_raw"], *r["bbox_mm"]))
+        print("  area=%.2f perimetro=%.2f centroide=(%.3f, %.3f) Jx=%.2f Jy=%.2f Wx=%.2f Wy=%.2f "
+              "contornos=%d furos=%d soltas=%d tol_juncao=%.4f ignoradas=%s"
+              % (r["area"], r["perimetro"], r["centroide_x_mm"], r["centroide_y_mm"], r["ix"], r["iy"],
+                 r["wx"], r["wy"], r["contornos"], r["furos"], r["soltas"], r["tol_juncao"], r["ignoradas"]))
         f = ficha(c)
         af, pf = f.get("superficie_area_mm2_mml"), f.get("superficie_perimetro_mm2_mml")
         dif = (r["area"] - af) / af * 100 if af else None
         status = "OK" if dif is not None and abs(dif) < 2 and not r["soltas"] else "DIVERGE"
         linhas.append([c, "%.2f" % r["area"], af if af is not None else "", "" if dif is None else "%.2f" % dif,
-                       "%.2f" % r["perimetro"], pf if pf is not None else "", "%.2f" % jx, "%.2f" % jy,
-                       r["contornos"], r["furos"], r["insunits"],
+                       "%.2f" % r["perimetro"], pf if pf is not None else "", "%.2f" % r["ix"], "%.2f" % r["iy"],
+                       "%.2f" % r["centroide_x_mm"], "%.2f" % r["centroide_y_mm"],
+                       "%.2f" % r["wx"], "%.2f" % r["wy"],
+                       r["contornos"], r["furos"], r["insunits"], r["orient"] or "",
                        "%.2f x %.2f" % r["bbox_mm"], status])
     if gravar:
         with open(SAIDA / "calculo_dxf.csv", "w", encoding="utf-8-sig", newline="") as fh:
             w = csv.writer(fh, delimiter=";")
             w.writerow(["codigo", "area_calc", "area_ficha", "dif_area_%", "perim_calc", "perim_ficha",
-                        "jx_calc", "jy_calc", "contornos", "furos", "insunits", "bbox", "status"])
+                        "jx_calc", "jy_calc", "centroide_x_mm", "centroide_y_mm", "modulo_wx_mm3",
+                        "modulo_wy_mm3", "contornos", "furos", "insunits", "orientacao", "bbox", "status"])
             for l in linhas:
                 w.writerow([str(v).replace(".", ",") for v in l])
 

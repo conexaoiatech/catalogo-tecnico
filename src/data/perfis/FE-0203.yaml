@@ -7,9 +7,14 @@ superficie_area_mm2_mml: 80.49
 superficie_perimetro_mm2_mml: 129.74
 inercia_jx_mm4: 240.26
 inercia_jy_mm4: 19971.96
+modulo_wx_mm3: 38.2
+modulo_wy_mm3: 821.8
+centroide_x_mm: 24.3
+centroide_y_mm: 6.29
 imagem_desenho: fe-0203-capa_coluna_lateral.jpg
 imagem_isometrica: fe-0203-capa_coluna_lateral-isometrico.jpg
 status: pendente
 nota: 'Divergencias aplicadas (ficha individual prevalece): peso_kg_m: YAML anterior
   0.2173. Jx/Jy calculados do DXF limpo (cad-fonte/ARQUIVOS/CALCULO) em 2026-10-28,
-  método validado no SS-108.'
+  método validado no SS-108. Wx, Wy e centroide calculados do mesmo DXF, na orientação
+  da ficha.'

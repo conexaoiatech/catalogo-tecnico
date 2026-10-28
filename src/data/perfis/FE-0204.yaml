@@ -7,9 +7,14 @@ superficie_area_mm2_mml: 247.4
 superficie_perimetro_mm2_mml: 377.12
 inercia_jx_mm4: 28120.76
 inercia_jy_mm4: 136002.53
+modulo_wx_mm3: 1249.79
+modulo_wy_mm3: 4020.04
+centroide_x_mm: 33.83
+centroide_y_mm: 17.83
 imagem_desenho: fe-0204-acab_vertical_meio_coluna_passante.jpg
 imagem_isometrica: fe-0204-acab_vertical_meio_coluna_passante-isometrico.jpg
 status: pendente
 nota: 'Divergencias aplicadas (ficha individual prevalece): peso_kg_m: YAML anterior
   0.668. Jx/Jy calculados do DXF limpo (cad-fonte/ARQUIVOS/CALCULO) em 2026-10-28,
-  método validado no SS-108.'
+  método validado no SS-108. Wx, Wy e centroide calculados do mesmo DXF, na orientação
+  da ficha.'

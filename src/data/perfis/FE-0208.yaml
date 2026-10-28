@@ -7,8 +7,13 @@ superficie_area_mm2_mml: 62.26
 superficie_perimetro_mm2_mml: 107.48
 inercia_jx_mm4: 1775.22
 inercia_jy_mm4: 1199.67
+modulo_wx_mm3: 158.86
+modulo_wy_mm3: 216.46
+centroide_x_mm: 5.54
+centroide_y_mm: 11.17
 imagem_desenho: fe-0208-baguete_vedacao_vertical.jpg
 imagem_isometrica: fe-0208-baguete_vedacao_vertical-isometrico.jpg
 status: pendente
 nota: Jx/Jy calculados do DXF limpo (cad-fonte/ARQUIVOS/CALCULO) em 2026-10-28, método
-  validado no SS-108.
+  validado no SS-108. Wx, Wy e centroide calculados do mesmo DXF, na orientação da
+  ficha.

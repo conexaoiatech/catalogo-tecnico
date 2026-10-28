@@ -7,9 +7,14 @@ superficie_area_mm2_mml: 76.33
 superficie_perimetro_mm2_mml: 150.42
 inercia_jx_mm4: 3387.12
 inercia_jy_mm4: 3146.12
+modulo_wx_mm3: 207.36
+modulo_wy_mm3: 224.24
+centroide_x_mm: 11.02
+centroide_y_mm: 13.27
 imagem_desenho: fe-0205-montante_do_quadro.jpg
 imagem_isometrica: fe-0205-montante_do_quadro-isometrico.jpg
 status: pendente
 nota: 'Divergencias aplicadas (ficha individual prevalece): peso_kg_m: YAML anterior
   0.1091. Jx/Jy calculados do DXF limpo (cad-fonte/ARQUIVOS/CALCULO) em 2026-10-28,
-  método validado no SS-108.'
+  método validado no SS-108. Wx, Wy e centroide calculados do mesmo DXF, na orientação
+  da ficha.'
