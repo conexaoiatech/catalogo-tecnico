@@ -10,7 +10,8 @@
   </div>
   <div class="spec-sheet-body">
     <div class="spec-sheet-img">
-      {% if fp.tem_imagem %}<img src="{{ base_url }}assets/img/perfis/{{ fp.imagem_desenho }}" alt="Desenho técnico cotado — {{ fp.codigo }}">{% endif %}
+      {% if fp.tem_imagem %}<img src="{{ base_url }}assets/img/perfis/{{ fp.imagem_desenho }}" alt="Desenho técnico cotado — {{ fp.codigo }}" data-zoom>
+      <a class="spec-orig" href="{{ base_url }}assets/img/perfis/{{ fp.imagem_desenho }}" target="_blank" rel="noopener">abrir em tamanho original</a>{% endif %}
     </div>
     <div class="spec-props">
       <table>

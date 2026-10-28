@@ -50,7 +50,8 @@
       </div>
       <div class="spec-sheet-body">
         <div class="spec-sheet-img">
-          {% if fp.tem_imagem %}<img src="{{ base_url }}assets/img/perfis/{{ fp.imagem_desenho }}" alt="Desenho técnico cotado — {{ fp.codigo }}">{% endif %}
+          {% if fp.tem_imagem %}<img src="{{ base_url }}assets/img/perfis/{{ fp.imagem_desenho }}" alt="Desenho técnico cotado — {{ fp.codigo }}" data-zoom>
+          <a class="spec-orig" href="{{ base_url }}assets/img/perfis/{{ fp.imagem_desenho }}" target="_blank" rel="noopener">abrir em tamanho original</a>{% endif %}
         </div>
         <div class="spec-props">
           <table>
@@ -80,7 +81,7 @@
     <div class="profiles-grid">
       {% for codigo, fp in perfis.items() if not fp.completo %}
       <div class="profile-card" id="{{ codigo }}">
-        {% if fp.tem_imagem %}<img class="pimg" src="{{ base_url }}assets/img/perfis/{{ fp.imagem_desenho }}" alt="Desenho técnico cotado — {{ fp.codigo }}">{% endif %}
+        {% if fp.tem_imagem %}<img class="pimg" src="{{ base_url }}assets/img/perfis/{{ fp.imagem_desenho }}" alt="Desenho técnico cotado — {{ fp.codigo }}" data-zoom>{% endif %}
         <div class="pcode">{{ codigo }}</div>
         {% if fp.descricao %}<div class="pdesc">{{ fp.descricao }}</div>{% endif %}
         {% if fp.peso_kg_m %}<div class="pweight">{{ fp.peso_kg_m|br_num }} kg/m{{ " · " ~ fp.barra_ref if fp.barra_ref else "" }}</div>{% endif %}
