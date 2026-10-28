@@ -7,7 +7,7 @@
       <div class="name">{{ fp.descricao }}</div>
     </div>
     <span class="badge" style="border-color:#6B7280; color:#5B6470;">ficha completa{{ " — perfil compartilhado" if fp.categorias|length > 1 else "" }}</span>
-    <a class="spec-orig" href="{{ base_url }}{{ fp.pagina }}">página do perfil →</a>
+    <a class="spec-orig" href="{{ base_url }}{{ fp.pagina }}?de={{ slug }}">página do perfil →</a>
   </div>
   <div class="spec-sheet-body">
     <div class="spec-sheet-img">
@@ -44,7 +44,7 @@
 <div class="profiles-grid" style="margin-bottom:24px;">
   {% for codigo in grupo.codigos %}
   {% set p = perfis[codigo] %}
-  <a class="profile-card" href="{{ base_url }}{{ p.pagina }}">
+  <a class="profile-card" href="{{ base_url }}{{ p.pagina }}?de={{ slug }}">
     {% if p.tem_imagem %}<img class="pimg" src="{{ base_url }}assets/img/perfis/{{ p.imagem_desenho }}" alt="Desenho técnico cotado — {{ codigo }}">{% endif %}
     <div class="pcode">{{ codigo }}</div>
     {% if p.descricao %}<div class="pdesc">{{ p.descricao }}</div>{% endif %}

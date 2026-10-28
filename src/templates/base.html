@@ -9,8 +9,15 @@
 <style>:root{ --pc:{{ pc }}; --tint:{{ tint }}; --brand:{{ pc }}; }</style>
 {% endif %}
 </head>
-<body>
-{% if current_page != 'index.html' %}<a class="menu-btn" href="{{ base_url }}index.html">← Menu principal</a>{% endif %}
+<body{% if trilha %} class="tem-trilha"{% endif %}>
+{% if trilha %}
+<div class="trilha-bar">
+  <nav class="trilha" id="trilha" aria-label="Trilha de navegação">
+    {% for t in trilha %}<a href="{{ t.href }}"{% if loop.last %} aria-current="page"{% endif %}>{{ t.label }}</a>{% if not loop.last %}<span class="sep" aria-hidden="true">›</span>{% endif %}{% endfor %}
+  </nav>
+  <a class="voltar-btn" id="voltar" href="{{ voltar.href }}">← Voltar para {{ voltar.label }}</a>
+</div>
+{% endif %}
 <div class="shell">
 
   <nav class="sidebar">
@@ -61,5 +68,6 @@
 <script src="{{ base_url }}assets/js/nav.js"></script>
 <script src="{{ base_url }}assets/js/lightbox.js"></script>
 <script src="{{ base_url }}assets/js/filtro.js"></script>
+<script src="{{ base_url }}assets/js/perfil.js"></script>
 </body>
 </html>

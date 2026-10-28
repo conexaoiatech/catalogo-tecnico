@@ -149,6 +149,7 @@ def anota_navegacao(perfis, categorias, marcas):
     """Pagina propria de cada perfil (perfis/{codigo minusculo}.html), sistemas onde aparece
     (a partir dos blocos profiles das categorias) e ordem para anterior/proximo."""
     usado = {}
+    ordem_cat = {}  # slug da categoria -> chaves de codigo na ordem em que a pagina do sistema lista
     for cat_slug, cat in sorted(categorias.items(), key=lambda kv: kv[1]["ordem"]):
         pagina = None
         for marca_slug in MARCAS_ATIVAS:
@@ -165,12 +166,40 @@ def anota_navegacao(perfis, categorias, marcas):
                 for c in g.get("codigos", []):
                     usado.setdefault(chave_codigo(c), []).append(
                         dict(slug=cat_slug, nome=pagina[0], pagina=pagina[1]))
+                    ordem_cat.setdefault(cat_slug, []).append(chave_codigo(c))
+    por_chave = {chave_codigo(p["codigo"]): p for p in perfis.values()}
     for p in perfis.values():
         k = chave_codigo(p["codigo"])
         p["arquivo"] = k
         p["pagina"] = f"perfis/{k}.html"
         p["usado_em"] = usado.get(k, [])
+
+    def viz(chave):
+        q = por_chave[chave]
+        return dict(codigo=q["codigo"], pagina=q["pagina"])
+
+    for p in perfis.values():
+        k = p["arquivo"]
+        p["viz_cat"] = {}
+        for u in p["usado_em"]:
+            lista = ordem_cat[u["slug"]]
+            i = lista.index(k)
+            p["viz_cat"][u["slug"]] = dict(
+                nome=u["nome"], pagina=u["pagina"],
+                ant=viz(lista[i - 1]) if i > 0 else None,
+                prox=viz(lista[i + 1]) if i < len(lista) - 1 else None)
     return sorted(perfis.values(), key=_ordem_codigo)
+
+
+def inicio(base_url, marca_slug=None):
+    """Primeiro nivel da trilha. Hoje e sempre o Inicio da Solucao; quando houver Blindex,
+    e aqui que o Inicio passa a depender da marca (marca_slug)."""
+    return dict(label="Início", href=base_url + "index.html")
+
+
+def descr_curta(p, limite=30):
+    d = (p.get("descricao") or "").strip()
+    return d if len(d) <= limite else d[:limite - 1].rstrip() + "…"
 
 
 def limpa_docs():
@@ -298,7 +327,10 @@ def main():
                 continue
             page_rel = f"{marca_slug}/{produto['page_slug']}.html"
             ctx = base_ctx("../", marca_slug, page_rel)
+            ini = inicio("../", marca_slug)
             ctx.update(
+                trilha=[ini, dict(label=produto["nome"], href="../" + page_rel)],
+                voltar=ini,
                 page_title=produto["nome"],
                 produto=produto,
                 categoria=cat,
@@ -319,7 +351,10 @@ def main():
     ]
 
     ctx = base_ctx("", None, "biblioteca-perfis.html")
+    ini = inicio("")
     ctx.update(
+        trilha=[ini, dict(label="Biblioteca de perfis", href="biblioteca-perfis.html")],
+        voltar=ini,
         page_title="Mapa geral de perfis",
         biblioteca=biblioteca,
         perfis=dict(sorted(perfis.items())),
@@ -333,7 +368,11 @@ def main():
     # ---- uma pagina por perfil ----
     for i, fp in enumerate(ordem_perfis):
         ctx = base_ctx("../", None, fp["pagina"])
+        ini = inicio("../")
+        bib = dict(label="Biblioteca de perfis", href="../biblioteca-perfis.html")
         ctx.update(
+            trilha=[ini, bib, dict(label=f"{fp['codigo']} {descr_curta(fp)}".strip(), href=f"{fp['arquivo']}.html")],
+            voltar=bib,
             page_title=f"{fp['codigo']} — {fp.get('descricao', '')}",
             fp=fp,
             anterior=ordem_perfis[i - 1] if i > 0 else None,
@@ -344,7 +383,9 @@ def main():
 
     # ---- linha de selantes (neutra de marca) ----
     ctx = base_ctx("", None, "selantes.html")
-    ctx.update(page_title="Linha de Selantes", selantes=selantes, pc="#C41E2A", tint="#FBE9EA")
+    ini = inicio("")
+    ctx.update(trilha=[ini, dict(label="Linha de Selantes", href="selantes.html")], voltar=ini,
+               page_title="Linha de Selantes", selantes=selantes, pc="#C41E2A", tint="#FBE9EA")
     render("selantes.html", "selantes.html", **ctx)
 
     # ---- assets ----

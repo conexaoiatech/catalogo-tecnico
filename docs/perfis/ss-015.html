@@ -9,8 +9,15 @@
 <style>:root{ --pc:#5B6470; --tint:#F1F0EC; --brand:#5B6470; }</style>
 
 </head>
-<body>
-<a class="menu-btn" href="../index.html">← Menu principal</a>
+<body class="tem-trilha">
+
+<div class="trilha-bar">
+  <nav class="trilha" id="trilha" aria-label="Trilha de navegação">
+    <a href="../index.html">Início</a><span class="sep" aria-hidden="true">›</span><a href="../biblioteca-perfis.html">Biblioteca de perfis</a><span class="sep" aria-hidden="true">›</span><a href="ss-015.html" aria-current="page">SS-015 Montante do Quadro Móvel</a>
+  </nav>
+  <a class="voltar-btn" id="voltar" href="../biblioteca-perfis.html">← Voltar para Biblioteca de perfis</a>
+</div>
+
 <div class="shell">
 
   <nav class="sidebar">
@@ -77,15 +84,13 @@
   <div class="product-hero">
     <div class="product-kicker"><span class="ln"></span>Perfil de alumínio</div>
     <h2>SS-015 — Montante do Quadro Móvel</h2>
-    <nav class="perfil-nav" aria-label="Navegação do perfil">
-      <div class="pn-used">
-        <span class="pn-label">Usado em:</span>
-        <a href="../solucao/ripado.html">Ripado</a>
-      </div>
+    <nav class="perfil-nav" id="perfil-nav" aria-label="Navegação do perfil" data-base="../"
+         data-geral='{"ant": {"codigo": "SS-014", "pagina": "perfis/ss-014.html"}, "prox": {"codigo": "SS-016", "pagina": "perfis/ss-016.html"}}'
+         data-cats='{"ripado": {"ant": {"codigo": "SS-014", "pagina": "perfis/ss-014.html"}, "nome": "Ripado", "pagina": "solucao/ripado.html", "prox": {"codigo": "SS-016", "pagina": "perfis/ss-016.html"}}}'>
       <div class="pn-seq">
-        <a href="../perfis/ss-014.html" rel="prev">‹ anterior (SS-014)</a>
+        <a id="pn-ant" href="../perfis/ss-014.html" rel="prev">‹ anterior (SS-014)</a>
         <a href="../biblioteca-perfis.html">Biblioteca de perfis</a>
-        <a href="../perfis/ss-016.html" rel="next">próximo › (SS-016)</a>
+        <a id="pn-prox" href="../perfis/ss-016.html" rel="next">próximo › (SS-016)</a>
       </div>
     </nav>
   </div>
@@ -125,6 +130,10 @@
       </div>
     </div>
     <p style="font-size:12px; color:var(--steel); margin-bottom:24px;">Divergencias aplicadas (ficha individual prevalece): peso_kg_m: YAML anterior 0.71.</p>
+    <div class="pn-used perfil-usado">
+      <span class="pn-label">Usado em:</span>
+      <a href="../solucao/ripado.html">Ripado</a>
+    </div>
   </div>
 
 </section>
@@ -140,5 +149,6 @@
 <script src="../assets/js/nav.js"></script>
 <script src="../assets/js/lightbox.js"></script>
 <script src="../assets/js/filtro.js"></script>
+<script src="../assets/js/perfil.js"></script>
 </body>
 </html>
