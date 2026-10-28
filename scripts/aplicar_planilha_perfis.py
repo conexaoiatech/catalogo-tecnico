@@ -19,7 +19,7 @@ DATA = RAIZ / "src" / "data"
 IMG = RAIZ / "src" / "assets" / "img" / "perfis"
 REL = RAIZ / "relatorios"
 SLUGS = ["pele-vidro", "persianas", "portas-minimalistas", "portas-robustas", "ripado", "sacada"]
-SEM_BLOCO = {"ripado"}  # categoria sem blocks[tipo=profiles]: nao se cria bloco neste passo
+SEM_BLOCO = set()  # categorias sem blocks[tipo=profiles] (nenhuma desde o passo 2d)
 RE_COD = re.compile(r"^(SS|DSL|FE|LT|F)[\s_-]?(\d+)", re.IGNORECASE)
 RE_ISO = re.compile(r"(isometrico|iso)", re.IGNORECASE)
 DESCRICAO_PESSOA = {
@@ -57,10 +57,6 @@ def codigo(txt):
     return "%s-%0*d" % (pre, 4 if pre == "fe" else 3, n)
 
 
-def codigo_yaml(k):
-    return k.upper() if not k.startswith("f") or "-" in k else k.upper()
-
-
 def numero(v):
     v = v.strip()
     return float(v.replace(",", ".")) if v else None
@@ -76,6 +72,48 @@ def git_ou_rename(a, b):
         subprocess.run(["git", "mv", str(a), str(b)], cwd=RAIZ, check=True)
     else:
         os.rename(a, b)
+
+
+def atualizar_categorias(linhas, i_cat):
+    """YAML de categoria: edicao textual para nao reformatar o resto do arquivo."""
+    for i, slug in zip(i_cat, SLUGS):
+        if slug in SEM_BLOCO:
+            continue
+        queridos = [r[0] for r in linhas if r[i].strip()]
+        arq = DATA / "categorias" / ("%s.yaml" % slug)
+        txt = arq.read_text(encoding="utf-8").split("\n")
+        ini = next(n for n, l in enumerate(txt) if l == "  tipo: profiles")
+        fim = next((n for n in range(ini + 1, len(txt)) if txt[n].startswith("- id:")), len(txt))
+        saiu, entrou, grupo_ult, novos = [], [], {}, []
+        grupo_atual, rotulo = -1, {}
+        saida = txt[:ini]
+        presentes = []
+        for l in txt[ini:fim]:
+            m = re.match(r"^  - label: (.*)$", l)
+            if m:
+                grupo_atual += 1
+                rotulo[grupo_atual] = m.group(1).strip()
+            m = re.match(r"^    - (\S+)\s*$", l)
+            if m and grupo_atual >= 0:
+                k = codigo(m.group(1))
+                if k not in queridos:
+                    saiu.append(m.group(1))
+                    continue
+                presentes.append(k)
+                grupo_ult[grupo_atual] = len(saida)
+            saida.append(l)
+        alvo = next((g for g, t in rotulo.items() if t == ("Exclusivos" if slug == "pele-vidro" else "null")),
+                    None)
+        ins = grupo_ult.get(alvo)
+        if ins is None:
+            ins = max(grupo_ult.values())
+        novos = [k for k in queridos if k not in presentes]
+        for k in reversed(novos):
+            saida.insert(ins + 1, "    - " + k.upper())
+        entrou = [k.upper() for k in novos]
+        saida += txt[fim:]
+        arq.write_text("\n".join(saida), encoding="utf-8")
+        print("categoria %s: entraram %s; sairam %s" % (slug, entrou, saiu))
 
 
 def main():
@@ -197,45 +235,7 @@ def main():
     for k, v in divergencias.items():
         print("  %s: %s" % (k, "; ".join(v)))
 
-    # 7. YAML de categoria (edicao textual para nao reformatar o resto do arquivo)
-    for i, slug in zip(i_cat, SLUGS):
-        if slug in SEM_BLOCO:
-            continue
-        queridos = [r[0] for r in linhas if r[i].strip()]
-        arq = DATA / "categorias" / ("%s.yaml" % slug)
-        txt = arq.read_text(encoding="utf-8").split("\n")
-        ini = next(n for n, l in enumerate(txt) if l == "  tipo: profiles")
-        fim = next((n for n in range(ini + 1, len(txt)) if txt[n].startswith("- id:")), len(txt))
-        saiu, entrou, grupo_ult, novos = [], [], {}, []
-        grupo_atual, rotulo = -1, {}
-        saida = txt[:ini]
-        presentes = []
-        for l in txt[ini:fim]:
-            m = re.match(r"^  - label: (.*)$", l)
-            if m:
-                grupo_atual += 1
-                rotulo[grupo_atual] = m.group(1).strip()
-            m = re.match(r"^    - (\S+)\s*$", l)
-            if m and grupo_atual >= 0:
-                k = codigo(m.group(1))
-                if k not in queridos:
-                    saiu.append(m.group(1))
-                    continue
-                presentes.append(k)
-                grupo_ult[grupo_atual] = len(saida)
-            saida.append(l)
-        alvo = next((g for g, t in rotulo.items() if t == ("Exclusivos" if slug == "pele-vidro" else "null")),
-                    None)
-        ins = grupo_ult.get(alvo)
-        if ins is None:
-            ins = max(grupo_ult.values())
-        novos = [k for k in queridos if k not in presentes]
-        for k in reversed(novos):
-            saida.insert(ins + 1, "    - " + k.upper())
-        entrou = [k.upper() for k in novos]
-        saida += txt[fim:]
-        arq.write_text("\n".join(saida), encoding="utf-8")
-        print("categoria %s: entraram %s; sairam %s" % (slug, entrou, saiu))
+    atualizar_categorias(linhas, i_cat)
 
     # 8. plot.log
     log = IMG / "plot.log"

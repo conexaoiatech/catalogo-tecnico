@@ -46,10 +46,26 @@ blocks:
   - Cor do alumínio
   - Dimensão do ripado e afastamento
 - id: perfis
-  tipo: placeholder
+  tipo: profiles
   titulo: Perfis utilizados
-  status: pending
-  status_label: a mapear
-  icone: ⊞
-  subtitulo: Perfis ainda não mapeados no código-mestre
-  texto: Este sistema não aparece na relação de peças atual (SS-001 a SS-028 / FE-02XX). Trilho pode ser em alumínio ou polímero — códigos a confirmar e adicionar aqui.
+  grupos:
+  - label: null
+    codigos:
+    - DSL-001
+    - DSL-002
+    - DSL-003
+    - F98
+    - LT-077
+    - SS-001
+    - SS-004
+    - SS-005
+    - SS-006
+    - SS-007
+    - SS-008
+    - SS-009
+    - SS-014
+    - SS-015
+    - SS-016
+    - SS-017
+    - SS-024
+    - SS-026

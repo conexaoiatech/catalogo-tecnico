@@ -71,6 +71,7 @@ blocks:
     - FE-0205
     - FE-0207
     - FE-0208
+    - SS-024
 - id: montagem
   tipo: placeholder
   titulo: Detalhe de montagem
