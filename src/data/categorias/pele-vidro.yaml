@@ -57,10 +57,8 @@ blocks:
   - label: Compartilhados com portas robustas
     codigos:
     - SS-014
-    - SS-015
     - SS-016
     - SS-017
-    - SS-024
   - label: Exclusivos
     codigos:
     - SS-025
@@ -72,6 +70,7 @@ blocks:
     - FE-0204
     - FE-0205
     - FE-0207
+    - FE-0208
 - id: montagem
   tipo: placeholder
   titulo: Detalhe de montagem

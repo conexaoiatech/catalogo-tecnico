@@ -1,6 +1,15 @@
 codigo: SS-010
-descricao: Pf vidro 10mm
+descricao: Montante do Vidro 10mm
 categorias:
 - sacada
+- portas-minimalistas
 peso_kg_m: 0.478
+superficie_area_mm2_mml: 176.42
+superficie_perimetro_mm2_mml: 200.12
+inercia_jx_mm4: 11261.12
+inercia_jy_mm4: 8166.05
+imagem_desenho: ss-010-montante_do_vidro_10mm.jpg
+imagem_isometrica: ss-010-montante_do_vidro_10mm-isometrico.jpg
 status: pendente
+nota: 'Divergencias aplicadas (ficha individual prevalece): descricao: YAML anterior
+  ''Pf vidro 10mm''.'

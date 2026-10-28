@@ -1,6 +1,14 @@
 codigo: SS-014
+descricao: Capa de União
 categorias:
 - portas-robustas
 - pele-vidro
+- portas-minimalistas
 peso_kg_m: 0.254
+superficie_area_mm2_mml: 93.8
+superficie_perimetro_mm2_mml: 101.04
+inercia_jx_mm4: 973.76
+inercia_jy_mm4: 5733.33
+imagem_desenho: ss-014-capa_de_uniao.jpg
+imagem_isometrica: ss-014-capa_de_uniao-isometrico.jpg
 status: pendente

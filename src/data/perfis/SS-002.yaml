@@ -1,14 +1,16 @@
 codigo: SS-002
-descricao: Pf vidro 8mm
+descricao: Montante do Vidro 8
 categorias:
 - sacada
 peso_kg_m: 0.471
-superficie_area_mm2_mml: 173.90
-superficie_perimetro_mm2_mml: 207.40
-inercia_jx_mm4: 11830.90
+superficie_area_mm2_mml: 173.9
+superficie_perimetro_mm2_mml: 207.4
+inercia_jx_mm4: 11830.9
 inercia_jy_mm4: 8203.01
 largura_ref_mm: 24.3
 altura_ref_mm: 31.23
-imagem_desenho: SS-002-montante_do_vidro_8.jpg
-imagem_isometrica: SS-002-montante_do_vidro_8-isometrico.jpg
+imagem_desenho: ss-002-montante_do_vidro_8.jpg
+imagem_isometrica: ss-002-montante_do_vidro_8-isometrico.jpg
 status: completo
+nota: 'Divergencias aplicadas (ficha individual prevalece): descricao: YAML anterior
+  ''Pf vidro 8mm''.'

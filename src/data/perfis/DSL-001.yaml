@@ -1,0 +1,10 @@
+codigo: DSL-001
+descricao: Polímero deslizante retangular
+categorias:
+- portas-minimalistas
+- portas-robustas
+superficie_area_mm2_mml: 1000.0
+superficie_perimetro_mm2_mml: 140.0
+imagem_desenho: dsl-001-polimero_deslizante_retangular.jpg
+imagem_isometrica: dsl-001-polimero_deslizante_retangular-isometrico.jpg
+status: pendente

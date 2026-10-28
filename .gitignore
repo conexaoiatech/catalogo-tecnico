@@ -13,3 +13,6 @@ venv/
 # SO
 Thumbs.db
 .DS_Store
+
+# Log de plotagem do CAD
+plot.log

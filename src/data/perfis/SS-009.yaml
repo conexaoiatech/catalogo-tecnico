@@ -1,5 +1,16 @@
 codigo: SS-009
+descricao: Prolongador
 categorias:
 - sacada
-peso_kg_m: 0.606
+- portas-minimalistas
+- portas-robustas
+peso_kg_m: 0.612
+superficie_area_mm2_mml: 225.69
+superficie_perimetro_mm2_mml: 216.09
+inercia_jx_mm4: 13465.58
+inercia_jy_mm4: 61681.83
+imagem_desenho: ss-009-prolongador.jpg
+imagem_isometrica: ss-009-prolongador-isometrico.jpg
 status: pendente
+nota: 'Divergencias aplicadas (ficha individual prevalece): peso_kg_m: YAML anterior
+  0.606.'

@@ -1,7 +1,16 @@
 codigo: SS-017
+descricao: Montante de Giro Direito
 categorias:
 - portas-robustas
 - pele-vidro
-peso_kg_m: 0.816
+peso_kg_m: 0.868
+superficie_area_mm2_mml: 320.51
+superficie_perimetro_mm2_mml: 427.72
+inercia_jx_mm4: 87071.33
+inercia_jy_mm4: 70984.69
 barra_ref: BR-6,5MT
+imagem_desenho: ss-017-montante_de_giro_direito.jpg
+imagem_isometrica: ss-017-montante_de_giro_direito-isometrico.jpg
 status: pendente
+nota: 'Divergencias aplicadas (ficha individual prevalece): peso_kg_m: YAML anterior
+  0.816.'

@@ -1,5 +1,14 @@
 codigo: SS-023
+descricao: Perfil de Acabamento Direito
 categorias:
 - portas-minimalistas
-peso_kg_m: 0.269
+peso_kg_m: 0.252
+superficie_area_mm2_mml: 92.92
+superficie_perimetro_mm2_mml: 139.88
+inercia_jx_mm4: 8557.43
+inercia_jy_mm4: 1775.86
+imagem_desenho: ss-023-perfil_de_acabamento_direito.jpg
+imagem_isometrica: ss-023-perfil_de_acabamento_direito-isometrico.jpg
 status: pendente
+nota: 'Divergencias aplicadas (ficha individual prevalece): peso_kg_m: YAML anterior
+  0.269.'

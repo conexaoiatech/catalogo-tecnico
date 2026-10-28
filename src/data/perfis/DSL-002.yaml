@@ -1,0 +1,10 @@
+codigo: DSL-002
+descricao: Polímero deslizante 1 rampa
+categorias:
+- portas-minimalistas
+- portas-robustas
+superficie_area_mm2_mml: 1200.0
+superficie_perimetro_mm2_mml: 168.28
+imagem_desenho: dsl-002-polimero_deslizante_1_rampa.jpg
+imagem_isometrica: dsl-002-polimero_deslizante_1_rampa-isometrico.jpg
+status: pendente

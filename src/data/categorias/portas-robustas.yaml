@@ -59,10 +59,23 @@ blocks:
   - label: null
     codigos:
     - SS-014
-    - SS-015
     - SS-016
     - SS-017
     - SS-024
+    - DSL-001
+    - DSL-002
+    - DSL-003
+    - F98
+    - LT-077
+    - SS-001
+    - SS-004
+    - SS-005
+    - SS-006
+    - SS-007
+    - SS-008
+    - SS-009
+    - SS-025
+    - SS-026
   ficha_destaque: SS-016
 - id: montagem
   tipo: placeholder

@@ -1,5 +1,12 @@
 codigo: SS-028
+descricao: Trilho Guia Superior e Inferior
 categorias:
 - pele-vidro
 peso_kg_m: 0.679
+superficie_area_mm2_mml: 250.74
+superficie_perimetro_mm2_mml: 379.49
+inercia_jx_mm4: 33319.79
+inercia_jy_mm4: 85214.98
+imagem_desenho: ss-028-trilho_guia_superior_e_inferior.jpg
+imagem_isometrica: ss-028-trilho_guia_superior_e_inferior-isometrico.jpg
 status: pendente

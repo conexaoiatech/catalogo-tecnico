@@ -1,6 +1,16 @@
 codigo: SS-008
-descricao: Chapa de correção
+descricao: Calha de Ajuste
 categorias:
 - sacada
-peso_kg_m: 0.862
+- portas-minimalistas
+- portas-robustas
+peso_kg_m: 0.852
+superficie_area_mm2_mml: 314.46
+superficie_perimetro_mm2_mml: 261.11
+inercia_jx_mm4: 34766.88
+inercia_jy_mm4: 140142.4
+imagem_desenho: ss-008-calha_de_ajuste.jpg
+imagem_isometrica: ss-008-calha_de_ajuste-isometrico.jpg
 status: pendente
+nota: 'Divergencias aplicadas (ficha individual prevalece): descricao: YAML anterior
+  ''Chapa de correção''; peso_kg_m: YAML anterior 0.862.'

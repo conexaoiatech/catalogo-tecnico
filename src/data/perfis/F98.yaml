@@ -1,5 +1,15 @@
 codigo: F98
+descricao: Trilho Superior e Inferior
 categorias:
 - portas-minimalistas
-peso_kg_m: 1.261
+- portas-robustas
+peso_kg_m: 1.223
+superficie_area_mm2_mml: 451.17
+superficie_perimetro_mm2_mml: 430.95
+inercia_jx_mm4: 139568.71
+inercia_jy_mm4: 111712.23
+imagem_desenho: f98-trilho_superior_e_inferior.jpg
+imagem_isometrica: f98-trilho_superior_e_inferior-isometrico.jpg
 status: pendente
+nota: 'Divergencias aplicadas (ficha individual prevalece): peso_kg_m: YAML anterior
+  1.261.'

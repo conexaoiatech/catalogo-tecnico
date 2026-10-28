@@ -1,5 +1,10 @@
 codigo: FE-0207
+descricao: Acab. Vertical Meio Coluna - Colante
 categorias:
 - pele-vidro
 peso_kg_m: 0.741
+superficie_area_mm2_mml: 247.42
+superficie_perimetro_mm2_mml: 422.54
+imagem_desenho: fe-0207-acab_vertical_meio_coluna_colante.jpg
+imagem_isometrica: fe-0207-acab_vertical_meio_coluna_colante-isometrico.jpg
 status: pendente

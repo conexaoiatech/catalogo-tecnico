@@ -1,0 +1,12 @@
+codigo: SS-018
+descricao: Bando Rolo
+categorias:
+- persianas
+peso_kg_m: 0.358
+superficie_area_mm2_mml: 132.39
+superficie_perimetro_mm2_mml: 174.46
+inercia_jx_mm4: 59431.01
+inercia_jy_mm4: 1743.74
+imagem_desenho: ss-018-bando_rolo.jpg
+imagem_isometrica: ss-018-bando_rolo-isometrico.jpg
+status: pendente

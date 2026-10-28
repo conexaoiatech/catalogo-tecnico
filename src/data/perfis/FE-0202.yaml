@@ -1,5 +1,12 @@
 codigo: FE-0202
+descricao: Bagete Passante
 categorias:
 - pele-vidro
-peso_kg_m: 0.2699
+peso_kg_m: 0.247
+superficie_area_mm2_mml: 94.04
+superficie_perimetro_mm2_mml: 185.67
+imagem_desenho: fe-0202-bagete_passante.jpg
+imagem_isometrica: fe-0202-bagete_passante-isometrico.jpg
 status: pendente
+nota: 'Divergencias aplicadas (ficha individual prevalece): peso_kg_m: YAML anterior
+  0.2699.'

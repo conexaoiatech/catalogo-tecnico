@@ -1,6 +1,16 @@
 codigo: SS-006
-descricao: Capa inferior
+descricao: Capa de Acabamento
 categorias:
 - sacada
+- portas-minimalistas
+- portas-robustas
 peso_kg_m: 0.112
+superficie_area_mm2_mml: 41.22
+superficie_perimetro_mm2_mml: 85.98
+inercia_jx_mm4: 4905.78
+inercia_jy_mm4: 44.14
+imagem_desenho: ss-006-capa_de_acabamento.jpg
+imagem_isometrica: ss-006-capa_de_acabamento-isometrico.jpg
 status: pendente
+nota: 'Divergencias aplicadas (ficha individual prevalece): descricao: YAML anterior
+  ''Capa inferior''.'

@@ -1,6 +1,14 @@
 codigo: SS-012
+descricao: Tampa
 categorias:
 - sacada
+- persianas
 peso_kg_m: 0.106
+superficie_area_mm2_mml: 39.06
+superficie_perimetro_mm2_mml: 71.73
+inercia_jx_mm4: 172.57
+inercia_jy_mm4: 2368.6
 revisado: true
+imagem_desenho: ss-012-tampa.jpg
+imagem_isometrica: ss-012-tampa-isometrico.jpg
 status: pendente

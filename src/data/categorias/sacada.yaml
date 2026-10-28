@@ -75,6 +75,7 @@ blocks:
     - SS-012
     - SS-013
     - LT-077
+    - SS-108
 - id: montagem
   tipo: placeholder
   titulo: Detalhe de montagem

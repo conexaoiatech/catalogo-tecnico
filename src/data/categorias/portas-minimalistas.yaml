@@ -61,6 +61,19 @@ blocks:
     - SS-022
     - SS-023
     - F98
+    - DSL-001
+    - DSL-002
+    - DSL-003
+    - LT-077
+    - SS-001
+    - SS-004
+    - SS-005
+    - SS-006
+    - SS-007
+    - SS-008
+    - SS-009
+    - SS-010
+    - SS-014
 - id: montagem
   tipo: placeholder
   titulo: Detalhe de montagem

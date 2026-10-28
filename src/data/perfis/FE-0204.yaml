@@ -1,5 +1,12 @@
 codigo: FE-0204
+descricao: Acab. Vertical Meio Coluna - Passante
 categorias:
 - pele-vidro
-peso_kg_m: 0.668
+peso_kg_m: 0.671
+superficie_area_mm2_mml: 247.4
+superficie_perimetro_mm2_mml: 377.12
+imagem_desenho: fe-0204-acab_vertical_meio_coluna_passante.jpg
+imagem_isometrica: fe-0204-acab_vertical_meio_coluna_passante-isometrico.jpg
 status: pendente
+nota: 'Divergencias aplicadas (ficha individual prevalece): peso_kg_m: YAML anterior
+  0.668.'

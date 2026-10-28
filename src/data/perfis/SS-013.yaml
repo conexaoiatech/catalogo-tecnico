@@ -1,6 +1,14 @@
 codigo: SS-013
+descricao: Persiana PF03
 categorias:
 - sacada
+- persianas
 peso_kg_m: 0.438
+superficie_area_mm2_mml: 161.49
+superficie_perimetro_mm2_mml: 214.82
+inercia_jx_mm4: 2076.44
+inercia_jy_mm4: 55178.5
 revisado: true
+imagem_desenho: ss-013-persiana_pf03.jpg
+imagem_isometrica: ss-013-persiana_pf03-isometrico.jpg
 status: pendente

@@ -1,0 +1,10 @@
+codigo: FE-0208
+descricao: Baguete Vedação Vertical
+categorias:
+- pele-vidro
+peso_kg_m: 0.169
+superficie_area_mm2_mml: 62.26
+superficie_perimetro_mm2_mml: 107.48
+imagem_desenho: fe-0208-baguete_vedacao_vertical.jpg
+imagem_isometrica: fe-0208-baguete_vedacao_vertical-isometrico.jpg
+status: pendente

@@ -1,5 +1,13 @@
 codigo: SS-026
+descricao: Encaixe Vedação
 categorias:
 - pele-vidro
+- portas-robustas
 peso_kg_m: 0.122
+superficie_area_mm2_mml: 44.92
+superficie_perimetro_mm2_mml: 84.29
+inercia_jx_mm4: 564.86
+inercia_jy_mm4: 673.11
+imagem_desenho: ss-026-encaixe_vedacao.jpg
+imagem_isometrica: ss-026-encaixe_vedacao-isometrico.jpg
 status: pendente
