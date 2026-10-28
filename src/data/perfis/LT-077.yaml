@@ -8,16 +8,18 @@ categorias:
 peso_kg_m: 0.153
 superficie_area_mm2_mml: 56.6
 superficie_perimetro_mm2_mml: 115.2
-inercia_jx_mm4: 4655.42
-inercia_jy_mm4: 3200.43
-modulo_wx_mm3: 270.31
-modulo_wy_mm3: 168.94
-centroide_x_mm: 6.06
-centroide_y_mm: 8.58
+inercia_jx_mm4: 4706.94
+inercia_jy_mm4: 3495.61
+modulo_wx_mm3: 271.5
+modulo_wy_mm3: 179.53
+centroide_x_mm: 6.33
+centroide_y_mm: 8.46
 imagem_desenho: lt-077-cantoneira_acab_lateral.jpg
 imagem_isometrica: lt-077-cantoneira_acab_lateral-isometrico.jpg
 status: pendente
 nota: 'Divergencias aplicadas (ficha individual prevalece): descricao: YAML anterior
   ''Cantoneira 25x25''. Jx/Jy calculados do DXF limpo (cad-fonte/ARQUIVOS/CALCULO)
   em 2026-10-28, método validado no SS-108. Wx, Wy e centroide calculados do mesmo
-  DXF, na orientação da ficha.'
+  DXF, na orientação da ficha. Valores recalculados em 2026-10-28 com o DXF corrigido
+  (25,8 x 25,8 mm; área 56.60 e perímetro 115.20 iguais aos da ficha), substituindo
+  o cálculo anterior.'
