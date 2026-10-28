@@ -1,58 +1,47 @@
 """Gera o site estático do Catálogo Técnico em /docs a partir de src/data + src/templates.
 
+Corrige nomes de imagem (padrão minúsculo), valida o catálogo e só então regenera docs/,
+preservando hist/, ESTADO_SESSAO.md, PLANO.md e ROTEIRO.md.
+
 Uso: python src/build.py   (executar a partir da raiz do repositório)
 """
+import csv
 import os
 import re
 import shutil
+import sys
 import yaml
 from jinja2 import Environment, FileSystemLoader
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(ROOT, "scripts"))
+from padroes import RE_ISO, chave_codigo, nome_padrao, nome_valido  # noqa: E402
+from validar_catalogo import validar  # noqa: E402
+
 SRC = os.path.join(ROOT, "src")
 DATA = os.path.join(SRC, "data")
 DOCS = os.path.join(ROOT, "docs")
 IMG_PERFIS = os.path.join(SRC, "assets", "img", "perfis")
+RENOMEACAO_CSV = os.path.join(ROOT, "relatorios", "renomeacao_imagens.csv")
+
+# Itens de docs/ que NAO sao gerados pelo build e sobrevivem a cada rodada
+# (governanca do projeto). Todo o resto de docs/ e apagado e regenerado.
+PRESERVAR = ["hist", "ESTADO_SESSAO.md", "PLANO.md", "ROTEIRO.md"]
 
 # Camadas de marca a publicar nesta rodada de build.
 # Ordem de trabalho combinada: Solução completa e validada primeiro,
 # Blindex entra depois (segunda passada de tema sobre os mesmos dados).
 MARCAS_ATIVAS = ["solucao"]
 
-# {CODIGO}-{detalhe_snake_case}.jpg  ou  {CODIGO}-{detalhe_snake_case}-isometrico.jpg
-IMG_PATTERN = re.compile(r"^[A-Z]{2,3}-\d{3,4}-[a-z0-9_]+(-isometrico)?\.jpg$")
-
-
-def _infere_nome_correto(fname, codigos_validos):
-    """Tenta inferir a forma correta de um nome de imagem fora do padrão.
-
-    Retorna o novo nome se for possível corrigir com segurança, ou None
-    caso o código do perfil ou o detalhe não possam ser inferidos sem
-    adivinhação (ex: extensão diferente de .jpg, que pode indicar um
-    formato de arquivo real diferente do nome).
-    """
-    nome, ext = os.path.splitext(fname)
-    if ext.lower() != ".jpg":
-        return None
-
-    codigo = next((c for c in codigos_validos if nome.upper().startswith(c.upper() + "-")), None)
-    if codigo is None:
-        return None
-
-    resto = nome[len(codigo) + 1:]
-    if not resto:
-        return None
-
-    isometrico = bool(re.search(r"[-_]isometric[oa]?$", resto, re.IGNORECASE))
-    if isometrico:
-        resto = re.sub(r"[-_]isometric[oa]?$", "", resto, flags=re.IGNORECASE)
-
-    detalhe = re.sub(r"[^a-zA-Z0-9]+", "_", resto).strip("_").lower()
-    if not detalhe:
-        return None
-
-    novo = f"{codigo}-{detalhe}{'-isometrico' if isometrico else ''}.jpg"
-    return novo if IMG_PATTERN.match(novo) else None
+def _registra_renomeacao(antigo, novo):
+    """Grava de-para em relatorios/renomeacao_imagens.csv ANTES de renomear."""
+    os.makedirs(os.path.dirname(RENOMEACAO_CSV), exist_ok=True)
+    existe = os.path.exists(RENOMEACAO_CSV)
+    with open(RENOMEACAO_CSV, "a", encoding="utf-8-sig", newline="") as f:
+        w = csv.writer(f, delimiter=";")
+        if not existe:
+            w.writerow(["nome_antigo", "nome_novo"])
+        w.writerow([antigo, novo])
 
 
 def _substitui_referencia_yaml(yaml_path, antigo, novo):
@@ -67,44 +56,41 @@ def _substitui_referencia_yaml(yaml_path, antigo, novo):
 
 
 def verifica_imagens_perfis(perfis, img_dir=IMG_PERFIS, perfis_dir=None):
-    """Varre as imagens de perfis e corrige automaticamente nomes fora do
-    padrão {CODIGO}-{detalhe}[-isometrico].jpg, atualizando também a
-    referência correspondente no YAML do perfil. Interrompe o build se
-    encontrar algum arquivo que não possa ser corrigido com segurança.
+    """Corrige nomes de imagem fora do padrao de scripts/padroes.py
+    ({codigo minusculo}-{detalhe}[-isometrico].jpg) quando o codigo (pelo prefixo
+    do arquivo) e a descricao do YAML do perfil permitem montar o nome; grava o
+    de-para em relatorios/renomeacao_imagens.csv e atualiza imagem_desenho /
+    imagem_isometrica no YAML. Arquivo sem como montar o nome interrompe o build.
     """
     perfis_dir = perfis_dir or os.path.join(DATA, "perfis")
     if not os.path.isdir(img_dir):
         return
 
-    codigos_validos = sorted(
-        {p.get("codigo") for p in perfis.values() if p.get("codigo")},
-        key=len, reverse=True,
-    )
+    por_codigo = {}
+    for slug, p in perfis.items():
+        k = chave_codigo(p.get("codigo", ""))
+        if k:
+            por_codigo[k] = (slug, p)
 
-    corrigidos = []
-    nao_corrigidos = []
-
+    corrigidos, nao_corrigidos = [], []
     for fname in sorted(os.listdir(img_dir)):
-        if IMG_PATTERN.match(fname):
+        if nome_valido(fname):
             continue
-
-        novo = _infere_nome_correto(fname, codigos_validos)
-        old_path = os.path.join(img_dir, fname)
+        nome, ext = os.path.splitext(fname)
+        k = chave_codigo(nome) if ext.lower() == ".jpg" else None
+        slug, p = por_codigo.get(k, (None, None))
+        novo = nome_padrao(k, p.get("descricao"), bool(RE_ISO.search(nome[len(k):]))) if p else None
         if novo is None or os.path.exists(os.path.join(img_dir, novo)):
             nao_corrigidos.append(fname)
             continue
 
-        os.rename(old_path, os.path.join(img_dir, novo))
+        _registra_renomeacao(fname, novo)
+        os.rename(os.path.join(img_dir, fname), os.path.join(img_dir, novo))
         corrigidos.append((fname, novo))
-
-        codigo = next((c for c in codigos_validos if fname.upper().startswith(c.upper() + "-")), None)
-        for slug, p in perfis.items():
-            if p.get("codigo") != codigo:
-                continue
-            _substitui_referencia_yaml(os.path.join(perfis_dir, f"{slug}.yaml"), fname, novo)
-            for campo in ("imagem_desenho", "imagem_isometrica"):
-                if p.get(campo) == fname:
-                    p[campo] = novo
+        _substitui_referencia_yaml(os.path.join(perfis_dir, f"{slug}.yaml"), fname, novo)
+        for campo in ("imagem_desenho", "imagem_isometrica"):
+            if p.get(campo) == fname:
+                p[campo] = novo
 
     if corrigidos:
         print("Correção automática de nomes de imagem em src/assets/img/perfis/:")
@@ -121,6 +107,35 @@ def verifica_imagens_perfis(perfis, img_dir=IMG_PERFIS, perfis_dir=None):
             "Build interrompido: revise manualmente os arquivos listados acima em "
             f"{img_dir} antes de rodar o build novamente."
         )
+
+
+def valida_catalogo():
+    """Roda a validacao (a, b, c, d) de scripts/validar_catalogo.py; erro -> sai com codigo 1
+    antes de apagar ou gerar qualquer coisa em docs/."""
+    erros, n_perfis, n_citados = validar()
+    print(f"Validação: {n_perfis} perfis, {n_citados} códigos citados em categorias.")
+    for k, nome in (("a", "código citado sem YAML de perfil"),
+                    ("b", "categorias do perfil != categorias que o citam"),
+                    ("c", "imagem referenciada não existe"),
+                    ("d", "arquivo de imagem fora do padrão")):
+        print(f"  ({k}) {'OK' if not erros[k] else 'ERRO - ' + nome}")
+        for e in erros[k]:
+            print(f"      {e}")
+    if any(erros.values()):
+        raise SystemExit("Build interrompido: validação do catálogo falhou; docs/ não foi alterado.")
+
+
+def limpa_docs():
+    """Apaga o conteudo de docs/ preservando os itens de PRESERVAR."""
+    os.makedirs(DOCS, exist_ok=True)
+    for nome in os.listdir(DOCS):
+        if nome in PRESERVAR:
+            continue
+        caminho = os.path.join(DOCS, nome)
+        if os.path.isdir(caminho):
+            shutil.rmtree(caminho)
+        else:
+            os.remove(caminho)
 
 
 def br_num(value):
@@ -175,14 +190,13 @@ def main():
         p.setdefault("categorias", [])
 
     verifica_imagens_perfis(perfis)
+    valida_catalogo()
 
     env = Environment(loader=FileSystemLoader(os.path.join(SRC, "templates")), autoescape=False)
     env.filters["categoria_titulo"] = lambda slug: categorias.get(slug, {}).get("titulo", slug)
     env.filters["br_num"] = br_num
 
-    if os.path.exists(DOCS):
-        shutil.rmtree(DOCS)
-    os.makedirs(DOCS)
+    limpa_docs()
 
     nav_groups = {}
     for slug, cat in sorted(categorias.items(), key=lambda kv: kv[1]["ordem"]):

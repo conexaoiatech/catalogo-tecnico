@@ -1,28 +1,25 @@
+Canônico em docs/ (build preserva). Atualizado 2026-10-28.
+
 # ESTADO_SESSAO — catalogo_tecnico
 
+Gravado na raiz porque src/build.py apaga docs/ inteiro a cada build (shutil.rmtree(DOCS)), o que levaria o estado junto.
+
 ## Sessao
-Nenhuma sessao claude_ia/claude_code aberta ainda neste projeto (primeiro registro de estado).
+A 93 (claude_ia) e B 94 (claude_code), vinculadas, demanda 20. Passos 79 (inventario das imagens) e 80 (matriz perfil x categoria x imagens) FINALIZADO_SUCESSO. Sessoes 93 e 94 fechadas em 2026-10-28.
 
-## Telas
-TL-catalogo_tecnico-IA (Claude.ai) e TL-catalogo_tecnico-CODE (Claude Code em C:\GITHUB\CATALOGO_TECNICO).
-
-## Decisoes/Protocolo
-Escrita em gov_demandas e projetos e sempre manual via Adminer, nunca pelo Claude Code. Branch de trabalho e main, nao master.
-
-## Ambiente
-Sem segredos aqui, ver instrucoes do projeto.
-
-## Planejado
-Fechar as demandas abertas em gov_demandas (ids 20, 21, 295, 296) conforme cada uma avancar.
-
-## Feito (com evidencia)
-id 19 fechado FINALIZADO_SUCESSO em 2026-10-26 (commit c8dc33f confirmado em origin/main, hash 11fc060); SS-002.yaml corrigido; checagem automatica de nomenclatura ativa em build.py.
+## Decisoes
+- Pasta unica de imagens em src/assets/img/perfis (sem subpastas por sistema).
+- Vinculo perfil x sistema pelo YAML de categoria.
+- descricao do YAML de perfil como nome do detalhe da imagem.
+- SS-0108 = ss-108.
+- FE-0202, 0203, 0204, 0205, 0207 e 0208 com 4 digitos, calculados dos DXF de cad-fonte/ARQUIVOS/SKINGLASS.
 
 ## Pendente
-- id 20 depende de renomear 4 imagens (SS-002 trilho_superior, SS-003, SS-004, SS-005) e decidir resize 1000x1000.
-- id 21 sem decisao de destino.
-- id 295 (checklist F2 de 9 etapas, docs/ orfao e CAD) nao executado.
-- id 296 falta PLANO.md ROTEIRO.md ESTADO_SESSAO.md CLAUDE.md e espelho claude/ESTADO_CATALOGO_TECNICO.md no Projeto.
+- 2b: planilha de referencias (pronta, nao rodada).
+- Conflito: build.py renomeia em maiusculo (IMG_PATTERN com codigo em maiusculas) x regra minuscula do inventario.
+- scripts/ e relatorios/ criados e nao commitados.
+- Demanda 19: push do commit c8dc33f.
+- Branch de trabalho e main; o push do bloco pedia origin master.
 
 ## Proximo passo
-Decidir resize e destino do id 21, depois retomar o checklist F2 do id 295.
+2b, depois 2c aplicar, 3 renomear, 4 FE, 5 build e publicar.
