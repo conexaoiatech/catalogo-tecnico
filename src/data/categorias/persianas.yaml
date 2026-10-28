@@ -114,7 +114,7 @@ blocks:
 - id: perfis
   tipo: profiles
   titulo: Perfis utilizados
-  nota: 1 perfil próprio identificado no mapa-mestre.
+  nota: Perfis próprios identificados no mapa-mestre.
   grupos:
   - label: null
     codigos:

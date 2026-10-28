@@ -10,7 +10,7 @@
   </div>
   <div class="spec-sheet-body">
     <div class="spec-sheet-img">
-      {% if fp.imagem_desenho %}<img src="{{ base_url }}assets/img/perfis/{{ fp.imagem_desenho }}" alt="Desenho técnico cotado — {{ fp.codigo }}">{% endif %}
+      {% if fp.tem_imagem %}<img src="{{ base_url }}assets/img/perfis/{{ fp.imagem_desenho }}" alt="Desenho técnico cotado — {{ fp.codigo }}">{% endif %}
     </div>
     <div class="spec-props">
       <table>
@@ -22,7 +22,7 @@
         {% if fp.largura_ref_mm %}<tr><td>Largura de referência</td><td>{{ fp.largura_ref_mm|br_num }} mm</td></tr>{% endif %}
         {% if fp.altura_ref_mm %}<tr><td>Altura de referência</td><td>{{ fp.altura_ref_mm|br_num }} mm</td></tr>{% endif %}
       </table>
-      {% if fp.imagem_isometrica %}
+      {% if fp.tem_iso %}
       <div class="spec-render">
         <img src="{{ base_url }}assets/img/perfis/{{ fp.imagem_isometrica }}" alt="Vista isométrica — {{ fp.codigo }}">
         <div class="cap">VISTA ISOMÉTRICA · referência de apresentação</div>
@@ -34,12 +34,15 @@
 {% if fp.nota %}<p style="font-size:12px; color:var(--steel); margin-bottom:16px;">{{ fp.nota }}</p>{% endif %}
 {% endif %}
 
+{% set total_perfis_bloco = b.grupos|map(attribute='codigos')|map('length')|sum %}
+<p style="font-size:12.5px; color:var(--steel); margin-bottom:12px;"><b>{{ total_perfis_bloco }} {{ "perfil" if total_perfis_bloco == 1 else "perfis" }}</b>{% if b.grupos|selectattr('label')|list|length > 0 %} — {% for grupo in b.grupos %}{{ grupo.label or "Demais" }}: {{ grupo.codigos|length }}{{ " · " if not loop.last else "" }}{% endfor %}{% endif %}</p>
 {% for grupo in b.grupos %}
-{% if grupo.label %}<p style="font-size:12.5px; color:var(--steel); margin-bottom:12px; font-weight:600;">{{ grupo.label }}</p>{% endif %}
+{% if grupo.label %}<p style="font-size:12.5px; color:var(--steel); margin-bottom:12px; font-weight:600;">{{ grupo.label }} ({{ grupo.codigos|length }})</p>{% endif %}
 <div class="profiles-grid" style="margin-bottom:24px;">
   {% for codigo in grupo.codigos %}
   {% set p = perfis[codigo] %}
   <a class="profile-card" href="{{ base_url }}biblioteca-perfis.html#{{ codigo }}">
+    {% if p.tem_imagem %}<img class="pimg" src="{{ base_url }}assets/img/perfis/{{ p.imagem_desenho }}" alt="Desenho técnico cotado — {{ codigo }}">{% endif %}
     <div class="pcode">{{ codigo }}</div>
     {% if p.descricao %}<div class="pdesc">{{ p.descricao }}</div>{% endif %}
     {% if p.categorias|length > 1 %}<span class="pshared">compartilhado</span>{% endif %}

@@ -52,7 +52,7 @@ blocks:
 - id: perfis
   tipo: profiles
   titulo: Perfis utilizados
-  nota: 5 perfis próprios (SS-020 a SS-023, F98). Fichas técnicas individuais a alimentar.
+  nota: Perfis próprios do sistema e perfis compartilhados com outras categorias. Fichas individuais na biblioteca de perfis.
   grupos:
   - label: null
     codigos:
@@ -88,4 +88,4 @@ blocks:
   status: pending
   icone: ⌀
   subtitulo: Especificações de corte e furação em elaboração
-  texto: Cotas de corte e furação por perfil (SS-020 a SS-023, F98) serão adicionadas nesta seção.
+  texto: Cotas de corte e furação por perfil serão adicionadas nesta seção.

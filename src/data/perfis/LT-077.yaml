@@ -16,7 +16,6 @@ centroide_x_mm: 6.33
 centroide_y_mm: 8.46
 imagem_desenho: lt-077-cantoneira_acab_lateral.jpg
 imagem_isometrica: lt-077-cantoneira_acab_lateral-isometrico.jpg
-status: pendente
 nota: 'Divergencias aplicadas (ficha individual prevalece): descricao: YAML anterior
   ''Cantoneira 25x25''. Jx/Jy calculados do DXF limpo (cad-fonte/ARQUIVOS/CALCULO)
   em 2026-10-28, método validado no SS-108. Wx, Wy e centroide calculados do mesmo

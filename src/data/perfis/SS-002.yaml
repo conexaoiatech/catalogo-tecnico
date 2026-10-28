@@ -11,6 +11,5 @@ largura_ref_mm: 24.3
 altura_ref_mm: 31.23
 imagem_desenho: ss-002-montante_do_vidro_8.jpg
 imagem_isometrica: ss-002-montante_do_vidro_8-isometrico.jpg
-status: completo
 nota: 'Divergencias aplicadas (ficha individual prevalece): descricao: YAML anterior
   ''Pf vidro 8mm''.'

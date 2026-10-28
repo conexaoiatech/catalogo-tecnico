@@ -14,7 +14,6 @@ altura_ref_mm: 44
 barra_ref: BR-6,5MT
 imagem_desenho: ss-016-montante_de_giro_esquerdo.jpg
 imagem_isometrica: ss-016-montante_de_giro_esquerdo-isometrico.jpg
-status: completo
 nota: Tabela-resumo (mapa-mestre) antiga registrava 0,817 kg/m para este código; a
   ficha técnica individual — fonte de verdade — registra 0,876 kg/m. Divergência preservada
   aqui para revisão futura.

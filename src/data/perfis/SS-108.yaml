@@ -13,6 +13,5 @@ centroide_x_mm: 12.08
 centroide_y_mm: 13.93
 imagem_desenho: ss-108-montante_do_vidro_12_mm.jpg
 imagem_isometrica: ss-108-montante_do_vidro_12_mm-isometrico.jpg
-status: pendente
 nota: Wx, Wy e centroide calculados do DXF limpo (cad-fonte/ARQUIVOS/CALCULO) em 2026-10-28,
   método validado no SS-108, na orientação da ficha.

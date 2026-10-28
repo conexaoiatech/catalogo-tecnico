@@ -13,7 +13,6 @@ centroide_x_mm: 33.83
 centroide_y_mm: 17.83
 imagem_desenho: fe-0204-acab_vertical_meio_coluna_passante.jpg
 imagem_isometrica: fe-0204-acab_vertical_meio_coluna_passante-isometrico.jpg
-status: pendente
 nota: 'Divergencias aplicadas (ficha individual prevalece): peso_kg_m: YAML anterior
   0.668. Jx/Jy calculados do DXF limpo (cad-fonte/ARQUIVOS/CALCULO) em 2026-10-28,
   método validado no SS-108. Wx, Wy e centroide calculados do mesmo DXF, na orientação

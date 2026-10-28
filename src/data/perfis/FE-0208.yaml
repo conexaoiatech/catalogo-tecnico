@@ -13,7 +13,6 @@ centroide_x_mm: 5.54
 centroide_y_mm: 11.17
 imagem_desenho: fe-0208-baguete_vedacao_vertical.jpg
 imagem_isometrica: fe-0208-baguete_vedacao_vertical-isometrico.jpg
-status: pendente
 nota: Jx/Jy calculados do DXF limpo (cad-fonte/ARQUIVOS/CALCULO) em 2026-10-28, método
   validado no SS-108. Wx, Wy e centroide calculados do mesmo DXF, na orientação da
   ficha.

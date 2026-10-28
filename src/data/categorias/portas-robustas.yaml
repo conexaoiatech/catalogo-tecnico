@@ -54,7 +54,7 @@ blocks:
 - id: perfis
   tipo: profiles
   titulo: Perfis utilizados
-  nota: 5 perfis compartilhados com a categoria pele de vidro (SS-014, SS-015, SS-016, SS-017, SS-024).
+  nota: Inclui perfis compartilhados com a categoria pele de vidro. Fichas individuais na biblioteca de perfis.
   grupos:
   - label: null
     codigos:
@@ -83,7 +83,7 @@ blocks:
   status: pending
   icone: ↳
   subtitulo: Sequência de montagem em elaboração
-  texto: Como os perfis SS-014 a SS-024 são compartilhados com a categoria pele de vidro, a montagem de base tende a ser muito similar entre os dois sistemas — a documentar em conjunto quando disponível.
+  texto: Como os perfis compartilhados com a categoria pele de vidro estão em ambos os sistemas, a montagem de base tende a ser muito similar entre os dois sistemas — a documentar em conjunto quando disponível.
 - id: usinagem
   tipo: placeholder
   titulo: Detalhe de usinagem

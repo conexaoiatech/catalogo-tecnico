@@ -52,7 +52,7 @@ blocks:
 - id: perfis
   tipo: profiles
   titulo: Perfis utilizados
-  nota: 5 perfis compartilhados com a categoria portas robustas (SS-014/015/016/017/024) + 9 perfis exclusivos de fechamento.
+  nota: Perfis compartilhados com a categoria portas robustas e perfis exclusivos de fechamento. Fichas individuais na biblioteca de perfis.
   grupos:
   - label: Compartilhados com portas robustas
     codigos:

@@ -13,7 +13,7 @@ from pathlib import Path
 import yaml
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from padroes import nome_valido  # noqa: E402
+from padroes import campos_faltando, nome_valido  # noqa: E402
 
 RAIZ = Path(__file__).resolve().parent.parent
 DATA = RAIZ / "src" / "data"
@@ -25,7 +25,7 @@ def carregar(arq):
 
 
 def validar(data=DATA, img=IMG):
-    """Devolve (erros {a,b,c,d}, n_perfis, n_codigos_citados)."""
+    """Devolve (erros {a,b,c,d}, n_perfis, n_codigos_citados, avisos {codigo: [campos faltando]})."""
     erros = {"a": [], "b": [], "c": [], "d": []}
     perfis = {}
     for arq in sorted((data / "perfis").glob("*.yaml")):
@@ -56,14 +56,17 @@ def validar(data=DATA, img=IMG):
     for nome in sorted(arquivos):
         if not nome_valido(nome):
             erros["d"].append(nome)
-    return erros, len(perfis), len(citam)
+    avisos = {c: campos_faltando(d) for c, d in sorted(perfis.items()) if campos_faltando(d)}
+    return erros, len(perfis), len(citam), avisos
 
 
 def main():
-    erros, n_perfis, n_citados = validar()
+    erros, n_perfis, n_citados, avisos = validar()
     print("perfis: %d  categorias citando perfis: %d codigos" % (n_perfis, n_citados))
     for k in "abcd":
         print("(%s) %s %s" % (k, "OK" if not erros[k] else "ERRO", erros[k] or ""))
+    for c, faltam in avisos.items():
+        print("AVISO %s incompleto: falta %s" % (c, ", ".join(faltam)))
     sys.exit(1 if any(erros.values()) else 0)
 
 

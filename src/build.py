@@ -15,7 +15,7 @@ from jinja2 import Environment, FileSystemLoader
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
-from padroes import RE_ISO, chave_codigo, nome_padrao, nome_valido  # noqa: E402
+from padroes import RE_ISO, campos_faltando, chave_codigo, nome_padrao, nome_valido  # noqa: E402
 from validar_catalogo import validar  # noqa: E402
 
 SRC = os.path.join(ROOT, "src")
@@ -112,7 +112,7 @@ def verifica_imagens_perfis(perfis, img_dir=IMG_PERFIS, perfis_dir=None):
 def valida_catalogo():
     """Roda a validacao (a, b, c, d) de scripts/validar_catalogo.py; erro -> sai com codigo 1
     antes de apagar ou gerar qualquer coisa em docs/."""
-    erros, n_perfis, n_citados = validar()
+    erros, n_perfis, n_citados, _avisos = validar()
     print(f"Validação: {n_perfis} perfis, {n_citados} códigos citados em categorias.")
     for k, nome in (("a", "código citado sem YAML de perfil"),
                     ("b", "categorias do perfil != categorias que o citam"),
@@ -123,6 +123,21 @@ def valida_catalogo():
             print(f"      {e}")
     if any(erros.values()):
         raise SystemExit("Build interrompido: validação do catálogo falhou; docs/ não foi alterado.")
+
+
+def anota_perfis(perfis, img_dir=IMG_PERFIS):
+    """Campos calculados lidos pelos templates: completo (scripts/padroes.py), faltando e
+    tem_imagem / tem_iso (arquivo existe, comparacao exata de maiusculas). Imprime AVISOs."""
+    arquivos = set(os.listdir(img_dir)) if os.path.isdir(img_dir) else set()
+    for codigo, p in sorted(perfis.items()):
+        p["faltando"] = campos_faltando(p)
+        p["completo"] = not p["faltando"]
+        p["tem_imagem"] = bool(p.get("imagem_desenho")) and p["imagem_desenho"] in arquivos
+        p["tem_iso"] = bool(p.get("imagem_isometrica")) and p["imagem_isometrica"] in arquivos
+        if not p["tem_imagem"]:
+            print(f"AVISO: {p.get('codigo', codigo)} sem imagem de desenho existente em {img_dir}")
+        if p["faltando"]:
+            print(f"AVISO: {p.get('codigo', codigo)} incompleto, falta: {', '.join(p['faltando'])}")
 
 
 def limpa_docs():
@@ -191,6 +206,7 @@ def main():
 
     verifica_imagens_perfis(perfis)
     valida_catalogo()
+    anota_perfis(perfis)
 
     env = Environment(loader=FileSystemLoader(os.path.join(SRC, "templates")), autoescape=False)
     env.filters["categoria_titulo"] = lambda slug: categorias.get(slug, {}).get("titulo", slug)
@@ -273,7 +289,7 @@ def main():
         page_title="Mapa geral de perfis",
         biblioteca=biblioteca,
         perfis=dict(sorted(perfis.items())),
-        perfis_completos=[c for c, p in perfis.items() if p.get("status") == "completo"],
+        perfis_completos=[c for c, p in perfis.items() if p["completo"]],
         grupos_compartilhamento=grupos_list,
     )
     render("biblioteca-perfis.html", "biblioteca-perfis.html", **ctx)

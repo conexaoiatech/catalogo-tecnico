@@ -57,7 +57,7 @@ blocks:
 - id: perfis
   tipo: profiles
   titulo: Perfis utilizados
-  nota: 14 perfis próprios (SS-001 a SS-013, LT-077). Fichas completas na biblioteca de perfis — ver seção de referência ao final do catálogo.
+  nota: Perfis próprios do sistema. Fichas completas na biblioteca de perfis — ver seção de referência ao final do catálogo.
   grupos:
   - label: null
     codigos:
@@ -89,7 +89,7 @@ blocks:
   status: pending
   icone: ⌀
   subtitulo: Especificações de corte e furação em elaboração
-  texto: Cotas de corte, furação e rebaixo por perfil (referenciando os códigos SS-001 a SS-013) serão adicionadas aqui, no formato de ficha técnica com cotas — mesmo padrão da ficha de perfil.
+  texto: Cotas de corte, furação e rebaixo por perfil serão adicionadas aqui, no formato de ficha técnica com cotas — mesmo padrão da ficha de perfil.
 - id: cert
   tipo: cert_strip
   titulo: Certificações e testes

@@ -13,7 +13,6 @@ centroide_x_mm: 37.29
 centroide_y_mm: 20.18
 imagem_desenho: fe-0207-acab_vertical_meio_coluna_colante.jpg
 imagem_isometrica: fe-0207-acab_vertical_meio_coluna_colante-isometrico.jpg
-status: pendente
 nota: área corrigida de 247.42 para 274.43 - imagem da ficha estava incorreta, confirmado
   pela pessoa em 2026-10-28. Jx/Jy, Wx, Wy e centroide calculados do DXF limpo (cad-fonte/ARQUIVOS/CALCULO)
   em 2026-10-28, método validado no SS-108.

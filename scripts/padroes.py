@@ -43,3 +43,25 @@ def nome_padrao(codigo, descricao, isometrico=False):
 
 def nome_valido(nome):
     return bool(PADRAO_IMAGEM.match(nome))
+
+
+# ---- completude do perfil (fonte unica; o campo status nao existe mais nos YAML) ----
+# SS, FE, LT e F: ficha tecnica completa. DSL (polimero deslizante): codigo, descricao e material.
+CAMPOS_FICHA = ["peso_kg_m", "superficie_area_mm2_mml", "superficie_perimetro_mm2_mml",
+                "inercia_jx_mm4", "inercia_jy_mm4"]
+CAMPOS_DSL = ["codigo", "descricao", "material"]
+
+
+def _vazio(v):
+    return v is None or v == ""
+
+
+def campos_faltando(perfil):
+    """Campos obrigatorios ainda vazios, segundo a familia do codigo."""
+    k = chave_codigo(perfil.get("codigo", "")) or ""
+    obrigatorios = CAMPOS_DSL if k.startswith("dsl") else CAMPOS_FICHA
+    return [c for c in obrigatorios if _vazio(perfil.get(c))]
+
+
+def perfil_completo(perfil):
+    return not campos_faltando(perfil)
