@@ -726,3 +726,38 @@ table.limits tbody tr:hover{background:var(--paper-alt);}
 }
 .lb-close:hover, .lb-close:focus{background:rgba(255,255,255,0.3); outline:2px solid #fff;}
 body.lb-open{overflow:hidden;}
+
+/* Botao Menu principal (fixo no topo) */
+.menu-btn{
+  position:fixed; top:10px; right:16px; z-index:60;
+  background:var(--ink, #1c2126); color:#fff;
+  font-family:var(--font-mono); font-size:12px; font-weight:700;
+  padding:9px 14px; border-radius:3px; text-decoration:none;
+  box-shadow:0 1px 6px rgba(0,0,0,0.25);
+}
+.menu-btn:hover, .menu-btn:focus{background:var(--pc, var(--brand)); outline:2px solid #fff;}
+
+/* Pagina do perfil: navegacao */
+.perfil-nav{margin-top:18px; display:flex; flex-direction:column; gap:10px; font-size:13px;}
+.perfil-nav a{color:var(--pc, var(--brand)); text-decoration:none; margin-right:14px; font-weight:600;}
+.perfil-nav a:hover{text-decoration:underline;}
+.perfil-nav .pn-label{color:var(--steel); margin-right:10px; font-family:var(--font-mono); font-size:12px;}
+.perfil-nav .pn-seq{display:flex; flex-wrap:wrap; gap:6px 0; align-items:center;}
+.perfil-nav .pn-off{color:var(--steel-light); margin-right:14px;}
+
+/* Biblioteca: filtro e busca */
+.bib-filtros{margin-bottom:18px;}
+.bib-filtros[hidden]{display:none;}
+.bib-busca{
+  width:100%; max-width:420px; padding:10px 12px; font-size:14px;
+  border:1px solid var(--line); background:var(--white); border-radius:2px;
+}
+.bib-botoes{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
+.bib-btn{
+  border:1px solid var(--line); background:var(--white); color:var(--ink-soft);
+  font-size:12.5px; padding:7px 12px; border-radius:2px; cursor:pointer;
+}
+.bib-btn:hover{border-color:var(--pc, var(--brand));}
+.bib-btn.current{background:var(--pc, var(--brand)); border-color:var(--pc, var(--brand)); color:#fff;}
+.bib-contagem{margin-top:10px; font-size:12px; color:var(--steel); font-family:var(--font-mono);}
+.profile-card[hidden]{display:none;}

@@ -140,6 +140,39 @@ def anota_perfis(perfis, img_dir=IMG_PERFIS):
             print(f"AVISO: {p.get('codigo', codigo)} incompleto, falta: {', '.join(p['faltando'])}")
 
 
+def _ordem_codigo(p):
+    k = chave_codigo(p["codigo"]) or p["codigo"]
+    return (re.sub(r"[\d-]", "", k), int(re.sub(r"\D", "", k) or 0))
+
+
+def anota_navegacao(perfis, categorias, marcas):
+    """Pagina propria de cada perfil (perfis/{codigo minusculo}.html), sistemas onde aparece
+    (a partir dos blocos profiles das categorias) e ordem para anterior/proximo."""
+    usado = {}
+    for cat_slug, cat in sorted(categorias.items(), key=lambda kv: kv[1]["ordem"]):
+        pagina = None
+        for marca_slug in MARCAS_ATIVAS:
+            produto = marcas[marca_slug]["produtos"].get(cat_slug)
+            if produto:
+                pagina = (produto["nome"], f"{marca_slug}/{produto['page_slug']}.html")
+                break
+        if not pagina:
+            continue
+        for b in cat.get("blocks", []):
+            if b.get("tipo") != "profiles":
+                continue
+            for g in b.get("grupos", []):
+                for c in g.get("codigos", []):
+                    usado.setdefault(chave_codigo(c), []).append(
+                        dict(slug=cat_slug, nome=pagina[0], pagina=pagina[1]))
+    for p in perfis.values():
+        k = chave_codigo(p["codigo"])
+        p["arquivo"] = k
+        p["pagina"] = f"perfis/{k}.html"
+        p["usado_em"] = usado.get(k, [])
+    return sorted(perfis.values(), key=_ordem_codigo)
+
+
 def limpa_docs():
     """Apaga o conteudo de docs/ preservando os itens de PRESERVAR."""
     os.makedirs(DOCS, exist_ok=True)
@@ -207,6 +240,7 @@ def main():
     verifica_imagens_perfis(perfis)
     valida_catalogo()
     anota_perfis(perfis)
+    ordem_perfis = anota_navegacao(perfis, categorias, marcas)
 
     env = Environment(loader=FileSystemLoader(os.path.join(SRC, "templates")), autoescape=False)
     env.filters["categoria_titulo"] = lambda slug: categorias.get(slug, {}).get("titulo", slug)
@@ -289,10 +323,24 @@ def main():
         page_title="Mapa geral de perfis",
         biblioteca=biblioteca,
         perfis=dict(sorted(perfis.items())),
-        perfis_completos=[c for c, p in perfis.items() if p["completo"]],
+        perfis_ordenados=ordem_perfis,
+        filtros=[dict(slug=s, titulo=c["titulo"]) for s, c in sorted(categorias.items(), key=lambda kv: kv[1]["ordem"])
+                 if any(s in p["categorias"] for p in perfis.values())],
         grupos_compartilhamento=grupos_list,
     )
     render("biblioteca-perfis.html", "biblioteca-perfis.html", **ctx)
+
+    # ---- uma pagina por perfil ----
+    for i, fp in enumerate(ordem_perfis):
+        ctx = base_ctx("../", None, fp["pagina"])
+        ctx.update(
+            page_title=f"{fp['codigo']} — {fp.get('descricao', '')}",
+            fp=fp,
+            anterior=ordem_perfis[i - 1] if i > 0 else None,
+            proximo=ordem_perfis[i + 1] if i < len(ordem_perfis) - 1 else None,
+            categorias_perfil=[categorias.get(c, {}).get("titulo", c) for c in fp["categorias"]],
+        )
+        render("perfil.html", fp["pagina"], **ctx)
 
     # ---- linha de selantes (neutra de marca) ----
     ctx = base_ctx("", None, "selantes.html")
