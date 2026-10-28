@@ -74,7 +74,6 @@ blocks:
     - SS-009
     - SS-010
     - SS-014
-    - SS-024
 - id: montagem
   tipo: placeholder
   titulo: Detalhe de montagem
