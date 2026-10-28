@@ -1,5 +1,6 @@
 codigo: DSL-001
 descricao: Polímero deslizante retangular
+material: "UHMW-PE (polietileno de ultra-alto peso molecular)"
 categorias:
 - portas-minimalistas
 - portas-robustas

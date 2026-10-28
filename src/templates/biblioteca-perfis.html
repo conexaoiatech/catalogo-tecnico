@@ -54,7 +54,8 @@
         </div>
         <div class="spec-props">
           <table>
-            <tr><td>Peso</td><td>{{ fp.peso_kg_m|br_num }} kg/m</td></tr>
+            {% if fp.peso_kg_m %}<tr><td>Peso</td><td>{{ fp.peso_kg_m|br_num }} kg/m</td></tr>{% endif %}
+            {% if fp.material %}<tr><td>Material</td><td>{{ fp.material }}</td></tr>{% endif %}
             {% if fp.superficie_area_mm2_mml %}<tr><td>Superfície — área</td><td>{{ fp.superficie_area_mm2_mml|br_num }} mm²/mml</td></tr>{% endif %}
             {% if fp.superficie_perimetro_mm2_mml %}<tr><td>Superfície — perímetro</td><td>{{ fp.superficie_perimetro_mm2_mml|br_num }} mm²/mml</td></tr>{% endif %}
             {% if fp.inercia_jx_mm4 %}<tr><td>Inércia Jx</td><td>{{ fp.inercia_jx_mm4|br_num }} mm⁴</td></tr>{% endif %}
