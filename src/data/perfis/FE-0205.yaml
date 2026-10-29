@@ -1,5 +1,5 @@
 codigo: FE-0205
-descricao: Montante do Quadro
+descricao: Bagete 22.5 Graus
 categorias:
 - pele-vidro
 peso_kg_m: 0.407
@@ -11,9 +11,9 @@ modulo_wx_mm3: 207.36
 modulo_wy_mm3: 224.24
 centroide_x_mm: 11.02
 centroide_y_mm: 13.27
-imagem_desenho: fe-0205-montante_do_quadro.jpg
-imagem_isometrica: fe-0205-montante_do_quadro-isometrico.jpg
+imagem_desenho: fe-0205-bagete_22_5_graus.jpg
+imagem_isometrica: fe-0205-bagete_22_5_graus-isometrico.jpg
 nota: 'Divergencias aplicadas (ficha individual prevalece): peso_kg_m: YAML anterior
   0.1091. Jx/Jy calculados do DXF limpo (cad-fonte/ARQUIVOS/CALCULO) em 2026-10-28,
   método validado no SS-108. Wx, Wy e centroide calculados do mesmo DXF, na orientação
-  da ficha.'
+  da ficha. Descrição corrigida de Montante do Quadro para Bagete 22.5 Graus - 2026-10-28.'
