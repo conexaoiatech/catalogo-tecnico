@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" width="900" height="600" font-family="Arial, Helvetica, sans-serif">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="76" y="30" font-size="18" font-weight="700" fill="#1c2126">FE-0207 — Acab. Vertical Meio Coluna - Colante</text>
+<text x="76" y="52" font-size="12.5" fill="#5b6470">Altura máxima do vão × largura do vão, por pressão de vento (kgf/m²)</text>
+<line x1="76" y1="450.0" x2="780" y2="450.0" stroke="#e3e6ea"/>
+<text x="68" y="454.0" font-size="11" text-anchor="end" fill="#5b6470">0.0</text>
+<line x1="76" y1="323.3" x2="780" y2="323.3" stroke="#e3e6ea"/>
+<text x="68" y="327.3" font-size="11" text-anchor="end" fill="#5b6470">0.5</text>
+<line x1="76" y1="196.7" x2="780" y2="196.7" stroke="#e3e6ea"/>
+<text x="68" y="200.7" font-size="11" text-anchor="end" fill="#5b6470">1.0</text>
+<line x1="76" y1="70.0" x2="780" y2="70.0" stroke="#e3e6ea"/>
+<text x="68" y="74.0" font-size="11" text-anchor="end" fill="#5b6470">1.5</text>
+<line x1="76.0" y1="70" x2="76.0" y2="450" stroke="#e3e6ea"/>
+<text x="76.0" y="468" font-size="11" text-anchor="middle" fill="#5b6470">1.0</text>
+<line x1="164.0" y1="70" x2="164.0" y2="450" stroke="#e3e6ea"/>
+<text x="164.0" y="468" font-size="11" text-anchor="middle" fill="#5b6470">1.2</text>
+<line x1="252.0" y1="70" x2="252.0" y2="450" stroke="#e3e6ea"/>
+<text x="252.0" y="468" font-size="11" text-anchor="middle" fill="#5b6470">1.4</text>
+<line x1="340.0" y1="70" x2="340.0" y2="450" stroke="#e3e6ea"/>
+<text x="340.0" y="468" font-size="11" text-anchor="middle" fill="#5b6470">1.6</text>
+<line x1="428.0" y1="70" x2="428.0" y2="450" stroke="#e3e6ea"/>
+<text x="428.0" y="468" font-size="11" text-anchor="middle" fill="#5b6470">1.8</text>
+<line x1="516.0" y1="70" x2="516.0" y2="450" stroke="#e3e6ea"/>
+<text x="516.0" y="468" font-size="11" text-anchor="middle" fill="#5b6470">2.0</text>
+<line x1="604.0" y1="70" x2="604.0" y2="450" stroke="#e3e6ea"/>
+<text x="604.0" y="468" font-size="11" text-anchor="middle" fill="#5b6470">2.2</text>
+<line x1="692.0" y1="70" x2="692.0" y2="450" stroke="#e3e6ea"/>
+<text x="692.0" y="468" font-size="11" text-anchor="middle" fill="#5b6470">2.4</text>
+<line x1="780.0" y1="70" x2="780.0" y2="450" stroke="#e3e6ea"/>
+<text x="780.0" y="468" font-size="11" text-anchor="middle" fill="#5b6470">2.6</text>
+<rect x="76" y="70" width="704" height="380" fill="none" stroke="#9aa1a9"/>
+<text x="428.0" y="490" font-size="12" text-anchor="middle" fill="#1c2126">Largura do vão b (m)</text>
+<text transform="translate(18 260.0) rotate(-90)" font-size="12" text-anchor="middle" fill="#1c2126">Altura máxima L (m)</text>
+<text x="428.0" y="290.0" font-size="96" font-weight="700" fill="#c41e2a" fill-opacity="0.10" text-anchor="middle" transform="rotate(-20 428.0 290.0)">PRELIMINAR</text>
+<polyline points="76.0,175.4 120.0,188.1 164.0,199.3 208.0,209.1 252.0,217.9 296.0,225.8 340.0,232.9 384.0,239.4 428.0,245.3 472.0,250.8 516.0,255.8 560.0,260.5 604.0,264.8 648.0,268.9 692.0,272.7 736.0,276.3 780.0,279.7" fill="none" stroke="#1b9e77" stroke-width="2.2"/>
+<text x="788.0" y="283.7" font-size="12" font-weight="700" fill="#1b9e77">80</text>
+<polyline points="76.0,204.3 120.0,215.8 164.0,225.8 208.0,234.5 252.0,242.4 296.0,249.4 340.0,255.8 384.0,261.6 428.0,266.9 472.0,271.8 516.0,276.3 560.0,280.5 604.0,284.4 648.0,288.0 692.0,291.4 736.0,294.6 780.0,297.7" fill="none" stroke="#7570b3" stroke-width="2.2"/>
+<text x="788.0" y="301.7" font-size="12" font-weight="700" fill="#7570b3">100</text>
+<polyline points="76.0,225.8 120.0,236.2 164.0,245.3 208.0,253.3 252.0,260.5 296.0,266.9 340.0,272.7 384.0,278.0 428.0,282.9 472.0,287.3 516.0,291.4 560.0,295.3 604.0,298.8 648.0,302.1 692.0,305.2 736.0,308.2 780.0,310.9" fill="none" stroke="#b8860b" stroke-width="2.2"/>
+<text x="788.0" y="314.9" font-size="12" font-weight="700" fill="#b8860b">120</text>
+<polyline points="76.0,242.4 120.0,252.0 164.0,260.5 208.0,267.9 252.0,274.5 296.0,280.5 340.0,285.9 384.0,290.8 428.0,295.3 472.0,299.4 516.0,303.2 560.0,306.7 604.0,310.0 648.0,313.1 692.0,316.0 736.0,318.7 780.0,321.2" fill="none" stroke="#d95f02" stroke-width="2.2"/>
+<text x="788.0" y="325.2" font-size="12" font-weight="700" fill="#d95f02">140</text>
+<polyline points="76.0,255.8 120.0,264.8 164.0,272.7 208.0,279.7 252.0,285.9 296.0,291.4 340.0,296.5 384.0,301.1 428.0,305.2 472.0,309.1 516.0,312.7 560.0,316.0 604.0,319.1 648.0,321.9 692.0,324.6 736.0,327.2 780.0,329.6" fill="none" stroke="#8c564b" stroke-width="2.2"/>
+<text x="788.0" y="333.6" font-size="12" font-weight="700" fill="#8c564b">160</text>
+<polyline points="76.0,266.9 120.0,275.4 164.0,282.9 208.0,289.4 252.0,295.3 296.0,300.5 340.0,305.2 384.0,309.6 428.0,313.5 472.0,317.2 516.0,320.5 560.0,323.7 604.0,326.6 648.0,329.3 692.0,331.8 736.0,334.2 780.0,336.4" fill="none" stroke="#e7298a" stroke-width="2.2"/>
+<text x="788.0" y="340.4" font-size="12" font-weight="700" fill="#e7298a">180</text>
+<text x="788.0" y="62" font-size="11" fill="#5b6470">kgf/m²</text>
+<text x="76" y="538" font-size="10.5" fill="#3b4148">Premissas: liga 6063-T5 · σadm 7 kgf/mm² · E 7000 kgf/mm² · bi-apoiado, carga uniforme · carga p x b · flecha ≤ L/175 e ≤ 20 mm (teto a confirmar na NBR 10821-2:2023)</text>
+<text x="76" y="554" font-size="10.5" fill="#3b4148">Eixo usado: Wx = 1 679.06 mm³ · Jx = 42 090.43 mm⁴ · critério que governa: resistência em 102 de 102 pontos</text>
+<text x="76" y="570" font-size="10.5" fill="#3b4148">Status: PRELIMINAR · validador: Coordenador de Produção · não publicar antes da validação</text>
+</svg>

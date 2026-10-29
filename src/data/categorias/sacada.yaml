@@ -8,6 +8,12 @@ badges:
 - 5 anos de garantia
 - Instituto Falcão Bauer
 - Melhor sistema do Sul — 2022
+perfis_estruturais:
+- SS-001
+- SS-002
+- SS-003
+- SS-010
+- SS-108
 blocks:
 - id: tipologia
   tipo: diff_grid

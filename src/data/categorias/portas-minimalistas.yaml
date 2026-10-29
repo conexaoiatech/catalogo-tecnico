@@ -7,6 +7,16 @@ badges:
 - Trilho único
 - Até 3500mm de altura
 - Abertura híbrida multidirecional
+perfis_estruturais:
+- SS-001
+- SS-004
+- SS-005
+- SS-010
+- SS-020
+- SS-021
+- SS-022
+- SS-023
+- F98
 blocks:
 - id: tipologia
   tipo: diff_grid

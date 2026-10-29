@@ -5,6 +5,7 @@
 (b) categorias do perfil = categorias que o citam
 (c) imagem_desenho e imagem_isometrica existem em src/assets/img/perfis
 (d) nenhum arquivo em perfis fora do padrao (scripts/padroes.py)
+(e) todo codigo de perfis_estruturais esta na lista de perfis da propria categoria
 """
 import sys
 from collections import defaultdict
@@ -13,7 +14,7 @@ from pathlib import Path
 import yaml
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from padroes import campos_faltando, nome_valido  # noqa: E402
+from padroes import IGNORAR_ARQUIVOS, campos_faltando, nome_valido  # noqa: E402
 
 RAIZ = Path(__file__).resolve().parent.parent
 DATA = RAIZ / "src" / "data"
@@ -26,7 +27,7 @@ def carregar(arq):
 
 def validar(data=DATA, img=IMG):
     """Devolve (erros {a,b,c,d}, n_perfis, n_codigos_citados, avisos {codigo: [campos faltando]})."""
-    erros = {"a": [], "b": [], "c": [], "d": []}
+    erros = {"a": [], "b": [], "c": [], "d": [], "e": []}
     perfis = {}
     for arq in sorted((data / "perfis").glob("*.yaml")):
         d = carregar(arq)
@@ -35,12 +36,17 @@ def validar(data=DATA, img=IMG):
     for arq in sorted((data / "categorias").glob("*.yaml")):
         cat = carregar(arq)
         slug = cat.get("slug", arq.stem)
+        na_categoria = set()
         for bloco in cat.get("blocks", []):
             if bloco.get("tipo") != "profiles":
                 continue
             for g in bloco.get("grupos", []):
                 for c in g.get("codigos", []):
                     citam[str(c).upper()].add(slug)
+                    na_categoria.add(str(c).upper())
+        for c in cat.get("perfis_estruturais", []) or []:
+            if str(c).upper() not in na_categoria:
+                erros["e"].append("%s: %s em perfis_estruturais mas fora da lista da categoria" % (slug, c))
     arquivos = {p.name for p in img.iterdir()} if img.is_dir() else set()
     for c in sorted(citam):
         if c not in perfis:
@@ -54,7 +60,7 @@ def validar(data=DATA, img=IMG):
             if not n or n not in arquivos:
                 erros["c"].append("%s %s: %s" % (c, campo, n))
     for nome in sorted(arquivos):
-        if not nome_valido(nome):
+        if nome not in IGNORAR_ARQUIVOS and not nome_valido(nome):
             erros["d"].append(nome)
     avisos = {c: campos_faltando(d) for c, d in sorted(perfis.items()) if campos_faltando(d)}
     return erros, len(perfis), len(citam), avisos
@@ -63,7 +69,7 @@ def validar(data=DATA, img=IMG):
 def main():
     erros, n_perfis, n_citados, avisos = validar()
     print("perfis: %d  categorias citando perfis: %d codigos" % (n_perfis, n_citados))
-    for k in "abcd":
+    for k in "abcde":
         print("(%s) %s %s" % (k, "OK" if not erros[k] else "ERRO", erros[k] or ""))
     for c, faltam in avisos.items():
         print("AVISO %s incompleto: falta %s" % (c, ", ".join(faltam)))

@@ -7,6 +7,12 @@ badges:
 - Exclusividade Solução
 - Até 4500mm de altura
 - Até 10m de largura por trilho
+perfis_estruturais:
+- SS-004
+- SS-016
+- SS-017
+- SS-024
+- F98
 blocks:
 - id: tipologia
   tipo: diff_grid

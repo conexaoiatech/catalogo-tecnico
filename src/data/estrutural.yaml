@@ -1,0 +1,21 @@
+# Premissas estruturais - fonte unica para scripts/grafico_pressao.py
+# STATUS: PRELIMINAR. Nenhum grafico e publicado em docs/ enquanto publicar_graficos for false.
+# Origem de todos os itens: definicao da pessoa (passo 6-8, 2026-10-28), a validar pelo Coordenador de Produção.
+
+liga: 6063-T5            # origem: definicao da pessoa; liga dos perfis extrudados
+sigma_adm_kgf_mm2: 7     # origem: definicao da pessoa; tensao admissivel da liga, em kgf/mm2
+E_kgf_mm2: 7000          # origem: definicao da pessoa; modulo de elasticidade, em kgf/mm2
+esquema: bi-apoiado, carga uniforme   # origem: definicao da pessoa; montante simplesmente apoiado nas duas pontas
+carga_por_montante: p x b             # origem: definicao da pessoa; largura de influencia inteira (b = largura do vao, em m)
+flecha_relativa: 175     # origem: definicao da pessoa; flecha maxima = L / 175
+flecha_teto_mm: 20       # origem: definicao da pessoa; A CONFIRMAR na NBR 10821-2:2023
+norma: NBR 10821-2:2023  # origem: definicao da pessoa; referencia da norma de esquadrias
+pressoes_kgf_m2: [80, 100, 120, 140, 160, 180]   # origem: definicao da pessoa; pressoes de vento do grafico
+largura_m:               # origem: definicao da pessoa; eixo X do grafico (b, em m)
+  min: 1.00
+  max: 2.60
+  passo: 0.10
+eixo_padrao: x           # origem: definicao da pessoa; x = Wx/Jx; o YAML do perfil pode ter eixo_vento: y
+status: PRELIMINAR
+validador: Coordenador de Produção   # origem: definicao da pessoa; quem valida as premissas
+publicar_graficos: false # origem: definicao da pessoa; enquanto false, graficos ficam em relatorios/graficos

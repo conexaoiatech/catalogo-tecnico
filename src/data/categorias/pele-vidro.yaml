@@ -7,6 +7,14 @@ badges:
 - Exclusividade Solução
 - Homologado até 30 andares
 - Fachada Estrutural Glazing
+perfis_estruturais:
+- SS-016
+- SS-017
+- SS-024
+- SS-027
+- SS-028
+- FE-0204
+- FE-0207
 blocks:
 - id: tipologia
   tipo: diff_grid

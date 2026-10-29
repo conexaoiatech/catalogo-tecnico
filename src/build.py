@@ -15,7 +15,7 @@ from jinja2 import Environment, FileSystemLoader
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
-from padroes import RE_ISO, campos_faltando, chave_codigo, chave_ordem, nome_padrao, nome_valido  # noqa: E402
+from padroes import IGNORAR_ARQUIVOS, RE_ISO, campos_faltando, chave_codigo, chave_ordem, nome_padrao, nome_valido  # noqa: E402
 from validar_catalogo import validar  # noqa: E402
 
 SRC = os.path.join(ROOT, "src")
@@ -74,7 +74,7 @@ def verifica_imagens_perfis(perfis, img_dir=IMG_PERFIS, perfis_dir=None):
 
     corrigidos, nao_corrigidos = [], []
     for fname in sorted(os.listdir(img_dir)):
-        if nome_valido(fname):
+        if nome_valido(fname) or fname in IGNORAR_ARQUIVOS:
             continue
         nome, ext = os.path.splitext(fname)
         k = chave_codigo(nome) if ext.lower() == ".jpg" else None
@@ -117,7 +117,8 @@ def valida_catalogo():
     for k, nome in (("a", "código citado sem YAML de perfil"),
                     ("b", "categorias do perfil != categorias que o citam"),
                     ("c", "imagem referenciada não existe"),
-                    ("d", "arquivo de imagem fora do padrão")):
+                    ("d", "arquivo de imagem fora do padrão"),
+                    ("e", "perfis_estruturais fora da lista da categoria")):
         print(f"  ({k}) {'OK' if not erros[k] else 'ERRO - ' + nome}")
         for e in erros[k]:
             print(f"      {e}")
@@ -421,7 +422,7 @@ def main():
     # logos de marcas nao publicadas ficam so na fonte (nao vao para docs/)
     nao_publicados = {os.path.normpath(os.path.join(SRC, m["logo"])) for m in marcas.values() if not m.get("publicada")}
     shutil.copytree(os.path.join(SRC, "assets"), os.path.join(DOCS, "assets"),
-                    ignore=lambda d, nomes: [n for n in nomes if os.path.normpath(os.path.join(d, n)) in nao_publicados])
+                    ignore=lambda d, nomes: [n for n in nomes if n in IGNORAR_ARQUIVOS or os.path.normpath(os.path.join(d, n)) in nao_publicados])
 
     print(f"Build concluído. Marcas publicadas: {MARCAS_ATIVAS}. Perfis: {len(perfis)}. Categorias: {len(categorias)}.")
 

@@ -7,6 +7,8 @@ import re
 import unicodedata
 
 PADRAO_IMAGEM = re.compile(r"^(?:(?:ss|dsl|lt)-\d{3}|fe-\d{4}|f\d+)-[a-z0-9_]+(?:-isometrico)?\.jpg$")
+# Artefatos do CAD que reaparecem na pasta de imagens (estao no .gitignore); ignorados pelo validador e pelo build
+IGNORAR_ARQUIVOS = {"plot.log"}
 RE_COD = re.compile(r"^(SS|DSL|DLS|FE|LT|F)[\s_-]?(\d+)", re.IGNORECASE)
 RE_ISO = re.compile(r"(isometrico|iso)", re.IGNORECASE)
 
