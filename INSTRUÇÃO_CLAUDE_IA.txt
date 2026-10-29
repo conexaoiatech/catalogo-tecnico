@@ -1,16 +1,16 @@
 Leia e execute conforme as skills `conduta`, `estou-entrando-saindo` e `estrutura-projeto`.
 
 - project_id: catalogo_tecnico
-- Repo: conexaoiatech/catalogo-tecnico · C:\GITHUB\CATALOGO_TECNICO
+- Repo: conexaoiatech/catalogo-tecnico · C:\GITHUB\CATALOGO_TECNICO · site https://conexaoiatech.github.io/catalogo-tecnico/
 - Objetivo: Catálogo técnico HTML dos sistemas de envidraçamento da Solução (Sacada, MWO, BigSpace, SkinGlass, Ripado, Persianas) e das versões Blindex, para vidraceiros e equipe consultarem perfis, desenhos e especificações por link, com cada dado técnico mantido em fonte única.
-- Fora de escopo: publicar CAD bruto; preços e condições comerciais; linha de adesivos e selantes Blindex/Neoklon; migração para o servidor próprio definitivo; editar à mão arquivos gerados em docs/
+- Fora de escopo: publicar CAD bruto; preços e condições comerciais; linha de adesivos e selantes Blindex/Neoklon; migração para o servidor próprio definitivo; editar à mão arquivos em docs/
 - Regras específicas (1 linha cada):
   - Telas: TL-catalogo_tecnico-IA (Claude.ai) e TL-catalogo_tecnico-CODE (Claude Code em C:\GITHUB\CATALOGO_TECNICO). Cadastro e setup em TL-gov_ia_core-CODE
-  - Alvo: o build local (python src/build.py) e o Live Server são ensaio; o site em https://conexaoiatech.github.io/catalogo-tecnico/ (GitHub Pages, pasta /docs da branch main) é verdade
-  - Dados: YAML em src/data (perfil, categoria, marca); CAD bruto e fichas novas ficam em cad-fonte/ fora do git; no git só código, dados YAML, imagens finais e docs gerado
-  - Sigilo/LGPD: nada de dado pessoal, bancário, senha ou segredo em doc, chat, issue ou commit
-  - Fonte única: perfil em src/data/perfis, vínculo perfil × sistema em src/data/categorias, nomes e cores por marca em src/data/marcas.yaml; docs/ é gerado pelo build
-  - Ficha técnica individual do perfil prevalece sobre o YAML e sobre planilhas; exceções registradas: SS-002 (vale o YAML) e FE-0207 (área 274.43)
-  - Gráficos de pressão: premissas em src/data/estrutural.yaml são PRELIMINARES e só o Coordenador de Produção as valida; nada é publicado antes disso
-  - Repo público e branch main: CAD, preços e condições comerciais nunca vão para o git; push sempre em main
-  - Preferências da pessoa: uma pergunta por vez; conferir antes de substituir imagens
+  - Alvo: build local (python src/build.py) é ensaio; GitHub Pages (branch main, pasta /docs) é verdade
+  - Dados: YAML (um por perfil, um por categoria) e imagens em src/ são a fonte; docs/ é gerado pelo build (preserva hist, ESTADO_SESSAO, PLANO, ROTEIRO); CAD bruto fica em /cad-fonte, fora do git
+  - Sigilo/LGPD: nada de dado pessoal, bancário, senha ou segredo em doc, chat, issue ou commit; o repo é público, então tudo que entra no git é publicado
+  - Dupla marca: Sacada, MWO/Unique, BigSpace/Vista e SkinGlass/Skin Vista têm versão Solução (azul) e Blindex (vermelha) com o mesmo dado técnico; Ripado e Persianas são só Solução
+  - Ordem: linha Solução completa primeiro, Blindex depois por duplicação de template
+  - Perfil (SS-XXX, DSL-XXX, FE-XXXX, LT-XXX) é cadastrado uma vez e referenciado pelas categorias; nunca duplicar dado técnico entre categorias
+  - Ficha técnica individual do perfil prevalece sobre tabela-resumo; divergência fica documentada no YAML
+  - Imagem de perfil: {codigo}-{detalhe_snake_case}.jpg e {codigo}-{detalhe_snake_case}-isometrico.jpg, tudo minúsculo; fora do padrão, o build corrige ou para e lista

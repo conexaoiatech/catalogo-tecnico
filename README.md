@@ -18,7 +18,6 @@ src/
   assets/                  # css, js e imagens finais (fonte para o build)
   build.py                 # gera o site estático em /docs a partir de data/ + templates/
 docs/                      # SAÍDA GERADA — nunca editar à mão, é sobrescrita a cada build
-referencia/                # protótipo HTML monolítico original (histórico, não editar)
 cad-fonte/                 # (fora do Git) arquivos CAD brutos — ver .gitignore
 ```
 

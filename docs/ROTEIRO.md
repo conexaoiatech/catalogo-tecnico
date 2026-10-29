@@ -1,7 +1,7 @@
 # Roteiro — catalogo_tecnico
-Origem: gov_passos 79 a 105 (HIST 2026-10-26 a 2026-10-29 e passos 102 a 105 desta sessão). A coluna # é o id em gov_passos; o nº do roteiro vem antes da ação.
+Origem: gov_passos 79 a 106 (HIST 2026-10-26 a 2026-10-29 e passos 102 a 106 desta sessão). A coluna # é o id em gov_passos; o nº do roteiro vem antes da ação.
 Demanda: 20 para os passos 79 a 101 (ESTADO_SESSAO). Os passos 102 a 104 foram abertos sem demanda no registro. As duas demandas criadas à mão em 2026-10-29 ("Navegacao, layout escuro e versao Blindex do catalogo" e "Dados estruturais e grafico de pressao por sistema") não têm id neste repo.
-Progresso: 26/27 passos FEITO.
+Progresso: 28/28 passos FEITO.
 
 | # | passo | entrega | demanda | alvo | status | evidência |
 |---|---|---|---|---|---|---|
@@ -31,7 +31,8 @@ Progresso: 26/27 passos FEITO.
 | 102 | 3q · Remover ficha em destaque do SS-016 no BigSpace | E3 | — | portas-robustas.yaml | FEITO | 1b5de79; BigSpace e Vista com 18 cards |
 | 103 | 3s · Arrumação: demandas manuais, demanda 21, limpeza e varredura de CAD | E6 | 21 e 295 por script | .gitignore, cad-fonte/_arquivo | FEITO | e47d447; nenhum CAD rastreado |
 | 104 | 3r · Publicar alteração manual da pessoa em marcas.yaml | E3 | — | src/data/marcas.yaml | FEITO | 95263a7 |
-| 105 | 3t · Governança no repo: PLANO, ROTEIRO, CLAUDE.md, INSTRUÇÃO e GUIA_EDICAO | E6 | 296 | docs, raiz | EM EXECUÇÃO | commit desta entrega; o hash fica na evidência de fechamento em gov_passos 105 |
+| 105 | 3t · Governança no repo: PLANO, ROTEIRO, CLAUDE.md, INSTRUÇÃO e GUIA_EDICAO | E6 | 296 | docs, raiz | FEITO | 10f0a91 |
+| 106 | 3u · Ajustes do 3t: ROTEIRO, protótipo fora do git e instrução do projeto | E6 | 296 | docs/ROTEIRO.md, README.md, INSTRUÇÃO_CLAUDE_IA.txt | FEITO | ver git log |
 
 ## Fila (espelho de gov_demandas backlog)
 - 2026-10-28 · Gráficos de pressão: definir o modelo estrutural por sistema (Sacada: vão do vidro; SkinGlass: conjunto coluna + meio-coluna) com o Coordenador de Produção; estrutural.yaml segue PRELIMINAR e publicar_graficos false · D22 (E5)
