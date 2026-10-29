@@ -82,7 +82,6 @@ blocks:
     - SS-009
     - SS-025
     - SS-026
-  ficha_destaque: SS-016
 - id: montagem
   tipo: placeholder
   titulo: Detalhe de montagem
