@@ -29,3 +29,6 @@ plot.log
 *.plt
 *.step
 *.stp
+
+# Material de referencia local (guias, prototipo e copias de estado)
+referencia/
