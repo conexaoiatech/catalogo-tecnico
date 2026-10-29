@@ -61,15 +61,12 @@ blindex:
     portas-minimalistas:
       nome: "Unique"
       page_slug: unique
-      nota: "Nome técnico de origem: MWO — Minimalist Wide Opening System."
     portas-robustas:
       nome: "Vista"
       page_slug: vista
       ocultar_badges: ["Exclusividade Solução"]
-      nota: "Nome técnico de origem: BigSpace — grandes vãos."
     pele-vidro:
       nome: "Skin Vista"
       page_slug: skin-vista
       ocultar_badges: ["Exclusividade Solução"]
-      nota: "Nome técnico de origem: SkinGlass — pele de vidro."
     # ripado e persianas ausentes de propósito — não existem sob a marca Blindex
