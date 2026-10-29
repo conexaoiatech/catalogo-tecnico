@@ -12,9 +12,12 @@
 <body{% if trilha %} class="tem-trilha"{% endif %}>
 {% if trilha %}
 <div class="trilha-bar">
-  <nav class="trilha" id="trilha" aria-label="Trilha de navegação">
-    {% for t in trilha %}<a href="{{ t.href }}"{% if loop.last %} aria-current="page"{% endif %}>{{ t.label }}</a>{% if not loop.last %}<span class="sep" aria-hidden="true">›</span>{% endif %}{% endfor %}
-  </nav>
+  <div class="trilha-esq">
+    <a class="logo-link" href="{{ trilha[0].href }}"><img class="logo-cab" src="{{ base_url }}{{ logo }}" alt="{{ logo_alt }}"></a>
+    <nav class="trilha" id="trilha" aria-label="Trilha de navegação">
+      {% for t in trilha %}<a href="{{ t.href }}"{% if loop.last %} aria-current="page"{% endif %}>{{ t.label }}</a>{% if not loop.last %}<span class="sep" aria-hidden="true">›</span>{% endif %}{% endfor %}
+    </nav>
+  </div>
   <a class="voltar-btn" id="voltar" href="{{ voltar.href }}">← Voltar para {{ voltar.label }}</a>
 </div>
 {% endif %}

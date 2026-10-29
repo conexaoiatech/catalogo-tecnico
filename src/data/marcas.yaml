@@ -1,5 +1,8 @@
 solucao:
   slug: solucao
+  publicada: true
+  logo: "assets/img/marcas/solucao.png"
+  logo_alt: "Solução Fechamentos Inteligentes"
   label: "Solução"
   brand_mark: "SOLUÇÃO"
   brand_sub: "Fechamento Inteligente"
@@ -29,6 +32,9 @@ solucao:
 
 blindex:
   slug: blindex
+  publicada: false
+  logo: "assets/img/marcas/blindex.png"
+  logo_alt: "Blindex"
   label: "Blindex"
   brand_mark: "BLINDEX"
   brand_sub: "Licenciado Solução Fechamento Inteligente"

@@ -213,6 +213,19 @@ def descr_curta(p, limite=30):
     return d if len(d) <= limite else d[:limite - 1].rstrip() + "…"
 
 
+def valida_marcas(marcas):
+    """Marca publicada precisa de logo existente em src/; marca ativa precisa estar publicada.
+    A marca nao publicada (blindex) so guarda o caminho do logo, sem aparecer em pagina."""
+    for slug in MARCAS_ATIVAS:
+        if not marcas[slug].get("publicada"):
+            raise SystemExit(f"Build interrompido: marca '{slug}' esta em MARCAS_ATIVAS mas nao esta publicada em marcas.yaml.")
+    for slug, m in marcas.items():
+        if m.get("publicada") and not os.path.isfile(os.path.join(SRC, m["logo"])):
+            raise SystemExit(f"Build interrompido: logo da marca '{slug}' nao encontrado em src/{m['logo']}.")
+        if not os.path.isfile(os.path.join(SRC, m["logo"])):
+            print(f"AVISO: logo da marca nao publicada '{slug}' ausente em src/{m['logo']}")
+
+
 def limpa_docs():
     """Apaga o conteudo de docs/ preservando os itens de PRESERVAR."""
     os.makedirs(DOCS, exist_ok=True)
@@ -273,6 +286,8 @@ def main():
     biblioteca = load_yaml(os.path.join(DATA, "biblioteca.yaml"))
     selantes = load_yaml(os.path.join(DATA, "selantes.yaml"))
 
+    valida_marcas(marcas)
+
     # normaliza categorias em cada perfil para lista (alguns podem vir com 1 item)
     for p in perfis.values():
         p.setdefault("categorias", [])
@@ -305,6 +320,8 @@ def main():
             tint=marca["tint"] if marca else "#F1F0EC",
             nav_groups=nav_groups,
             current_page=current_page,
+            logo=marcas[marca_slug or MARCAS_ATIVAS[0]]["logo"],
+            logo_alt=marcas[marca_slug or MARCAS_ATIVAS[0]]["logo_alt"],
         )
 
     def render(template_name, out_path, **ctx):
@@ -401,7 +418,10 @@ def main():
     render("selantes.html", "selantes.html", **ctx)
 
     # ---- assets ----
-    shutil.copytree(os.path.join(SRC, "assets"), os.path.join(DOCS, "assets"))
+    # logos de marcas nao publicadas ficam so na fonte (nao vao para docs/)
+    nao_publicados = {os.path.normpath(os.path.join(SRC, m["logo"])) for m in marcas.values() if not m.get("publicada")}
+    shutil.copytree(os.path.join(SRC, "assets"), os.path.join(DOCS, "assets"),
+                    ignore=lambda d, nomes: [n for n in nomes if os.path.normpath(os.path.join(d, n)) in nao_publicados])
 
     print(f"Build concluído. Marcas publicadas: {MARCAS_ATIVAS}. Perfis: {len(perfis)}. Categorias: {len(categorias)}.")
 
