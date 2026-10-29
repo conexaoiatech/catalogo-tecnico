@@ -227,6 +227,16 @@ def valida_marcas(marcas):
             print(f"AVISO: logo da marca nao publicada '{slug}' ausente em src/{m['logo']}")
 
 
+def _ignora_pasta_vazia_em_uso(func, caminho, exc_info):
+    """No Windows uma pasta aberta no Explorer (ou em outro programa) nao pode ser removida
+    mesmo vazia; tolera isso (o conteudo ja foi apagado e o copytree reaproveita a pasta)."""
+    sem_arquivos = not any(files for _r, _d, files in os.walk(caminho))
+    if func is os.rmdir and isinstance(exc_info[1], OSError) and sem_arquivos:
+        print(f"AVISO: pasta em uso por outro programa, mantida sem arquivos: {os.path.relpath(caminho, ROOT)}")
+        return
+    raise exc_info[1]
+
+
 def limpa_docs():
     """Apaga o conteudo de docs/ preservando os itens de PRESERVAR."""
     os.makedirs(DOCS, exist_ok=True)
@@ -235,7 +245,7 @@ def limpa_docs():
             continue
         caminho = os.path.join(DOCS, nome)
         if os.path.isdir(caminho):
-            shutil.rmtree(caminho)
+            shutil.rmtree(caminho, onerror=_ignora_pasta_vazia_em_uso)
         else:
             os.remove(caminho)
 
@@ -421,7 +431,7 @@ def main():
     # ---- assets ----
     # logos de marcas nao publicadas ficam so na fonte (nao vao para docs/)
     nao_publicados = {os.path.normpath(os.path.join(SRC, m["logo"])) for m in marcas.values() if not m.get("publicada")}
-    shutil.copytree(os.path.join(SRC, "assets"), os.path.join(DOCS, "assets"),
+    shutil.copytree(os.path.join(SRC, "assets"), os.path.join(DOCS, "assets"), dirs_exist_ok=True,
                     ignore=lambda d, nomes: [n for n in nomes if n in IGNORAR_ARQUIVOS or os.path.normpath(os.path.join(d, n)) in nao_publicados])
 
     print(f"Build concluído. Marcas publicadas: {MARCAS_ATIVAS}. Perfis: {len(perfis)}. Categorias: {len(categorias)}.")
