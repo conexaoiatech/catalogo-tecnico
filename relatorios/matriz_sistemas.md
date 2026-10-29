@@ -32,8 +32,8 @@ Gerada a partir de `src/data/categorias/*.yaml` em 2026-10-28. `X n` = o perfil 
 | SS-015 | Montante do Quadro Móvel |  |  |  |  | X 14 |  |
 | SS-016 | Montante de Giro Esquerdo |  |  | X 2 | X 2 | X 15 |  |
 | SS-017 | Montante de Giro Direito |  |  | X 3 | X 3 | X 16 |  |
-| SS-018 | Bando Rolo |  |  |  |  |  | X 5 |
-| SS-019 | Trilho Fixo do Rolo |  |  |  |  |  | X 1 |
+| SS-018 | Bando Rolo | X 16 |  |  |  |  | X 5 |
+| SS-019 | Trilho Fixo do Rolo | X 17 |  |  |  |  | X 1 |
 | SS-020 | Perfil Dobradiça Esquerda |  | X 1 |  |  |  |  |
 | SS-021 | Perfil Dobradiça Direita |  | X 2 |  |  |  |  |
 | SS-022 | Perfil de Acabamento Esquerdo |  | X 3 |  |  |  |  |
@@ -44,4 +44,4 @@ Gerada a partir de `src/data/categorias/*.yaml` em 2026-10-28. `X n` = o perfil 
 | SS-027 | Caixa de Drenagem |  |  |  | X 7 |  |  |
 | SS-028 | Trilho Guia Superior e Inferior |  |  |  | X 8 |  |  |
 | SS-108 | Montante do Vidro 12 mm | X 15 |  |  |  |  |  |
-| **Total de perfis** | | **15** | **18** | **18** | **14** | **18** | **5** |
+| **Total de perfis** | | **17** | **18** | **18** | **14** | **18** | **5** |

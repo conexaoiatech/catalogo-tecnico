@@ -2,6 +2,7 @@ codigo: SS-019
 descricao: Trilho Fixo do Rolo
 categorias:
 - persianas
+- sacada
 peso_kg_m: 0.764
 superficie_area_mm2_mml: 281.79
 superficie_perimetro_mm2_mml: 424.23

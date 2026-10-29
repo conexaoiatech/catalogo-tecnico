@@ -2,6 +2,7 @@ codigo: SS-018
 descricao: Bando Rolo
 categorias:
 - persianas
+- sacada
 peso_kg_m: 0.358
 superficie_area_mm2_mml: 132.39
 superficie_perimetro_mm2_mml: 174.46
