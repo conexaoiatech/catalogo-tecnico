@@ -15,7 +15,7 @@ from jinja2 import Environment, FileSystemLoader
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
-from padroes import RE_ISO, campos_faltando, chave_codigo, nome_padrao, nome_valido  # noqa: E402
+from padroes import RE_ISO, campos_faltando, chave_codigo, chave_ordem, nome_padrao, nome_valido  # noqa: E402
 from validar_catalogo import validar  # noqa: E402
 
 SRC = os.path.join(ROOT, "src")
@@ -141,8 +141,17 @@ def anota_perfis(perfis, img_dir=IMG_PERFIS):
 
 
 def _ordem_codigo(p):
-    k = chave_codigo(p["codigo"]) or p["codigo"]
-    return (re.sub(r"[\d-]", "", k), int(re.sub(r"\D", "", k) or 0))
+    return chave_ordem(p["codigo"])
+
+
+def ordena_categorias(categorias):
+    """Ordena, em memoria, os codigos de cada grupo dos blocos profiles pela chave unica de
+    scripts/padroes.py (grupos mantidos). A ordem escrita nos YAML nao importa."""
+    for cat in categorias.values():
+        for b in cat.get("blocks", []):
+            if b.get("tipo") == "profiles":
+                for g in b.get("grupos", []):
+                    g["codigos"] = sorted(g.get("codigos", []), key=chave_ordem)
 
 
 def anota_navegacao(perfis, categorias, marcas):
@@ -167,6 +176,8 @@ def anota_navegacao(perfis, categorias, marcas):
                     usado.setdefault(chave_codigo(c), []).append(
                         dict(slug=cat_slug, nome=pagina[0], pagina=pagina[1]))
                     ordem_cat.setdefault(cat_slug, []).append(chave_codigo(c))
+    for lista in ordem_cat.values():  # vizinhos por sistema: mesma chave unica de ordem
+        lista.sort(key=chave_ordem)
     por_chave = {chave_codigo(p["codigo"]): p for p in perfis.values()}
     for p in perfis.values():
         k = chave_codigo(p["codigo"])
@@ -269,6 +280,7 @@ def main():
     verifica_imagens_perfis(perfis)
     valida_catalogo()
     anota_perfis(perfis)
+    ordena_categorias(categorias)
     ordem_perfis = anota_navegacao(perfis, categorias, marcas)
 
     env = Environment(loader=FileSystemLoader(os.path.join(SRC, "templates")), autoescape=False)
@@ -346,7 +358,7 @@ def main():
         key = tuple(sorted(fp.get("categorias", [])))
         grupos_compartilhamento.setdefault(key, []).append(codigo)
     grupos_list = [
-        dict(categorias=[categorias.get(c, {}).get("titulo", c) for c in key], codigos=sorted(codigos))
+        dict(categorias=[categorias.get(c, {}).get("titulo", c) for c in key], codigos=sorted(codigos, key=chave_ordem))
         for key, codigos in grupos_compartilhamento.items()
     ]
 

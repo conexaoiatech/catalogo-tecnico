@@ -65,3 +65,15 @@ def campos_faltando(perfil):
 
 def perfil_completo(perfil):
     return not campos_faltando(perfil)
+
+
+# ---- ordem unica dos perfis (decisao da pessoa): familia SS, LT, F, FE, DSL; dentro dela, pelo numero ----
+ORDEM_FAMILIAS = ["ss", "lt", "f", "fe", "dsl"]
+
+
+def chave_ordem(codigo):
+    """Chave de ordenacao: SS-001 < ... < SS-108 < LT-077 < F98 < FE-0202 < ... < DSL-003."""
+    k = chave_codigo(codigo) or ""
+    fam = re.sub(r"[\d-]", "", k)
+    num = int(re.sub(r"\D", "", k) or 0)
+    return (ORDEM_FAMILIAS.index(fam) if fam in ORDEM_FAMILIAS else len(ORDEM_FAMILIAS), num)
