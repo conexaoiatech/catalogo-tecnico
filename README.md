@@ -9,7 +9,7 @@ Publicado via GitHub Pages a partir da pasta `/docs` (branch `main`).
 ```
 src/
   data/
-    marcas.yaml          # nomes comerciais + cores por marca (Solução azul / Blindex vermelho)
+    marcas.yaml          # nomes comerciais, cores, logos e publicação (campo publicada) por marca (Solução azul / Blindex vermelho)
     categorias/*.yaml     # conteúdo técnico neutro de marca (tipologia, limites, montagem, usinagem)
     perfis/*.yaml         # ficha de cada código de perfil (peso, área, inércia, imagens)
     biblioteca.yaml       # dados da página "Mapa geral de perfis"
@@ -33,7 +33,7 @@ Perfis de alumínio seguem a mesma lógica: cada código tem um único arquivo Y
 
 ## Convenção de imagens de perfil
 
-Arquivo nomeado por código + nome do detalhe, nunca abreviação: `SS-001-trilho-inferior.jpg` (desenho cotado) e `SS-001-trilho-inferior-isometrico.jpg` (isométrica, quando houver). O nome exato do arquivo é declarado nos campos `imagem_desenho:` / `imagem_isometrica:` do YAML do perfil — o build nunca infere o nome a partir do código.
+Arquivo nomeado por `{codigo minúsculo}-{detalhe_snake_case}.jpg` (desenho cotado) e `{codigo minúsculo}-{detalhe_snake_case}-isometrico.jpg` (isométrica, quando houver), tudo minúsculo: por exemplo `ss-001-trilho_inferior.jpg`. O nome do arquivo é declarado nos campos `imagem_desenho:` / `imagem_isometrica:` do YAML do perfil. A regra está em `scripts/padroes.py`; o build corrige o nome fora do padrão e, se não puder corrigir, para e lista os arquivos.
 
 ## Como gerar o site
 
@@ -42,8 +42,14 @@ pip install -r src/requirements.txt
 python src/build.py
 ```
 
-Isso recria `/docs` do zero a partir de `src/data` e `src/templates`. Abra `docs/index.html` no navegador para conferir antes de comitar.
+Isso recria `/docs` do zero a partir de `src/data` e `src/templates` (preservando só `docs/hist`, `ESTADO_SESSAO.md`, `PLANO.md` e `ROTEIRO.md`). Abra `docs/index.html` no navegador para conferir antes de comitar: ele é a página de escolha de marca; a capa de cada marca fica em `docs/{marca}/index.html`.
 
-## Ordem de construção das marcas
+## Marcas publicadas
 
-A camada **Solução** (azul) é construída e validada primeiro para as 6 categorias. A camada **Blindex** (vermelho) entra depois, como uma segunda passada de tema sobre os mesmos dados — basta adicionar as entradas em `marcas.yaml` e incluir `"blindex"` na lista `MARCAS_ATIVAS` no topo de `src/build.py`.
+As marcas **Solução** (azul) e **Blindex** (vermelho) estão publicadas, com o mesmo dado técnico e a identidade de cada uma. Quais marcas saem no build é definido em `src/data/marcas.yaml`, pelo campo `publicada` de cada marca.
+
+## Documentos do projeto
+
+- Guia de edição de textos: `GUIA_EDICAO.md`
+- Plano e roteiro: `docs/PLANO.md` e `docs/ROTEIRO.md`
+- Instrução do projeto: `INSTRUÇÃO_CLAUDE_IA.txt`

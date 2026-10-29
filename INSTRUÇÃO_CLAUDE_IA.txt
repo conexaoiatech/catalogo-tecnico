@@ -3,14 +3,14 @@ Leia e execute conforme as skills `conduta`, `estou-entrando-saindo` e `estrutur
 - project_id: catalogo_tecnico
 - Repo: conexaoiatech/catalogo-tecnico · C:\GITHUB\CATALOGO_TECNICO · site https://conexaoiatech.github.io/catalogo-tecnico/
 - Objetivo: Catálogo técnico HTML dos sistemas de envidraçamento da Solução (Sacada, MWO, BigSpace, SkinGlass, Ripado, Persianas) e das versões Blindex, para vidraceiros e equipe consultarem perfis, desenhos e especificações por link, com cada dado técnico mantido em fonte única.
-- Fora de escopo: publicar CAD bruto; preços e condições comerciais; linha de adesivos e selantes Blindex/Neoklon; migração para o servidor próprio definitivo; editar à mão arquivos em docs/
+- Fora de escopo: publicar CAD bruto; preços e condições comerciais; linha de adesivos e selantes Blindex/Neoklon; migração para o servidor próprio definitivo; editar à mão arquivos gerados em docs/
 - Regras específicas (1 linha cada):
   - Telas: TL-catalogo_tecnico-IA (Claude.ai) e TL-catalogo_tecnico-CODE (Claude Code em C:\GITHUB\CATALOGO_TECNICO). Cadastro e setup em TL-gov_ia_core-CODE
-  - Alvo: build local (python src/build.py) é ensaio; GitHub Pages (branch main, pasta /docs) é verdade
-  - Dados: YAML (um por perfil, um por categoria) e imagens em src/ são a fonte; docs/ é gerado pelo build (preserva hist, ESTADO_SESSAO, PLANO, ROTEIRO); CAD bruto fica em /cad-fonte, fora do git
+  - Alvo: build local (python src/build.py) e Live Server são ensaio; GitHub Pages (branch main, pasta /docs) é verdade; push sempre em main
+  - Dados: YAML em src/data (perfil, categoria, marca) e imagens finais em src/assets são a fonte; docs/ é gerado pelo build, que preserva só docs/hist, ESTADO_SESSAO.md, PLANO.md e ROTEIRO.md; CAD bruto e fichas novas ficam em cad-fonte/, fora do git
   - Sigilo/LGPD: nada de dado pessoal, bancário, senha ou segredo em doc, chat, issue ou commit; o repo é público, então tudo que entra no git é publicado
-  - Dupla marca: Sacada, MWO/Unique, BigSpace/Vista e SkinGlass/Skin Vista têm versão Solução (azul) e Blindex (vermelha) com o mesmo dado técnico; Ripado e Persianas são só Solução
-  - Ordem: linha Solução completa primeiro, Blindex depois por duplicação de template
-  - Perfil (SS-XXX, DSL-XXX, FE-XXXX, LT-XXX) é cadastrado uma vez e referenciado pelas categorias; nunca duplicar dado técnico entre categorias
-  - Ficha técnica individual do perfil prevalece sobre tabela-resumo; divergência fica documentada no YAML
-  - Imagem de perfil: {codigo}-{detalhe_snake_case}.jpg e {codigo}-{detalhe_snake_case}-isometrico.jpg, tudo minúsculo; fora do padrão, o build corrige ou para e lista
+  - Fonte única: perfil (SS-XXX, DSL-XXX, FE-XXXX, LT-XXX, F98) é cadastrado uma vez em src/data/perfis e referenciado pelas categorias; vínculo perfil × sistema em src/data/categorias; nomes, cores e logos por marca em src/data/marcas.yaml; nunca duplicar dado técnico entre sistemas ou marcas
+  - Dupla marca: Sacada (Solução Sacadas / Blindex Sacadas), MWO/Unique, BigSpace/Vista e SkinGlass/Skin Vista têm o mesmo dado técnico com identidade Solução (azul) ou Blindex (vermelha); Ripado e Persianas só na Solução; a Blindex mantém a Solução como fabricante
+  - Ficha técnica individual do perfil prevalece sobre o YAML e sobre tabela-resumo, com a divergência documentada no YAML; exceções registradas: SS-002 (vale o YAML) e FE-0207 (área 274.43)
+  - Imagem de perfil: {codigo minúsculo}-{detalhe_snake_case}.jpg e -isometrico.jpg; fora do padrão, o build corrige ou para e lista; ficha nova é conferida antes de substituir a imagem existente
+  - Gráficos de pressão: premissas em src/data/estrutural.yaml são PRELIMINARES e só o Coordenador de Produção as valida; nada é publicado antes disso

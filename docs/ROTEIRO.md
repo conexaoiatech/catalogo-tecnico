@@ -1,7 +1,7 @@
 # Roteiro — catalogo_tecnico
-Origem: gov_passos 79 a 106 (HIST 2026-10-26 a 2026-10-29 e passos 102 a 106 desta sessão). A coluna # é o id em gov_passos; o nº do roteiro vem antes da ação.
+Origem: gov_passos 79 a 108 (HIST 2026-10-26 a 2026-10-29 e passos 102 a 108 desta sessão). A coluna # é o id em gov_passos; o nº do roteiro vem antes da ação.
 Demanda: 20 para os passos 79 a 101 (ESTADO_SESSAO). Os passos 102 a 104 foram abertos sem demanda no registro. As duas demandas criadas à mão em 2026-10-29 ("Navegacao, layout escuro e versao Blindex do catalogo" e "Dados estruturais e grafico de pressao por sistema") não têm id neste repo.
-Progresso: 28/28 passos FEITO.
+Progresso: 30/30 passos FEITO.
 
 | # | passo | entrega | demanda | alvo | status | evidência |
 |---|---|---|---|---|---|---|
@@ -32,7 +32,9 @@ Progresso: 28/28 passos FEITO.
 | 103 | 3s · Arrumação: demandas manuais, demanda 21, limpeza e varredura de CAD | E6 | 21 e 295 por script | .gitignore, cad-fonte/_arquivo | FEITO | e47d447; nenhum CAD rastreado |
 | 104 | 3r · Publicar alteração manual da pessoa em marcas.yaml | E3 | — | src/data/marcas.yaml | FEITO | 95263a7 |
 | 105 | 3t · Governança no repo: PLANO, ROTEIRO, CLAUDE.md, INSTRUÇÃO e GUIA_EDICAO | E6 | 296 | docs, raiz | FEITO | 10f0a91 |
-| 106 | 3u · Ajustes do 3t: ROTEIRO, protótipo fora do git e instrução do projeto | E6 | 296 | docs/ROTEIRO.md, README.md, INSTRUÇÃO_CLAUDE_IA.txt | FEITO | ver git log |
+| 106 | 3u · Ajustes do 3t: ROTEIRO, protótipo fora do git e instrução do projeto | E6 | 296 | docs/ROTEIRO.md, README.md, INSTRUÇÃO_CLAUDE_IA.txt | FEITO | d851fcc; texto da instrução era versão antiga, substituído no 3x |
+| 107 | 3w · Consolidar a instrução do projeto a partir das versões na raiz | E6 | 296 | INSTRUÇÃO_CLAUDE_IA_atualizada.txt | FEITO | sem commit; consolidado aplicado no 3x |
+| 108 | 3x · Aplicar a instrução consolidada no repo, README e ROTEIRO | E6 | 296 | INSTRUÇÃO_CLAUDE_IA.txt, README.md, docs/ROTEIRO.md, docs/PLANO.md | FEITO | ver git log |
 
 ## Fila (espelho de gov_demandas backlog)
 - 2026-10-28 · Gráficos de pressão: definir o modelo estrutural por sistema (Sacada: vão do vidro; SkinGlass: conjunto coluna + meio-coluna) com o Coordenador de Produção; estrutural.yaml segue PRELIMINAR e publicar_graficos false · D22 (E5)
