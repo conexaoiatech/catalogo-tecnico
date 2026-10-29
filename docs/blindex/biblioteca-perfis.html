@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080A10">
+<title>Mapa geral de perfis — Catálogo Técnico Blindex</title>
+<link rel="stylesheet" href="../assets/css/catalogo.css">
+<style>:root{ --pc:#C4000C; --tint:#1C0A0D; --accent:#C4000C; --accent-2:#FF5A66; --acao-rgb:196,0,12; --destaque-rgb:255,90,102; --glass:rgba(196,0,12,0.14); }</style>
+</head>
+<body>
+<a class="pular" href="#conteudo">Pular para o conteúdo</a>
+
+
+<header class="topo" id="topo">
+  <div class="menu-fundo" id="menu-fundo" hidden></div>
+  <div class="topo-linha wrap">
+    <a class="marca-link pilula" href="../blindex/index.html"><img class="logo-cab" src="../assets/img/marcas/blindex.png" alt="Blindex"><span class="marca-nome">Blindex®</span></a>
+    <nav class="menu" id="menu-sistemas" aria-label="Sistemas e referência">
+      <a href="../blindex/sacadas.html" class="menu-item">Blindex Sacadas</a><a href="../blindex/unique.html" class="menu-item">Unique</a><a href="../blindex/vista.html" class="menu-item">Vista</a><a href="../blindex/skin-vista.html" class="menu-item">Skin Vista</a><a href="../blindex/biblioteca-perfis.html" class="menu-item atual" aria-current="page">Biblioteca de perfis</a>
+    </nav>
+    <button type="button" class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="menu-sistemas" aria-label="Abrir menu"><span class="barras" aria-hidden="true"></span></button>
+  </div>
+  
+  <div class="topo-trilha wrap">
+    <a class="voltar-btn" id="voltar" href="../blindex/index.html" aria-label="Voltar para Início" title="Voltar para Início"><span aria-hidden="true">←</span> Voltar<span class="para"> para Início</span></a>
+    <nav class="trilha" id="trilha" aria-label="Trilha de navegação">
+      <a href="../blindex/index.html">Início</a><span class="sep" aria-hidden="true">›</span><a href="biblioteca-perfis.html" aria-current="page">Biblioteca de perfis</a>
+    </nav>
+  </div>
+  
+</header>
+
+
+<div class="print-logo"><img src="../assets/img/marcas/blindex.png" alt="Blindex"></div>
+
+<main class="main" id="conteudo">
+  
+<section class="product" id="biblioteca-perfis">
+
+  <div class="product-hero">
+    <div class="product-kicker"><span class="ln"></span>Referência técnica</div>
+    <h2>Mapa geral de perfis</h2>
+    <p class="product-lede">Fonte única de verdade para todos os códigos de perfil (SS-XXX / FE-XXXX) usados nos sistemas do catálogo. Perfis compartilhados entre categorias têm ficha única aqui, referenciada a partir de cada produto para evitar duplicação e divergência de dados.</p>
+  </div>
+
+  <div class="block" id="bib-mapa">
+    <div class="block-head">
+      <h3><span class="idx">1</span>Relação de peças — desenho mestre</h3>
+      <span class="block-note">Fonte: Perfis Solução Sacadas_montagem atualizada — AutoCAD</span>
+    </div>
+    <div class="master-map moldura-clara">
+      <img src="../assets/img/biblioteca/desenho-mestre.png" alt="Relação de peças — desenho mestre" data-zoom>
+    </div>
+  </div>
+
+  <div class="block alt" id="bib-index">
+    <div class="block-head">
+      <h3><span class="idx">2</span>Índice de compartilhamento entre produtos</h3>
+    </div>
+    <table class="limits">
+      <caption>Onde cada grupo de perfil é usado</caption>
+      <thead><tr><th>Códigos</th><th>Usado em</th></tr></thead>
+      <tbody>
+        
+        <tr><td class="metric">F98, DSL-001, DSL-002, DSL-003</td><td class="val">Unique + Vista (compartilhado)</td></tr>
+        
+        <tr><td class="metric">SS-027, SS-028, FE-0202, FE-0203, FE-0204, FE-0205, FE-0207, FE-0208</td><td class="val">Skin Vista (exclusivo)</td></tr>
+        
+        <tr><td class="metric">SS-001, SS-004, SS-005, SS-006, SS-007, SS-008, SS-009, LT-077</td><td class="val">Blindex Sacadas + Unique + Vista (compartilhado)</td></tr>
+        
+        <tr><td class="metric">SS-002, SS-003, SS-011, SS-012, SS-013, SS-018, SS-019, SS-108</td><td class="val">Blindex Sacadas (exclusivo)</td></tr>
+        
+        <tr><td class="metric">SS-010</td><td class="val">Blindex Sacadas + Unique (compartilhado)</td></tr>
+        
+        <tr><td class="metric">SS-014</td><td class="val">Unique + Vista + Skin Vista (compartilhado)</td></tr>
+        
+        <tr><td class="metric">SS-016, SS-017, SS-024, SS-025, SS-026</td><td class="val">Vista + Skin Vista (compartilhado)</td></tr>
+        
+        <tr><td class="metric">SS-020, SS-021, SS-022, SS-023</td><td class="val">Unique (exclusivo)</td></tr>
+        
+      </tbody>
+    </table>
+  </div>
+
+  <div class="block" id="bib-status">
+    <div class="block-head">
+      <h3><span class="idx">3</span>Perfis</h3>
+      <span class="block-note">39 perfis — clique para abrir a página do perfil</span>
+    </div>
+
+    <div class="bib-filtros" id="bib-filtros" hidden>
+      <input type="search" id="bib-busca" class="bib-busca" placeholder="Buscar por código ou descrição" aria-label="Buscar perfil por código ou descrição">
+      <div class="bib-botoes" role="group" aria-label="Filtrar por sistema">
+        <button type="button" class="bib-btn current" data-filtro="">Todos</button>
+        <button type="button" class="bib-btn" data-filtro="sacada">Blindex Sacadas</button><button type="button" class="bib-btn" data-filtro="portas-minimalistas">Unique</button><button type="button" class="bib-btn" data-filtro="portas-robustas">Vista</button><button type="button" class="bib-btn" data-filtro="pele-vidro">Skin Vista</button>
+      </div>
+      <p class="bib-contagem" id="bib-contagem" aria-live="polite"></p>
+    </div>
+
+    <div class="profiles-grid" id="bib-grid">
+      
+      <a class="profile-card" id="SS-001" href="../blindex/perfis/ss-001.html" data-cats="sacada portas-minimalistas portas-robustas" data-busca="ss-001 trilho inferior">
+        <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-001-trilho_inferior-isometrico.jpg" alt="SS-001 — Trilho Inferior" loading="lazy"></span>
+        <div class="pcode">SS-001</div>
+        <div class="pdesc">Trilho Inferior</div>
+        <span class="pshared">compartilhado</span>
+      </a>
+      
+      <a class="profile-card" id="SS-002" href="../blindex/perfis/ss-002.html" data-cats="sacada" data-busca="ss-002 montante do vidro 8">
+        <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-002-montante_do_vidro_8-isometrico.jpg" alt="SS-002 — Montante do Vidro 8" loading="lazy"></span>
+        <div class="pcode">SS-002</div>
+        <div class="pdesc">Montante do Vidro 8</div>
+        
+      </a>
+      
+      <a class="profile-card" id="SS-003" href="../blindex/perfis/ss-003.html" data-cats="sacada" data-busca="ss-003 trilho superior">
+        <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-003-trilho_superior-isometrico.jpg" alt="SS-003 — Trilho Superior" loading="lazy"></span>
+        <div class="pcode">SS-003</div>
+        <div class="pdesc">Trilho Superior</div>
+        
+      </a>
+      
+      <a class="profile-card" id="SS-004" href="../blindex/perfis/ss-004.html" data-cats="sacada portas-minimalistas portas-robustas" data-busca="ss-004 calha superior de ajuste">
+        <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-004-calha_superior_de_ajuste-isometrico.jpg" alt="SS-004 — Calha Superior de Ajuste" loading="lazy"></span>
+        <div class="pcode">SS-004</div>
+        <div class="pdesc">Calha Superior de Ajuste</div>
+        <span class="pshared">compartilhado</span>
+      </a>
+      
+      <a class="profile-card" id="SS-005" href="../blindex/perfis/ss-005.html" data-cats="sacada portas-minimalistas portas-robustas" data-busca="ss-005 calha de ajuste">
+        <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-005-calha_de_ajuste-isometrico.jpg" alt="SS-005 — Calha de Ajuste" loading="lazy"></span>
+        <div class="pcode">SS-005</div>
+        <div class="pdesc">Calha de Ajuste</div>
+        <span class="pshared">compartilhado</span>
+      </a>
+      
+      <a class="profile-card" id="SS-006" href="../blindex/perfis/ss-006.html" data-cats="sacada portas-minimalistas portas-robustas" data-busca="ss-006 capa de acabamento">
+        <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-006-capa_de_acabamento-isometrico.jpg" alt="SS-006 — Capa de Acabamento" loading="lazy"></span>
+        <div class="pcode">SS-006</div>
+        <div class="pdesc">Capa de Acabamento</div>
+        <span class="pshared">compartilhado</span>
+      </a>
+      
+      <a class="profile-card" id="SS-007" href="../blindex/perfis/ss-007.html" data-cats="sacada portas-minimalistas portas-robustas" data-busca="ss-007 capa de acabamento">
+        <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-007-capa_de_acabamento-isometrico.jpg" alt="SS-007 — Capa de Acabamento" loading="lazy"></span>
+        <div class="pcode">SS-007</div>
+        <div class="pdesc">Capa de Acabamento</div>
+        <span class="pshared">compartilhado</span>
+      </a>
+      
+      <a class="profile-card" id="SS-008" href="../blindex/perfis/ss-008.html" data-cats="sacada portas-minimalistas portas-robustas" data-busca="ss-008 calha de ajuste">
+        <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-008-calha_de_ajuste-isometrico.jpg" alt="SS-008 — Calha de Ajuste" loading="lazy"></span>
+        <div class="pcode">SS-008</div>
+        <div class="pdesc">Calha de Ajuste</div>
+        <span class="pshared">compartilhado</span>
+      </a>
+      
+      <a class="profile-card" id="SS-009" href="../blindex/perfis/ss-009.html" data-cats="sacada portas-minimalistas portas-robustas" data-busca="ss-009 prolongador">
+        <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-009-prolongador-isometrico.jpg" alt="SS-009 — Prolongador" loading="lazy"></span>
+        <div class="pcode">SS-009</div>
+        <div class="pdesc">Prolongador</div>
+        <span class="pshared">compartilhado</span>
+      </a>
+      
+      <a class="profile-card" id="SS-010" href="../blindex/perfis/ss-010.html" data-cats="sacada portas-minimalistas" data-busca="ss-010 montante do vidro 10mm">
+        <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-010-montante_do_vidro_10mm-isometrico.jpg" alt="SS-010 — Montante do Vidro 10mm" loading="lazy"></span>
+        <div class="pcode">SS-010</div>
+        <div class="pdesc">Montante do Vidro 10mm</div>
+        <span class="pshared">compartilhado</span>
+      </a>
+      
+      <a class="profile-card" id="SS-011" href="../blindex/perfis/ss-011.html" data-cats="sacada" data-busca="ss-011 persiana pf01">
+        <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-011-persiana_pf01-isometrico.jpg" alt="SS-011 — Persiana PF01" loading="lazy"></span>
+        <div class="pcode">SS-011</div>
+        <div class="pdesc">Persiana PF01</div>
+        
+      </a>
+      
+      <a class="profile-card" id="SS-012" href="../blindex/perfis/ss-012.html" data-cats="sacada" data-busca="ss-012 tampa">
+        <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-012-tampa-isometrico.jpg" alt="SS-012 — Tampa" loading="lazy"></span>
+        <div class="pcode">SS-012</div>
+        <div class="pdesc">Tampa</div>
+        
+      </a>
+      
+      <a class="profile-card" id="SS-013" href="../blindex/perfis/ss-013.html" data-cats="sacada" data-busca="ss-013 persiana pf03">
+        <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-013-persiana_pf03-isometrico.jpg" alt="SS-013 — Persiana PF03" loading="lazy"></span>
+        <div class="pcode">SS-013</div>
+        <div class="pdesc">Persiana PF03</div>
+        
+      </a>
+      
+      <a class="profile-card" id="SS-014" href="../blindex/perfis/ss-014.html" data-cats="portas-minimalistas portas-robustas pele-vidro" data-busca="ss-014 capa de união">
+        <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-014-capa_de_uniao-isometrico.jpg" alt="SS-014 — Capa de União" loading="lazy"></span>
+        <div class="pcode">SS-014</div>
+        <div class="pdesc">Capa de União</div>
+        <span class="pshared">compartilhado</span>
+      </a>
+      
+      <a class="profile-card" id="SS-016" href="../blindex/perfis/ss-016.html" data-cats="portas-robustas pele-vidro" data-busca="ss-016 montante de giro esquerdo">
+        <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-016-montante_de_giro_esquerdo-isometrico.jpg" alt="SS-016 — Montante de Giro Esquerdo" loading="lazy"></span>
+        <div class="pcode">SS-016</div>
+        <div class="pdesc">Montante de Giro Esquerdo</div>
+        <span class="pshared">compartilhado</span>
+      </a>
+      
+      <a class="profile-card" id="SS-017" href="../blindex/perfis/ss-017.html" data-cats="portas-robustas pele-vidro" data-busca="ss-017 montante de giro direito">
+        <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-017-montante_de_giro_direito-isometrico.jpg" alt="SS-017 — Montante de Giro Direito" loading="lazy"></span>
+        <div class="pcode">SS-017</div>
+        <div class="pdesc">Montante de Giro Direito</div>
+        <span class="pshared">compartilhado</span>
+      </a>
+      
+      <a class="profile-card" id="SS-018" href="../blindex/perfis/ss-018.html" data-cats="sacada" data-busca="ss-018 bando rolo">
+        <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-018-bando_rolo-isometrico.jpg" alt="SS-018 — Bando Rolo" loading="lazy"></span>
+        <div class="pcode">SS-018</div>
+        <div class="pdesc">Bando Rolo</div>
+        
+      </a>
+      
+      <a class="profile-card" id="SS-019" href="../blindex/perfis/ss-019.html" data-cats="sacada" data-busca="ss-019 trilho fixo do rolo">
+        <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-019-trilho_fixo_do_rolo-isometrico.jpg" alt="SS-019 — Trilho Fixo do Rolo" loading="lazy"></span>
+        <div class="pcode">SS-019</div>
+        <div class="pdesc">Trilho Fixo do Rolo</div>
+        
+      </a>
+      
+      <a class="profile-card" id="SS-020" href="../blindex/perfis/ss-020.html" data-cats="portas-minimalistas" data-busca="ss-020 perfil dobradiça esquerda">
+        <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-020-perfil_dobradica_esquerda-isometrico.jpg" alt="SS-020 — Perfil Dobradiça Esquerda" loading="lazy"></span>
+        <div class="pcode">SS-020</div>
+        <div class="pdesc">Perfil Dobradiça Esquerda</div>
+        
+      </a>
+      
+      <a class="profile-card" id="SS-021" href="../blindex/perfis/ss-021.html" data-cats="portas-minimalistas" data-busca="ss-021 perfil dobradiça direita">
+        <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-021-perfil_dobradica_direita-isometrico.jpg" alt="SS-021 — Perfil Dobradiça Direita" loading="lazy"></span>
+        <div class="pcode">SS-021</div>
+        <div class="pdesc">Perfil Dobradiça Direita</div>
+        
+      </a>
+      
+      <a class="profile-card" id="SS-022" href="../blindex/perfis/ss-022.html" data-cats="portas-minimalistas" data-busca="ss-022 perfil de acabamento esquerdo">
+        <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-022-perfil_de_acabamento_esquerdo-isometrico.jpg" alt="SS-022 — Perfil de Acabamento Esquerdo" loading="lazy"></span>
+        <div class="pcode">SS-022</div>
+        <div class="pdesc">Perfil de Acabamento Esquerdo</div>
+        
+      </a>
+      
+      <a class="profile-card" id="SS-023" href="../blindex/perfis/ss-023.html" data-cats="portas-minimalistas" data-busca="ss-023 perfil de acabamento direito">
+        <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-023-perfil_de_acabamento_direito-isometrico.jpg" alt="SS-023 — Perfil de Acabamento Direito" loading="lazy"></span>
+        <div class="pcode">SS-023</div>
+        <div class="pdesc">Perfil de Acabamento Direito</div>
+        
+      </a>
+      
+      <a class="profile-card" id="SS-024" href="../blindex/perfis/ss-024.html" data-cats="portas-robustas pele-vidro" data-busca="ss-024 montante do quadro">
+        <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-024-montante_do_quadro-isometrico.jpg" alt="SS-024 — Montante do Quadro" loading="lazy"></span>
+        <div class="pcode">SS-024</div>
+        <div class="pdesc">Montante do Quadro</div>
+        <span class="pshared">compartilhado</span>
+      </a>
+      
+      <a class="profile-card" id="SS-025" href="../blindex/perfis/ss-025.html" data-cats="portas-robustas pele-vidro" data-busca="ss-025 arremate e encaixe vedação">
+        <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-025-arremate_e_encaixe_vedacao-isometrico.jpg" alt="SS-025 — Arremate e Encaixe Vedação" loading="lazy"></span>
+        <div class="pcode">SS-025</div>
+        <div class="pdesc">Arremate e Encaixe Vedação</div>
+        <span class="pshared">compartilhado</span>
+      </a>
+      
+      <a class="profile-card" id="SS-026" href="../blindex/perfis/ss-026.html" data-cats="portas-robustas pele-vidro" data-busca="ss-026 encaixe vedação">
+        <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-026-encaixe_vedacao-isometrico.jpg" alt="SS-026 — Encaixe Vedação" loading="lazy"></span>
+        <div class="pcode">SS-026</div>
+        <div class="pdesc">Encaixe Vedação</div>
+        <span class="pshared">compartilhado</span>
+      </a>
+      
+      <a class="profile-card" id="SS-027" href="../blindex/perfis/ss-027.html" data-cats="pele-vidro" data-busca="ss-027 caixa de drenagem">
+        <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-027-caixa_de_drenagem-isometrico.jpg" alt="SS-027 — Caixa de Drenagem" loading="lazy"></span>
+        <div class="pcode">SS-027</div>
+        <div class="pdesc">Caixa de Drenagem</div>
+        
+      </a>
+      
+      <a class="profile-card" id="SS-028" href="../blindex/perfis/ss-028.html" data-cats="pele-vidro" data-busca="ss-028 trilho guia superior e inferior">
+        <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-028-trilho_guia_superior_e_inferior-isometrico.jpg" alt="SS-028 — Trilho Guia Superior e Inferior" loading="lazy"></span>
+        <div class="pcode">SS-028</div>
+        <div class="pdesc">Trilho Guia Superior e Inferior</div>
+        
+      </a>
+      
+      <a class="profile-card" id="SS-108" href="../blindex/perfis/ss-108.html" data-cats="sacada" data-busca="ss-108 montante do vidro 12 mm">
+        <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-108-montante_do_vidro_12_mm-isometrico.jpg" alt="SS-108 — Montante do Vidro 12 mm" loading="lazy"></span>
+        <div class="pcode">SS-108</div>
+        <div class="pdesc">Montante do Vidro 12 mm</div>
+        
+      </a>
+      
+      <a class="profile-card" id="LT-077" href="../blindex/perfis/lt-077.html" data-cats="sacada portas-minimalistas portas-robustas" data-busca="lt-077 cantoneira acab. lateral">
+        <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/lt-077-cantoneira_acab_lateral-isometrico.jpg" alt="LT-077 — Cantoneira Acab. Lateral" loading="lazy"></span>
+        <div class="pcode">LT-077</div>
+        <div class="pdesc">Cantoneira Acab. Lateral</div>
+        <span class="pshared">compartilhado</span>
+      </a>
+      
+      <a class="profile-card" id="F98" href="../blindex/perfis/f98.html" data-cats="portas-minimalistas portas-robustas" data-busca="f98 trilho superior e inferior">
+        <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/f98-trilho_superior_e_inferior-isometrico.jpg" alt="F98 — Trilho Superior e Inferior" loading="lazy"></span>
+        <div class="pcode">F98</div>
+        <div class="pdesc">Trilho Superior e Inferior</div>
+        <span class="pshared">compartilhado</span>
+      </a>
+      
+      <a class="profile-card" id="FE-0202" href="../blindex/perfis/fe-0202.html" data-cats="pele-vidro" data-busca="fe-0202 bagete passante">
+        <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/fe-0202-bagete_passante-isometrico.jpg" alt="FE-0202 — Bagete Passante" loading="lazy"></span>
+        <div class="pcode">FE-0202</div>
+        <div class="pdesc">Bagete Passante</div>
+        
+      </a>
+      
+      <a class="profile-card" id="FE-0203" href="../blindex/perfis/fe-0203.html" data-cats="pele-vidro" data-busca="fe-0203 capa coluna lateral">
+        <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/fe-0203-capa_coluna_lateral-isometrico.jpg" alt="FE-0203 — Capa Coluna Lateral" loading="lazy"></span>
+        <div class="pcode">FE-0203</div>
+        <div class="pdesc">Capa Coluna Lateral</div>
+        
+      </a>
+      
+      <a class="profile-card" id="FE-0204" href="../blindex/perfis/fe-0204.html" data-cats="pele-vidro" data-busca="fe-0204 acab. vertical meio coluna - passante">
+        <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/fe-0204-acab_vertical_meio_coluna_passante-isometrico.jpg" alt="FE-0204 — Acab. Vertical Meio Coluna - Passante" loading="lazy"></span>
+        <div class="pcode">FE-0204</div>
+        <div class="pdesc">Acab. Vertical Meio Coluna - Passante</div>
+        
+      </a>
+      
+      <a class="profile-card" id="FE-0205" href="../blindex/perfis/fe-0205.html" data-cats="pele-vidro" data-busca="fe-0205 bagete 22.5 graus">
+        <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/fe-0205-bagete_22_5_graus-isometrico.jpg" alt="FE-0205 — Bagete 22.5 Graus" loading="lazy"></span>
+        <div class="pcode">FE-0205</div>
+        <div class="pdesc">Bagete 22.5 Graus</div>
+        
+      </a>
+      
+      <a class="profile-card" id="FE-0207" href="../blindex/perfis/fe-0207.html" data-cats="pele-vidro" data-busca="fe-0207 acab. vertical meio coluna - colante">
+        <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/fe-0207-acab_vertical_meio_coluna_colante-isometrico.jpg" alt="FE-0207 — Acab. Vertical Meio Coluna - Colante" loading="lazy"></span>
+        <div class="pcode">FE-0207</div>
+        <div class="pdesc">Acab. Vertical Meio Coluna - Colante</div>
+        
+      </a>
+      
+      <a class="profile-card" id="FE-0208" href="../blindex/perfis/fe-0208.html" data-cats="pele-vidro" data-busca="fe-0208 baguete vedação vertical">
+        <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/fe-0208-baguete_vedacao_vertical-isometrico.jpg" alt="FE-0208 — Baguete Vedação Vertical" loading="lazy"></span>
+        <div class="pcode">FE-0208</div>
+        <div class="pdesc">Baguete Vedação Vertical</div>
+        
+      </a>
+      
+      <a class="profile-card" id="DSL-001" href="../blindex/perfis/dsl-001.html" data-cats="portas-minimalistas portas-robustas" data-busca="dsl-001 polímero deslizante retangular">
+        <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/dsl-001-polimero_deslizante_retangular-isometrico.jpg" alt="DSL-001 — Polímero deslizante retangular" loading="lazy"></span>
+        <div class="pcode">DSL-001</div>
+        <div class="pdesc">Polímero deslizante retangular</div>
+        <span class="pshared">compartilhado</span>
+      </a>
+      
+      <a class="profile-card" id="DSL-002" href="../blindex/perfis/dsl-002.html" data-cats="portas-minimalistas portas-robustas" data-busca="dsl-002 polímero deslizante 1 rampa">
+        <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/dsl-002-polimero_deslizante_1_rampa-isometrico.jpg" alt="DSL-002 — Polímero deslizante 1 rampa" loading="lazy"></span>
+        <div class="pcode">DSL-002</div>
+        <div class="pdesc">Polímero deslizante 1 rampa</div>
+        <span class="pshared">compartilhado</span>
+      </a>
+      
+      <a class="profile-card" id="DSL-003" href="../blindex/perfis/dsl-003.html" data-cats="portas-minimalistas portas-robustas" data-busca="dsl-003 polímero deslizante 2 rampa">
+        <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/dsl-003-polimero_deslizante_2_rampa-isometrico.jpg" alt="DSL-003 — Polímero deslizante 2 rampa" loading="lazy"></span>
+        <div class="pcode">DSL-003</div>
+        <div class="pdesc">Polímero deslizante 2 rampa</div>
+        <span class="pshared">compartilhado</span>
+      </a>
+      
+    </div>
+  </div>
+
+</section>
+
+
+  <footer class="doc-footer">
+    <div class="wrap">
+      <div class="fbrand">SOLUÇÃO · FECHAMENTO INTELIGENTE</div>
+      <p class="fmeta">Empresa licenciada Blindex® para soluções de envidraçamento de sacadas, grandes vãos e pele de vidro. Sistemas homologados pelo Instituto Falcão Bauer, certificação ISO 9001 e ABNT.</p>
+      <p class="fcontact">(48) 3241-0555 · (48) 99207-2442 · solucaosacadas.com.br</p>
+      <p class="fmarcas"><a href="../solucao/index.html">Ver catálogo Solução →</a><a href="../index.html">Escolher a marca</a></p>
+    </div>
+  </footer>
+</main>
+
+<script src="../assets/js/nav.js"></script>
+<script src="../assets/js/lightbox.js"></script>
+<script src="../assets/js/filtro.js"></script>
+<script src="../assets/js/perfil.js"></script>
+</body>
+</html>

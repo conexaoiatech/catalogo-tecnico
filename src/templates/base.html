@@ -4,17 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#080A10">
-<title>{{ page_title }} — Catálogo Técnico Solução</title>
+<title>{{ page_title }} — Catálogo Técnico{{ "" if entrada else " " ~ marca.label }}</title>
 <link rel="stylesheet" href="{{ base_url }}assets/css/catalogo.css">
-<style>:root{ --pc:{{ pc }}; --tint:{{ tint }}; }</style>
+<style>:root{ --pc:{{ pc }}; --tint:{{ tint }}; --accent:{{ acao }}; --accent-2:{{ destaque }}; --acao-rgb:{{ acao_rgb }}; --destaque-rgb:{{ destaque_rgb }}; --glass:rgba({{ acao_rgb }},0.14); }</style>
 </head>
 <body>
 <a class="pular" href="#conteudo">Pular para o conteúdo</a>
 
+{% if not entrada %}
 <header class="topo" id="topo">
   <div class="menu-fundo" id="menu-fundo" hidden></div>
   <div class="topo-linha wrap">
-    <a class="marca-link" href="{{ inicio_href }}"><img class="logo-cab" src="{{ base_url }}{{ logo }}" alt="{{ logo_alt }}"></a>
+    <a class="marca-link{{ ' pilula' if logo_pilula else '' }}" href="{{ inicio_href }}"><img class="logo-cab" src="{{ base_url }}{{ logo }}" alt="{{ logo_alt }}">{% if logo_pilula %}<span class="marca-nome">{{ marca.label }}®</span>{% endif %}</a>
     <nav class="menu" id="menu-sistemas" aria-label="Sistemas e referência">
       {% for it in menu %}<a href="{{ it.href }}" class="menu-item{{ ' atual' if it.atual else '' }}"{% if it.atual %} aria-current="page"{% endif %}>{{ it.nome }}</a>{% endfor %}
     </nav>
@@ -29,6 +30,7 @@
   </div>
   {% endif %}
 </header>
+{% endif %}
 
 <div class="print-logo"><img src="{{ base_url }}{{ logo_claro }}" alt="{{ logo_alt }}"></div>
 
@@ -40,6 +42,7 @@
       <div class="fbrand">SOLUÇÃO · FECHAMENTO INTELIGENTE</div>
       <p class="fmeta">Empresa licenciada Blindex® para soluções de envidraçamento de sacadas, grandes vãos e pele de vidro. Sistemas homologados pelo Instituto Falcão Bauer, certificação ISO 9001 e ABNT.</p>
       <p class="fcontact">(48) 3241-0555 · (48) 99207-2442 · solucaosacadas.com.br</p>
+      {% if not entrada %}<p class="fmarcas">{% for o in outras_marcas %}<a href="{{ o.href }}">Ver catálogo {{ o.label }} →</a>{% endfor %}<a href="{{ entrada_href }}">Escolher a marca</a></p>{% endif %}
     </div>
   </footer>
 </main>

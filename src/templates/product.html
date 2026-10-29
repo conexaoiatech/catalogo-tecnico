@@ -9,7 +9,7 @@
     {% if produto.subtitulo %}<p class="former-name"><b>{{ produto.subtitulo }}</b></p>{% endif %}
     <p class="product-lede">{{ categoria.lede }}</p>
     <div class="product-badges">
-      {% for b in categoria.badges %}<span class="badge">{{ b }}</span>{% endfor %}
+      {% for b in badges %}<span class="badge">{{ b }}</span>{% endfor %}
     </div>
   </div>
 

@@ -50,11 +50,11 @@
 
     <div class="profiles-grid" id="bib-grid">
       {% for fp in perfis_ordenados %}
-      <a class="profile-card" id="{{ fp.codigo }}" href="{{ base_url }}{{ fp.pagina }}" data-cats="{{ fp.categorias|join(' ') }}" data-busca="{{ (fp.codigo ~ ' ' ~ (fp.descricao or ''))|lower }}">
+      <a class="profile-card" id="{{ fp.codigo }}" href="{{ base_url }}{{ fp.pagina }}" data-cats="{{ fp.cats_marca|join(' ') }}" data-busca="{{ (fp.codigo ~ ' ' ~ (fp.descricao or ''))|lower }}">
         {% if fp.thumb %}<span class="pimg-wrap"><img class="pimg" src="{{ base_url }}{{ fp.thumb }}" alt="{{ fp.codigo }} — {{ fp.descricao }}" loading="lazy"></span>{% endif %}
         <div class="pcode">{{ fp.codigo }}</div>
         {% if fp.descricao %}<div class="pdesc">{{ fp.descricao }}</div>{% endif %}
-        {% if fp.categorias|length > 1 %}<span class="pshared">compartilhado</span>{% endif %}
+        {% if fp.cats_marca|length > 1 %}<span class="pshared">compartilhado</span>{% endif %}
       </a>
       {% endfor %}
     </div>

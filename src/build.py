@@ -31,10 +31,8 @@ RENOMEACAO_CSV = os.path.join(ROOT, "relatorios", "renomeacao_imagens.csv")
 # (governanca do projeto). Todo o resto de docs/ e apagado e regenerado.
 PRESERVAR = ["hist", "ESTADO_SESSAO.md", "PLANO.md", "ROTEIRO.md"]
 
-# Camadas de marca a publicar nesta rodada de build.
-# Ordem de trabalho combinada: Solução completa e validada primeiro,
-# Blindex entra depois (segunda passada de tema sobre os mesmos dados).
-MARCAS_ATIVAS = ["solucao"]
+# Marcas publicadas: as que tem publicada: true em src/data/marcas.yaml.
+MARCA_PADRAO = "solucao"  # tema das paginas sem marca propria (selantes)
 
 def _registra_renomeacao(antigo, novo):
     """Grava de-para em relatorios/renomeacao_imagens.csv ANTES de renomear."""
@@ -160,58 +158,62 @@ def ordena_categorias(categorias):
                     g["codigos"] = sorted(g.get("codigos", []), key=chave_ordem)
 
 
-def anota_navegacao(perfis, categorias, marcas):
-    """Pagina propria de cada perfil (perfis/{codigo minusculo}.html), sistemas onde aparece
-    (a partir dos blocos profiles das categorias) e ordem para anterior/proximo."""
-    usado = {}
-    ordem_cat = {}  # slug da categoria -> chaves de codigo na ordem em que a pagina do sistema lista
+def perfis_da_marca(perfis, categorias, marcas, marca_slug):
+    """Copias dos perfis usados nos sistemas da marca, com a navegacao da marca: pagina propria
+    ({marca}/perfis/{codigo}.html), sistemas onde aparece (so os da marca) e vizinhos por sistema.
+    Devolve (dict como o de perfis, lista na ordem unica de codigo)."""
+    produtos = marcas[marca_slug]["produtos"]
+    usado, ordem_cat = {}, {}
     for cat_slug, cat in sorted(categorias.items(), key=lambda kv: kv[1]["ordem"]):
-        pagina = None
-        for marca_slug in MARCAS_ATIVAS:
-            produto = marcas[marca_slug]["produtos"].get(cat_slug)
-            if produto:
-                pagina = (produto["nome"], f"{marca_slug}/{produto['page_slug']}.html")
-                break
-        if not pagina:
+        produto = produtos.get(cat_slug)
+        if not produto:
             continue
+        pagina = f"{marca_slug}/{produto['page_slug']}.html"
         for b in cat.get("blocks", []):
             if b.get("tipo") != "profiles":
                 continue
             for g in b.get("grupos", []):
                 for c in g.get("codigos", []):
-                    usado.setdefault(chave_codigo(c), []).append(
-                        dict(slug=cat_slug, nome=pagina[0], pagina=pagina[1]))
-                    ordem_cat.setdefault(cat_slug, []).append(chave_codigo(c))
+                    k = chave_codigo(c)
+                    usado.setdefault(k, []).append(dict(slug=cat_slug, nome=produto["nome"], pagina=pagina))
+                    ordem_cat.setdefault(cat_slug, []).append(k)
     for lista in ordem_cat.values():  # vizinhos por sistema: mesma chave unica de ordem
         lista.sort(key=chave_ordem)
-    por_chave = {chave_codigo(p["codigo"]): p for p in perfis.values()}
-    for p in perfis.values():
+
+    pm = {}
+    for chave, p in perfis.items():
         k = chave_codigo(p["codigo"])
-        p["arquivo"] = k
-        p["pagina"] = f"perfis/{k}.html"
-        p["usado_em"] = usado.get(k, [])
+        if k not in usado:
+            continue
+        q = dict(p)
+        q["arquivo"] = k
+        q["pagina"] = f"{marca_slug}/perfis/{k}.html"
+        q["usado_em"] = usado[k]
+        q["cats_marca"] = [u["slug"] for u in usado[k]]
+        q["nomes_marca"] = [u["nome"] for u in usado[k]]
+        pm[chave] = q
+    por_chave = {q["arquivo"]: q for q in pm.values()}
 
     def viz(chave):
         q = por_chave[chave]
         return dict(codigo=q["codigo"], pagina=q["pagina"])
 
-    for p in perfis.values():
-        k = p["arquivo"]
-        p["viz_cat"] = {}
-        for u in p["usado_em"]:
+    for q in pm.values():
+        k = q["arquivo"]
+        q["viz_cat"] = {}
+        for u in q["usado_em"]:
             lista = ordem_cat[u["slug"]]
             i = lista.index(k)
-            p["viz_cat"][u["slug"]] = dict(
+            q["viz_cat"][u["slug"]] = dict(
                 nome=u["nome"], pagina=u["pagina"],
                 ant=viz(lista[i - 1]) if i > 0 else None,
                 prox=viz(lista[i + 1]) if i < len(lista) - 1 else None)
-    return sorted(perfis.values(), key=_ordem_codigo)
+    return pm, sorted(pm.values(), key=_ordem_codigo)
 
 
-def inicio(base_url, marca_slug=None):
-    """Primeiro nivel da trilha. Hoje e sempre o Inicio da Solucao; quando houver Blindex,
-    e aqui que o Inicio passa a depender da marca (marca_slug)."""
-    return dict(label="Início", href=base_url + "index.html")
+def inicio(base_url, marca_slug):
+    """Primeiro nivel da trilha: o Inicio da propria marca."""
+    return dict(label="Início", href=f"{base_url}{marca_slug}/index.html")
 
 
 def descr_curta(p, limite=30):
@@ -220,17 +222,26 @@ def descr_curta(p, limite=30):
 
 
 def valida_marcas(marcas):
-    """Marca publicada precisa de logo existente em src/; marca ativa precisa estar publicada.
-    A marca nao publicada (blindex) so guarda o caminho do logo, sem aparecer em pagina."""
-    for slug in MARCAS_ATIVAS:
-        if not marcas[slug].get("publicada"):
-            raise SystemExit(f"Build interrompido: marca '{slug}' esta em MARCAS_ATIVAS mas nao esta publicada em marcas.yaml.")
+    """Marca publicada precisa de logo e logo_claro existentes em src/ e de cor, acao e destaque.
+    A marca padrao (selantes, entrada) precisa estar publicada."""
+    if not marcas.get(MARCA_PADRAO, {}).get("publicada"):
+        raise SystemExit(f"Build interrompido: a marca padrao '{MARCA_PADRAO}' precisa estar publicada em marcas.yaml.")
     for slug, m in marcas.items():
+        if not m.get("publicada"):
+            if not os.path.isfile(os.path.join(SRC, m["logo"])):
+                print(f"AVISO: logo da marca nao publicada '{slug}' ausente em src/{m['logo']}")
+            continue
         for campo in ("logo", "logo_claro"):
-            if m.get("publicada") and not os.path.isfile(os.path.join(SRC, m.get(campo, ""))):
+            if not os.path.isfile(os.path.join(SRC, m.get(campo, ""))):
                 raise SystemExit(f"Build interrompido: {campo} da marca '{slug}' nao encontrado em src/{m.get(campo)}.")
-        if not os.path.isfile(os.path.join(SRC, m["logo"])):
-            print(f"AVISO: logo da marca nao publicada '{slug}' ausente em src/{m['logo']}")
+        for campo in ("color", "acao", "destaque", "tint"):
+            if not m.get(campo):
+                raise SystemExit(f"Build interrompido: marca '{slug}' sem '{campo}' em marcas.yaml.")
+
+
+def rgb_csv(hexa):
+    hexa = hexa.lstrip("#")
+    return ",".join(str(int(hexa[i:i + 2], 16)) for i in (0, 2, 4))
 
 
 def _ignora_pasta_vazia_em_uso(func, caminho, exc_info):
@@ -293,7 +304,8 @@ def gera_logo(origem, destino, largura=640, tirar_fundo_preto=False):
     """Copia otimizada do logo (largura maxima 640, PNG). Com tirar_fundo_preto, o preto vira
     transparencia (alpha = brilho, cor desmisturada), para o logo assentar em qualquer fundo escuro."""
     with Image.open(origem) as im:
-        im = im.convert("RGBA")
+        if tirar_fundo_preto or im.width > largura:
+            im = im.convert("RGBA")
         if im.width > largura:
             im = im.resize((largura, round(im.height * largura / im.width)), Image.LANCZOS)
         if tirar_fundo_preto:
@@ -313,9 +325,13 @@ def gera_logos(marcas):
     for slug, m in marcas.items():
         if not m.get("publicada"):
             continue
-        t = gera_logo(os.path.join(SRC, m["logo"]), os.path.join(DOCS, m["logo"]), tirar_fundo_preto=True)
-        c = gera_logo(os.path.join(SRC, m["logo_claro"]), os.path.join(DOCS, m["logo_claro"]))
-        print(f"Logos da marca {slug}: {m['logo']} {t/1024:.1f} KB (fundo escuro), {m['logo_claro']} {c/1024:.1f} KB (impressao).")
+        t = gera_logo(os.path.join(SRC, m["logo"]), os.path.join(DOCS, m["logo"]),
+                      tirar_fundo_preto=bool(m.get("logo_fundo_preto")))
+        if m["logo_claro"] != m["logo"]:
+            c = gera_logo(os.path.join(SRC, m["logo_claro"]), os.path.join(DOCS, m["logo_claro"]))
+        else:
+            c = t
+        print(f"Logos da marca {slug}: {m['logo']} {t/1024:.1f} KB, {m['logo_claro']} {c/1024:.1f} KB (impressao).")
 
 
 def limpa_docs():
@@ -379,6 +395,7 @@ def main():
     selantes = load_yaml(os.path.join(DATA, "selantes.yaml"))
 
     valida_marcas(marcas)
+    publicadas = [s for s, m in marcas.items() if m.get("publicada")]
 
     # normaliza categorias em cada perfil para lista (alguns podem vir com 1 item)
     for p in perfis.values():
@@ -388,7 +405,6 @@ def main():
     valida_catalogo()
     anota_perfis(perfis)
     ordena_categorias(categorias)
-    ordem_perfis = anota_navegacao(perfis, categorias, marcas)
 
     env = Environment(loader=FileSystemLoader(os.path.join(SRC, "templates")), autoescape=False)
     env.filters["categoria_titulo"] = lambda slug: categorias.get(slug, {}).get("titulo", slug)
@@ -396,40 +412,36 @@ def main():
 
     limpa_docs()
 
-    nav_groups = {}
-    for slug, cat in sorted(categorias.items(), key=lambda kv: kv[1]["ordem"]):
-        nav_groups.setdefault(cat["nav_group"], []).append(cat)
-
     def menu_da_marca(marca_slug, base_url, current_page):
-        """Itens do menu do cabecalho: sistemas da marca (ordem das categorias), biblioteca e selantes."""
+        """Itens do menu: sistemas da marca (ordem das categorias), biblioteca da marca e,
+        so na Solucao, selantes."""
         itens = []
         for cat_slug, cat in sorted(categorias.items(), key=lambda kv: kv[1]["ordem"]):
             produto = marcas[marca_slug]["produtos"].get(cat_slug)
             if produto:
                 rel = f"{marca_slug}/{produto['page_slug']}.html"
                 itens.append(dict(nome=produto["nome"], href=base_url + rel, atual=(current_page == rel)))
-        itens.append(dict(nome="Biblioteca de perfis", href=base_url + "biblioteca-perfis.html",
-                          atual=(current_page == "biblioteca-perfis.html" or str(current_page).startswith("perfis/"))))
-        itens.append(dict(nome="Selantes", href=base_url + "selantes.html", atual=(current_page == "selantes.html")))
+        itens.append(dict(nome="Biblioteca de perfis", href=f"{base_url}{marca_slug}/biblioteca-perfis.html",
+                          atual=(current_page == f"{marca_slug}/biblioteca-perfis.html"
+                                 or str(current_page).startswith(f"{marca_slug}/perfis/"))))
+        if marca_slug == "solucao":
+            itens.append(dict(nome="Selantes", href=base_url + "selantes.html", atual=(current_page == "selantes.html")))
         return itens
 
     def base_ctx(base_url, marca_slug, current_page):
-        marca = marcas.get(marca_slug) if marca_slug else None
+        slug = marca_slug or MARCA_PADRAO
+        m = marcas[slug]
         return dict(
-            base_url=base_url,
-            marca_slug=marca_slug,
-            marcas=marcas,
-            marcas_ativas=MARCAS_ATIVAS,
-            sidebar_marca=marca,
-            pc=(marca or marcas[MARCAS_ATIVAS[0]])["color"],
-            tint=(marca or marcas[MARCAS_ATIVAS[0]])["tint"],
-            nav_groups=nav_groups,
+            base_url=base_url, marca_slug=slug, marca=m, marcas=marcas,
+            pc=m["color"], tint=m["tint"], acao=m["acao"], destaque=m["destaque"],
+            acao_rgb=rgb_csv(m["acao"]), destaque_rgb=rgb_csv(m["destaque"]),
             current_page=current_page,
-            logo=marcas[marca_slug or MARCAS_ATIVAS[0]]["logo"],
-            logo_claro=marcas[marca_slug or MARCAS_ATIVAS[0]]["logo_claro"],
-            logo_alt=marcas[marca_slug or MARCAS_ATIVAS[0]]["logo_alt"],
-            menu=menu_da_marca(marca_slug or MARCAS_ATIVAS[0], base_url, current_page),
-            inicio_href=base_url + "index.html",
+            logo=m["logo"], logo_claro=m["logo_claro"], logo_alt=m["logo_alt"], logo_pilula=bool(m.get("logo_pilula")),
+            menu=menu_da_marca(slug, base_url, current_page),
+            inicio_href=f"{base_url}{slug}/index.html",
+            outras_marcas=[dict(label=marcas[o]["label"], href=f"{base_url}{o}/index.html")
+                           for o in publicadas if o != slug],
+            entrada_href=base_url + "index.html",
         )
 
     def render(template_name, out_path, **ctx):
@@ -439,37 +451,28 @@ def main():
         with open(full_out, "w", encoding="utf-8") as f:
             f.write(html)
 
-    # ---- páginas de marca (capa + produtos) ----
-    for marca_slug in MARCAS_ATIVAS:
+    resumo = []
+    for marca_slug in publicadas:
         marca = marcas[marca_slug]
-        is_root = marca_slug == "solucao"
-        base_url = "" if is_root else "../"
-        capa_path = "index.html" if is_root else f"{marca_slug}/index.html"
-        current_page = "index.html" if is_root else f"{marca_slug}/index.html"
+        perfis_m, ordem_m = perfis_da_marca(perfis, categorias, marcas, marca_slug)
+        cats_marca = [(cs, c) for cs, c in sorted(categorias.items(), key=lambda kv: kv[1]["ordem"])
+                      if cs in marca["produtos"]]
 
-        produtos_da_marca = []
-        for cat_slug, cat in sorted(categorias.items(), key=lambda kv: kv[1]["ordem"]):
-            produto = marca["produtos"].get(cat_slug)
-            if produto:
-                produtos_da_marca.append(produto)
-
-        ctx = base_ctx(base_url, marca_slug, current_page)
+        # ---- capa da marca ----
         cards = []
-        for cat_slug, cat in sorted(categorias.items(), key=lambda kv: kv[1]["ordem"]):
-            produto = marca["produtos"].get(cat_slug)
-            if produto:
-                n = sum(len(g.get("codigos", [])) for b in cat.get("blocks", []) if b.get("tipo") == "profiles"
-                        for g in b.get("grupos", []))
-                cards.append(dict(nome=produto["nome"], subtitulo=produto.get("subtitulo", ""),
-                                  href=f"{marca_slug}/{produto['page_slug']}.html", n_perfis=n, ordem=len(cards) + 1))
-        ctx.update(page_title=f"Capa {marca['label']}", produtos=produtos_da_marca, cards=cards,
-                   total_perfis=len(perfis))
-        render("index.html", capa_path, **ctx)
+        for cat_slug, cat in cats_marca:
+            produto = marca["produtos"][cat_slug]
+            n = sum(len(g.get("codigos", [])) for b in cat.get("blocks", []) if b.get("tipo") == "profiles"
+                    for g in b.get("grupos", []))
+            cards.append(dict(nome=produto["nome"], subtitulo=produto.get("subtitulo", ""),
+                              href=f"{produto['page_slug']}.html", n_perfis=n, ordem=len(cards) + 1))
+        ctx = base_ctx("../", marca_slug, f"{marca_slug}/index.html")
+        ctx.update(page_title=f"Capa {marca['label']}", cards=cards, produtos=cards, total_perfis=len(perfis_m))
+        render("index.html", f"{marca_slug}/index.html", **ctx)
 
-        for cat_slug, cat in categorias.items():
-            produto = marca["produtos"].get(cat_slug)
-            if not produto:
-                continue
+        # ---- paginas de sistema ----
+        for cat_slug, cat in cats_marca:
+            produto = marca["produtos"][cat_slug]
             page_rel = f"{marca_slug}/{produto['page_slug']}.html"
             ctx = base_ctx("../", marca_slug, page_rel)
             ini = inicio("../", marca_slug)
@@ -480,55 +483,74 @@ def main():
                 produto=produto,
                 categoria=cat,
                 slug=cat_slug,
-                perfis=perfis,
+                perfis=perfis_m,
                 total_categorias=len(marca["produtos"]),
+                badges=[b for b in cat.get("badges", []) if b not in produto.get("ocultar_badges", [])],
             )
             render("product.html", page_rel, **ctx)
 
-    # ---- biblioteca de perfis (neutra de marca) ----
-    grupos_compartilhamento = {}
-    for codigo, fp in perfis.items():
-        key = tuple(sorted(fp.get("categorias", [])))
-        grupos_compartilhamento.setdefault(key, []).append(codigo)
-    grupos_list = [
-        dict(categorias=[categorias.get(c, {}).get("titulo", c) for c in key], codigos=sorted(codigos, key=chave_ordem))
-        for key, codigos in grupos_compartilhamento.items()
-    ]
-
-    ctx = base_ctx("", None, "biblioteca-perfis.html")
-    ini = inicio("")
-    ctx.update(
-        trilha=[ini, dict(label="Biblioteca de perfis", href="biblioteca-perfis.html")],
-        voltar=ini,
-        page_title="Mapa geral de perfis",
-        biblioteca=biblioteca,
-        perfis=dict(sorted(perfis.items())),
-        perfis_ordenados=ordem_perfis,
-        filtros=[dict(slug=s, titulo=c["titulo"]) for s, c in sorted(categorias.items(), key=lambda kv: kv[1]["ordem"])
-                 if any(s in p["categorias"] for p in perfis.values())],
-        grupos_compartilhamento=grupos_list,
-    )
-    render("biblioteca-perfis.html", "biblioteca-perfis.html", **ctx)
-
-    # ---- uma pagina por perfil ----
-    for i, fp in enumerate(ordem_perfis):
-        ctx = base_ctx("../", None, fp["pagina"])
-        ini = inicio("../")
-        bib = dict(label="Biblioteca de perfis", href="../biblioteca-perfis.html")
+        # ---- biblioteca da marca ----
+        grupos = {}
+        for fp in perfis_m.values():
+            grupos.setdefault(tuple(fp["nomes_marca"]), []).append(fp["codigo"])
+        grupos_list = [dict(categorias=list(nomes), codigos=sorted(cods, key=chave_ordem))
+                       for nomes, cods in grupos.items()]
+        ctx = base_ctx("../", marca_slug, f"{marca_slug}/biblioteca-perfis.html")
+        ini = inicio("../", marca_slug)
         ctx.update(
-            trilha=[ini, bib, dict(label=f"{fp['codigo']} {descr_curta(fp)}".strip(), href=f"{fp['arquivo']}.html")],
-            voltar=bib,
-            page_title=f"{fp['codigo']} — {fp.get('descricao', '')}",
-            fp=fp,
-            anterior=ordem_perfis[i - 1] if i > 0 else None,
-            proximo=ordem_perfis[i + 1] if i < len(ordem_perfis) - 1 else None,
-            categorias_perfil=[categorias.get(c, {}).get("titulo", c) for c in fp["categorias"]],
+            trilha=[ini, dict(label="Biblioteca de perfis", href="biblioteca-perfis.html")],
+            voltar=ini,
+            page_title="Mapa geral de perfis",
+            biblioteca=biblioteca,
+            perfis=perfis_m,
+            perfis_ordenados=ordem_m,
+            filtros=[dict(slug=cs, titulo=marca["produtos"][cs]["nome"]) for cs, _c in cats_marca
+                     if any(cs in p["cats_marca"] for p in perfis_m.values())],
+            grupos_compartilhamento=grupos_list,
         )
-        render("perfil.html", fp["pagina"], **ctx)
+        render("biblioteca-perfis.html", f"{marca_slug}/biblioteca-perfis.html", **ctx)
 
-    # ---- linha de selantes (neutra de marca) ----
-    ctx = base_ctx("", None, "selantes.html")
-    ini = inicio("")
+        # ---- uma pagina por perfil ----
+        for i, fp in enumerate(ordem_m):
+            ctx = base_ctx("../../", marca_slug, fp["pagina"])
+            ini = inicio("../../", marca_slug)
+            bib = dict(label="Biblioteca de perfis", href="../biblioteca-perfis.html")
+            ctx.update(
+                trilha=[ini, bib, dict(label=f"{fp['codigo']} {descr_curta(fp)}".strip(), href=f"{fp['arquivo']}.html")],
+                voltar=bib,
+                page_title=f"{fp['codigo']} — {fp.get('descricao', '')}",
+                fp=fp,
+                anterior=ordem_m[i - 1] if i > 0 else None,
+                proximo=ordem_m[i + 1] if i < len(ordem_m) - 1 else None,
+                categorias_perfil=fp["nomes_marca"],
+            )
+            render("perfil.html", fp["pagina"], **ctx)
+        resumo.append((marca_slug, len(marca["produtos"]), len(perfis_m)))
+
+    # ---- entrada: escolha de marca ----
+    ctx = base_ctx("", None, "index.html")
+    ctx.update(page_title="Escolha a marca", entrada=True,
+               cards_marca=[dict(slug=sl, nome=marcas[sl]["label"], logo=marcas[sl]["logo"], alt=marcas[sl]["logo_alt"],
+                                 pilula=bool(marcas[sl].get("logo_pilula")), cor=marcas[sl]["color"],
+                                 descricao=marcas[sl].get("entrada_texto", ""), href=f"{sl}/index.html",
+                                 n_sistemas=n_s, n_perfis=n_p)
+                            for sl, n_s, n_p in resumo])
+    render("entrada.html", "index.html", **ctx)
+
+    # ---- links antigos: redirecionam para a Solucao ----
+    padrao = MARCA_PADRAO
+    _pm, ordem_padrao = perfis_da_marca(perfis, categorias, marcas, padrao)
+    for fp in ordem_padrao:
+        render("redirect.html", f"perfis/{fp['arquivo']}.html", page_title=f"{fp['codigo']} — redirecionando",
+               destino=f"../{padrao}/perfis/{fp['arquivo']}.html", mantem_query=True,
+               texto=f"Esta página mudou para {marcas[padrao]['label']}")
+    render("redirect.html", "biblioteca-perfis.html", page_title="Biblioteca de perfis — redirecionando",
+           destino=f"{padrao}/biblioteca-perfis.html", mantem_query=False,
+           texto=f"A biblioteca de perfis mudou para {marcas[padrao]['label']}")
+
+    # ---- linha de selantes (so Solucao) ----
+    ctx = base_ctx("", padrao, "selantes.html")
+    ini = inicio("", padrao)
     ctx.update(trilha=[ini, dict(label="Linha de Selantes", href="selantes.html")], voltar=ini,
                page_title="Linha de Selantes", selantes=selantes)
     render("selantes.html", "selantes.html", **ctx)
@@ -542,7 +564,9 @@ def main():
     gera_logos(marcas)
     gera_imagens(perfis)
 
-    print(f"Build concluído. Marcas publicadas: {MARCAS_ATIVAS}. Perfis: {len(perfis)}. Categorias: {len(categorias)}.")
+    for sl, n_s, n_p in resumo:
+        print(f"Marca {sl}: {n_s} sistemas, {n_p} perfis.")
+    print(f"Build concluído. Marcas publicadas: {publicadas}. Perfis: {len(perfis)}. Categorias: {len(categorias)}.")
 
 
 if __name__ == "__main__":

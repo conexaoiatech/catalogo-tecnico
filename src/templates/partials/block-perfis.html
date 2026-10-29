@@ -6,7 +6,7 @@
       <div class="id">{{ fp.codigo }}</div>
       <div class="name">{{ fp.descricao }}</div>
     </div>
-    <span class="badge">ficha completa{{ " — perfil compartilhado" if fp.categorias|length > 1 else "" }}</span>
+    <span class="badge">ficha completa{{ " — perfil compartilhado" if fp.cats_marca|length > 1 else "" }}</span>
     <a class="link-seta" href="{{ base_url }}{{ fp.pagina }}?de={{ slug }}">página do perfil →</a>
   </div>
   <div class="ficha-destaque-corpo">
@@ -43,7 +43,7 @@
     {% if p.thumb %}<span class="pimg-wrap"><img class="pimg" src="{{ base_url }}{{ p.thumb }}" alt="{{ codigo }} — {{ p.descricao }}" loading="lazy"></span>{% endif %}
     <div class="pcode">{{ codigo }}</div>
     {% if p.descricao %}<div class="pdesc">{{ p.descricao }}</div>{% endif %}
-    {% if p.categorias|length > 1 %}<span class="pshared">compartilhado</span>{% endif %}
+    {% if p.cats_marca|length > 1 %}<span class="pshared">compartilhado</span>{% endif %}
     {% if p.peso_kg_m %}<div class="pweight">{{ p.peso_kg_m|br_num }} kg/m{{ " · " ~ p.barra_ref if p.barra_ref else "" }}</div>{% endif %}
   </a>
   {% endfor %}

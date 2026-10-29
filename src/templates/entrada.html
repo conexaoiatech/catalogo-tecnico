@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="entrada">
+  <div class="wrap entrada-hero">
+    <span class="chip"><span class="ponto"></span>Catálogo técnico de sistemas de envidraçamento</span>
+    <h1>Escolha a marca</h1>
+    <p class="capa-lede">Mesmos perfis e fichas técnicas, com os nomes e o catálogo de cada marca.</p>
+    <div class="entrada-cards">
+      {% for m in cards_marca %}
+      <a class="card-marca" href="{{ m.href }}" style="--pc:{{ m.cor }};">
+        <span class="logo-marca{{ ' pilula' if m.pilula else '' }}"><img src="{{ m.logo }}" alt="{{ m.alt }}"></span>
+        <h2>{{ m.nome }}</h2>
+        <p>{{ m.descricao }}</p>
+        <span class="rodape-card"><span>{{ m.n_sistemas }} sistemas · {{ m.n_perfis }} perfis</span><span class="ver">Entrar →</span></span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}
