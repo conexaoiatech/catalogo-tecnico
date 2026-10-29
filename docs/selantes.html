@@ -3,85 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080A10">
 <title>Linha de Selantes — Catálogo Técnico Solução</title>
 <link rel="stylesheet" href="assets/css/catalogo.css">
-
-<style>:root{ --pc:#C41E2A; --tint:#FBE9EA; --brand:#C41E2A; }</style>
-
+<style>:root{ --pc:#0099FF; --tint:#0A1B2E; }</style>
 </head>
-<body class="tem-trilha">
+<body>
+<a class="pular" href="#conteudo">Pular para o conteúdo</a>
 
-<div class="trilha-bar">
-  <div class="trilha-esq">
-    <a class="logo-link" href="index.html"><img class="logo-cab" src="assets/img/marcas/solucao.png" alt="Solução Fechamentos Inteligentes"></a>
+<header class="topo" id="topo">
+  <div class="menu-fundo" id="menu-fundo" hidden></div>
+  <div class="topo-linha wrap">
+    <a class="marca-link" href="index.html"><img class="logo-cab" src="assets/img/marcas/solucao_pt.png" alt="Solução Fechamento Inteligente"></a>
+    <nav class="menu" id="menu-sistemas" aria-label="Sistemas e referência">
+      <a href="solucao/sacada.html" class="menu-item">Solução Sacadas</a><a href="solucao/mwo.html" class="menu-item">MWO</a><a href="solucao/bigspace.html" class="menu-item">BigSpace</a><a href="solucao/skinglass.html" class="menu-item">SkinGlass</a><a href="solucao/ripado.html" class="menu-item">Ripado</a><a href="solucao/persianas.html" class="menu-item">Persianas Integradas</a><a href="biblioteca-perfis.html" class="menu-item">Biblioteca de perfis</a><a href="selantes.html" class="menu-item atual" aria-current="page">Selantes</a>
+    </nav>
+    <button type="button" class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="menu-sistemas" aria-label="Abrir menu"><span class="barras" aria-hidden="true"></span></button>
+  </div>
+  
+  <div class="topo-trilha wrap">
+    <a class="voltar-btn" id="voltar" href="index.html" aria-label="Voltar para Início" title="Voltar para Início"><span aria-hidden="true">←</span> Voltar<span class="para"> para Início</span></a>
     <nav class="trilha" id="trilha" aria-label="Trilha de navegação">
       <a href="index.html">Início</a><span class="sep" aria-hidden="true">›</span><a href="selantes.html" aria-current="page">Linha de Selantes</a>
     </nav>
   </div>
-  <a class="voltar-btn" id="voltar" href="index.html">← Voltar para Início</a>
-</div>
+  
+</header>
 
-<div class="shell">
+<div class="print-logo"><img src="assets/img/marcas/solucao.png" alt="Solução Fechamento Inteligente"></div>
 
-  <nav class="sidebar">
-    <div class="brand-block">
-      <div class="brand-mark">CATÁLOGO TÉCNICO</div>
-      <div class="brand-sub">Solução Fechamento Inteligente</div>
-      <span class="brand-tag">CATÁLOGO TÉCNICO — v0.2</span>
-      
-    </div>
-
-    <a href="index.html" class="nav-product" style="--dot-color:#8FA3B0;"><span class="dot" style="background:#8FA3B0;"></span>Início</a>
-
-    
-    <div class="nav-group">
-      <div class="nav-group-label">Sistemas de sacada</div>
-      
-        
-        
-      
-    </div>
-    
-    <div class="nav-group">
-      <div class="nav-group-label">Portas de grandes vãos</div>
-      
-        
-        
-      
-    </div>
-    
-    <div class="nav-group">
-      <div class="nav-group-label">Grandes vãos e pele de vidro</div>
-      
-        
-        
-      
-        
-        
-      
-    </div>
-    
-    <div class="nav-group">
-      <div class="nav-group-label">Complementares</div>
-      
-        
-        
-      
-        
-        
-      
-    </div>
-    
-
-    <div class="nav-group">
-      <div class="nav-group-label">Referência</div>
-      <a href="biblioteca-perfis.html" class="nav-product" style="--dot-color:#5B6470;"><span class="dot" style="background:#5B6470;"></span>Mapa geral de perfis</a>
-      <a href="selantes.html" class="nav-product active" style="--dot-color:#C41E2A;"><span class="dot" style="background:#C41E2A;"></span>Linha de Selantes</a>
-    </div>
-  </nav>
-
-  <main class="main">
-    
+<main class="main" id="conteudo">
+  
 <section class="product" id="selantes">
 
   <div class="product-hero">
@@ -151,13 +103,15 @@
 </section>
 
 
-    <footer class="doc-footer">
+  <footer class="doc-footer">
+    <div class="wrap">
       <div class="fbrand">SOLUÇÃO · FECHAMENTO INTELIGENTE</div>
       <p class="fmeta">Empresa licenciada Blindex® para soluções de envidraçamento de sacadas, grandes vãos e pele de vidro. Sistemas homologados pelo Instituto Falcão Bauer, certificação ISO 9001 e ABNT.</p>
       <p class="fcontact">(48) 3241-0555 · (48) 99207-2442 · solucaosacadas.com.br</p>
-    </footer>
-  </main>
-</div>
+    </div>
+  </footer>
+</main>
+
 <script src="assets/js/nav.js"></script>
 <script src="assets/js/lightbox.js"></script>
 <script src="assets/js/filtro.js"></script>

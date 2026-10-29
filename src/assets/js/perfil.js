@@ -23,7 +23,10 @@
   }
   var voltar = document.getElementById('voltar');
   if(voltar){
-    voltar.textContent = '\u2190 Voltar para ' + c.nome;
+    var para = voltar.querySelector('.para');
+    if(para) para.textContent = ' para ' + c.nome;
+    voltar.setAttribute('aria-label', 'Voltar para ' + c.nome);
+    voltar.setAttribute('title', 'Voltar para ' + c.nome);
     voltar.setAttribute('href', base + c.pagina);
   }
 

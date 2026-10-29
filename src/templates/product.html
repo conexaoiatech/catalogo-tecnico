@@ -20,7 +20,7 @@
   </nav>
 
   {% for b in categoria.blocks %}
-  <div class="block" id="{{ slug }}-{{ b.id }}"{{ ' style="background:var(--paper-alt);"' if loop.index is even else '' }}>
+  <div class="block{{ ' alt' if loop.index is even else '' }}" id="{{ slug }}-{{ b.id }}">
     <div class="block-head">
       <h3><span class="idx">{{ loop.index }}</span>{{ b.titulo }}</h3>
       {% if b.status %}<span class="status {{ b.status }}">{{ b.status_label or ("a preencher" if b.status == "pending" else "") }}</span>{% endif %}

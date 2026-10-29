@@ -3,97 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080A10">
 <title>SkinGlass — Catálogo Técnico Solução</title>
 <link rel="stylesheet" href="../assets/css/catalogo.css">
-
-<style>:root{ --pc:#0077B6; --tint:#E7F3FA; --brand:#0077B6; }</style>
-
+<style>:root{ --pc:#0099FF; --tint:#0A1B2E; }</style>
 </head>
-<body class="tem-trilha">
+<body>
+<a class="pular" href="#conteudo">Pular para o conteúdo</a>
 
-<div class="trilha-bar">
-  <div class="trilha-esq">
-    <a class="logo-link" href="../index.html"><img class="logo-cab" src="../assets/img/marcas/solucao.png" alt="Solução Fechamentos Inteligentes"></a>
+<header class="topo" id="topo">
+  <div class="menu-fundo" id="menu-fundo" hidden></div>
+  <div class="topo-linha wrap">
+    <a class="marca-link" href="../index.html"><img class="logo-cab" src="../assets/img/marcas/solucao_pt.png" alt="Solução Fechamento Inteligente"></a>
+    <nav class="menu" id="menu-sistemas" aria-label="Sistemas e referência">
+      <a href="../solucao/sacada.html" class="menu-item">Solução Sacadas</a><a href="../solucao/mwo.html" class="menu-item">MWO</a><a href="../solucao/bigspace.html" class="menu-item">BigSpace</a><a href="../solucao/skinglass.html" class="menu-item atual" aria-current="page">SkinGlass</a><a href="../solucao/ripado.html" class="menu-item">Ripado</a><a href="../solucao/persianas.html" class="menu-item">Persianas Integradas</a><a href="../biblioteca-perfis.html" class="menu-item">Biblioteca de perfis</a><a href="../selantes.html" class="menu-item">Selantes</a>
+    </nav>
+    <button type="button" class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="menu-sistemas" aria-label="Abrir menu"><span class="barras" aria-hidden="true"></span></button>
+  </div>
+  
+  <div class="topo-trilha wrap">
+    <a class="voltar-btn" id="voltar" href="../index.html" aria-label="Voltar para Início" title="Voltar para Início"><span aria-hidden="true">←</span> Voltar<span class="para"> para Início</span></a>
     <nav class="trilha" id="trilha" aria-label="Trilha de navegação">
       <a href="../index.html">Início</a><span class="sep" aria-hidden="true">›</span><a href="../solucao/skinglass.html" aria-current="page">SkinGlass</a>
     </nav>
   </div>
-  <a class="voltar-btn" id="voltar" href="../index.html">← Voltar para Início</a>
-</div>
+  
+</header>
 
-<div class="shell">
+<div class="print-logo"><img src="../assets/img/marcas/solucao.png" alt="Solução Fechamento Inteligente"></div>
 
-  <nav class="sidebar">
-    <div class="brand-block">
-      <div class="brand-mark">SOLUÇÃO</div>
-      <div class="brand-sub">Fechamento Inteligente</div>
-      <span class="brand-tag">CATÁLOGO TÉCNICO — v0.2</span>
-      
-    </div>
-
-    <a href="../index.html" class="nav-product" style="--dot-color:#8FA3B0;"><span class="dot" style="background:#8FA3B0;"></span>Início</a>
-
-    
-    <div class="nav-group">
-      <div class="nav-group-label">Sistemas de sacada</div>
-      
-        
-        
-        <a href="../solucao/sacada.html" class="nav-product" style="--dot-color:#0077B6;"><span class="dot" style="background:#0077B6;"></span>Solução Sacadas</a>
-        
-      
-    </div>
-    
-    <div class="nav-group">
-      <div class="nav-group-label">Portas de grandes vãos</div>
-      
-        
-        
-        <a href="../solucao/mwo.html" class="nav-product" style="--dot-color:#0077B6;"><span class="dot" style="background:#0077B6;"></span>MWO</a>
-        
-      
-    </div>
-    
-    <div class="nav-group">
-      <div class="nav-group-label">Grandes vãos e pele de vidro</div>
-      
-        
-        
-        <a href="../solucao/bigspace.html" class="nav-product" style="--dot-color:#0077B6;"><span class="dot" style="background:#0077B6;"></span>BigSpace</a>
-        
-      
-        
-        
-        <a href="../solucao/skinglass.html" class="nav-product active" style="--dot-color:#0077B6;"><span class="dot" style="background:#0077B6;"></span>SkinGlass</a>
-        
-      
-    </div>
-    
-    <div class="nav-group">
-      <div class="nav-group-label">Complementares</div>
-      
-        
-        
-        <a href="../solucao/ripado.html" class="nav-product" style="--dot-color:#0077B6;"><span class="dot" style="background:#0077B6;"></span>Ripado</a>
-        
-      
-        
-        
-        <a href="../solucao/persianas.html" class="nav-product" style="--dot-color:#0077B6;"><span class="dot" style="background:#0077B6;"></span>Persianas Integradas</a>
-        
-      
-    </div>
-    
-
-    <div class="nav-group">
-      <div class="nav-group-label">Referência</div>
-      <a href="../biblioteca-perfis.html" class="nav-product" style="--dot-color:#5B6470;"><span class="dot" style="background:#5B6470;"></span>Mapa geral de perfis</a>
-      <a href="../selantes.html" class="nav-product" style="--dot-color:#C41E2A;"><span class="dot" style="background:#C41E2A;"></span>Linha de Selantes</a>
-    </div>
-  </nav>
-
-  <main class="main">
-    
+<main class="main" id="conteudo">
+  
 <section class="product" id="produto">
 
   <div class="product-hero">
@@ -165,7 +105,7 @@
     
   </div>
   
-  <div class="block" id="pele-vidro-limites" style="background:var(--paper-alt);">
+  <div class="block alt" id="pele-vidro-limites">
     <div class="block-head">
       <h3><span class="idx">2</span>Limites e dados técnicos</h3>
       <span class="status ready">dados de campo confirmados</span>
@@ -222,14 +162,14 @@
     
 
 
-<p style="font-size:12.5px; color:var(--steel); margin-bottom:12px;"><b>14 perfis</b> — Compartilhados com portas robustas: 4 · Exclusivos: 10</p>
+<p class="resumo-perfis"><b>14 perfis</b> — Compartilhados com portas robustas: 4 · Exclusivos: 10</p>
 
-<p style="font-size:12.5px; color:var(--steel); margin-bottom:12px; font-weight:600;">Compartilhados com portas robustas (4)</p>
-<div class="profiles-grid" style="margin-bottom:24px;">
+<p class="rotulo-grupo">Compartilhados com portas robustas (4)</p>
+<div class="profiles-grid">
   
   
   <a class="profile-card" href="../perfis/ss-014.html?de=pele-vidro">
-    <img class="pimg" src="../assets/img/perfis/ss-014-capa_de_uniao.jpg" alt="Desenho técnico cotado — SS-014">
+    <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-014-capa_de_uniao-isometrico.jpg" alt="SS-014 — Capa de União" loading="lazy"></span>
     <div class="pcode">SS-014</div>
     <div class="pdesc">Capa de União</div>
     <span class="pshared">compartilhado</span>
@@ -238,7 +178,7 @@
   
   
   <a class="profile-card" href="../perfis/ss-016.html?de=pele-vidro">
-    <img class="pimg" src="../assets/img/perfis/ss-016-montante_de_giro_esquerdo.jpg" alt="Desenho técnico cotado — SS-016">
+    <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-016-montante_de_giro_esquerdo-isometrico.jpg" alt="SS-016 — Montante de Giro Esquerdo" loading="lazy"></span>
     <div class="pcode">SS-016</div>
     <div class="pdesc">Montante de Giro Esquerdo</div>
     <span class="pshared">compartilhado</span>
@@ -247,7 +187,7 @@
   
   
   <a class="profile-card" href="../perfis/ss-017.html?de=pele-vidro">
-    <img class="pimg" src="../assets/img/perfis/ss-017-montante_de_giro_direito.jpg" alt="Desenho técnico cotado — SS-017">
+    <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-017-montante_de_giro_direito-isometrico.jpg" alt="SS-017 — Montante de Giro Direito" loading="lazy"></span>
     <div class="pcode">SS-017</div>
     <div class="pdesc">Montante de Giro Direito</div>
     <span class="pshared">compartilhado</span>
@@ -256,7 +196,7 @@
   
   
   <a class="profile-card" href="../perfis/ss-024.html?de=pele-vidro">
-    <img class="pimg" src="../assets/img/perfis/ss-024-montante_do_quadro.jpg" alt="Desenho técnico cotado — SS-024">
+    <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-024-montante_do_quadro-isometrico.jpg" alt="SS-024 — Montante do Quadro" loading="lazy"></span>
     <div class="pcode">SS-024</div>
     <div class="pdesc">Montante do Quadro</div>
     <span class="pshared">compartilhado</span>
@@ -265,12 +205,12 @@
   
 </div>
 
-<p style="font-size:12.5px; color:var(--steel); margin-bottom:12px; font-weight:600;">Exclusivos (10)</p>
-<div class="profiles-grid" style="margin-bottom:24px;">
+<p class="rotulo-grupo">Exclusivos (10)</p>
+<div class="profiles-grid">
   
   
   <a class="profile-card" href="../perfis/ss-025.html?de=pele-vidro">
-    <img class="pimg" src="../assets/img/perfis/ss-025-arremate_e_encaixe_vedacao.jpg" alt="Desenho técnico cotado — SS-025">
+    <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-025-arremate_e_encaixe_vedacao-isometrico.jpg" alt="SS-025 — Arremate e Encaixe Vedação" loading="lazy"></span>
     <div class="pcode">SS-025</div>
     <div class="pdesc">Arremate e Encaixe Vedação</div>
     <span class="pshared">compartilhado</span>
@@ -279,7 +219,7 @@
   
   
   <a class="profile-card" href="../perfis/ss-026.html?de=pele-vidro">
-    <img class="pimg" src="../assets/img/perfis/ss-026-encaixe_vedacao.jpg" alt="Desenho técnico cotado — SS-026">
+    <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-026-encaixe_vedacao-isometrico.jpg" alt="SS-026 — Encaixe Vedação" loading="lazy"></span>
     <div class="pcode">SS-026</div>
     <div class="pdesc">Encaixe Vedação</div>
     <span class="pshared">compartilhado</span>
@@ -288,7 +228,7 @@
   
   
   <a class="profile-card" href="../perfis/ss-027.html?de=pele-vidro">
-    <img class="pimg" src="../assets/img/perfis/ss-027-caixa_de_drenagem.jpg" alt="Desenho técnico cotado — SS-027">
+    <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-027-caixa_de_drenagem-isometrico.jpg" alt="SS-027 — Caixa de Drenagem" loading="lazy"></span>
     <div class="pcode">SS-027</div>
     <div class="pdesc">Caixa de Drenagem</div>
     
@@ -297,7 +237,7 @@
   
   
   <a class="profile-card" href="../perfis/ss-028.html?de=pele-vidro">
-    <img class="pimg" src="../assets/img/perfis/ss-028-trilho_guia_superior_e_inferior.jpg" alt="Desenho técnico cotado — SS-028">
+    <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-028-trilho_guia_superior_e_inferior-isometrico.jpg" alt="SS-028 — Trilho Guia Superior e Inferior" loading="lazy"></span>
     <div class="pcode">SS-028</div>
     <div class="pdesc">Trilho Guia Superior e Inferior</div>
     
@@ -306,7 +246,7 @@
   
   
   <a class="profile-card" href="../perfis/fe-0202.html?de=pele-vidro">
-    <img class="pimg" src="../assets/img/perfis/fe-0202-bagete_passante.jpg" alt="Desenho técnico cotado — FE-0202">
+    <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/fe-0202-bagete_passante-isometrico.jpg" alt="FE-0202 — Bagete Passante" loading="lazy"></span>
     <div class="pcode">FE-0202</div>
     <div class="pdesc">Bagete Passante</div>
     
@@ -315,7 +255,7 @@
   
   
   <a class="profile-card" href="../perfis/fe-0203.html?de=pele-vidro">
-    <img class="pimg" src="../assets/img/perfis/fe-0203-capa_coluna_lateral.jpg" alt="Desenho técnico cotado — FE-0203">
+    <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/fe-0203-capa_coluna_lateral-isometrico.jpg" alt="FE-0203 — Capa Coluna Lateral" loading="lazy"></span>
     <div class="pcode">FE-0203</div>
     <div class="pdesc">Capa Coluna Lateral</div>
     
@@ -324,7 +264,7 @@
   
   
   <a class="profile-card" href="../perfis/fe-0204.html?de=pele-vidro">
-    <img class="pimg" src="../assets/img/perfis/fe-0204-acab_vertical_meio_coluna_passante.jpg" alt="Desenho técnico cotado — FE-0204">
+    <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/fe-0204-acab_vertical_meio_coluna_passante-isometrico.jpg" alt="FE-0204 — Acab. Vertical Meio Coluna - Passante" loading="lazy"></span>
     <div class="pcode">FE-0204</div>
     <div class="pdesc">Acab. Vertical Meio Coluna - Passante</div>
     
@@ -333,7 +273,7 @@
   
   
   <a class="profile-card" href="../perfis/fe-0205.html?de=pele-vidro">
-    <img class="pimg" src="../assets/img/perfis/fe-0205-bagete_22_5_graus.jpg" alt="Desenho técnico cotado — FE-0205">
+    <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/fe-0205-bagete_22_5_graus-isometrico.jpg" alt="FE-0205 — Bagete 22.5 Graus" loading="lazy"></span>
     <div class="pcode">FE-0205</div>
     <div class="pdesc">Bagete 22.5 Graus</div>
     
@@ -342,7 +282,7 @@
   
   
   <a class="profile-card" href="../perfis/fe-0207.html?de=pele-vidro">
-    <img class="pimg" src="../assets/img/perfis/fe-0207-acab_vertical_meio_coluna_colante.jpg" alt="Desenho técnico cotado — FE-0207">
+    <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/fe-0207-acab_vertical_meio_coluna_colante-isometrico.jpg" alt="FE-0207 — Acab. Vertical Meio Coluna - Colante" loading="lazy"></span>
     <div class="pcode">FE-0207</div>
     <div class="pdesc">Acab. Vertical Meio Coluna - Colante</div>
     
@@ -351,7 +291,7 @@
   
   
   <a class="profile-card" href="../perfis/fe-0208.html?de=pele-vidro">
-    <img class="pimg" src="../assets/img/perfis/fe-0208-baguete_vedacao_vertical.jpg" alt="Desenho técnico cotado — FE-0208">
+    <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/fe-0208-baguete_vedacao_vertical-isometrico.jpg" alt="FE-0208 — Baguete Vedação Vertical" loading="lazy"></span>
     <div class="pcode">FE-0208</div>
     <div class="pdesc">Baguete Vedação Vertical</div>
     
@@ -363,7 +303,7 @@
     
   </div>
   
-  <div class="block" id="pele-vidro-montagem" style="background:var(--paper-alt);">
+  <div class="block alt" id="pele-vidro-montagem">
     <div class="block-head">
       <h3><span class="idx">4</span>Detalhe de montagem</h3>
       <span class="status pending">a preencher</span>
@@ -397,13 +337,15 @@
 </section>
 
 
-    <footer class="doc-footer">
+  <footer class="doc-footer">
+    <div class="wrap">
       <div class="fbrand">SOLUÇÃO · FECHAMENTO INTELIGENTE</div>
       <p class="fmeta">Empresa licenciada Blindex® para soluções de envidraçamento de sacadas, grandes vãos e pele de vidro. Sistemas homologados pelo Instituto Falcão Bauer, certificação ISO 9001 e ABNT.</p>
       <p class="fcontact">(48) 3241-0555 · (48) 99207-2442 · solucaosacadas.com.br</p>
-    </footer>
-  </main>
-</div>
+    </div>
+  </footer>
+</main>
+
 <script src="../assets/js/nav.js"></script>
 <script src="../assets/js/lightbox.js"></script>
 <script src="../assets/js/filtro.js"></script>

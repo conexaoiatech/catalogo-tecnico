@@ -1,14 +1,15 @@
 solucao:
   slug: solucao
   publicada: true
-  logo: "assets/img/marcas/solucao.png"
-  logo_alt: "Solução Fechamentos Inteligentes"
+  logo: "assets/img/marcas/solucao_pt.png"      # fundo escuro (uso na tela)
+  logo_claro: "assets/img/marcas/solucao.png"   # fundo branco (impressao)
+  logo_alt: "Solução Fechamento Inteligente"
   label: "Solução"
   brand_mark: "SOLUÇÃO"
   brand_sub: "Fechamento Inteligente"
-  color: "#0077B6"
-  color_ink: "#004C73"
-  tint: "#E7F3FA"
+  color: "#0099FF"        # azul amostrado de solucao_pt.png (pixel dominante do logo)
+  color_ink: "#66C2FF"
+  tint: "#0A1B2E"
   produtos:
     sacada:
       nome: "Solução Sacadas"

@@ -1,57 +1,50 @@
 {% extends "base.html" %}
 {% block content %}
-<section class="product" id="perfil-{{ fp.arquivo }}">
+<section class="perfil" id="perfil-{{ fp.arquivo }}">
 
-  <div class="product-hero">
-    <div class="product-kicker"><span class="ln"></span>Perfil de alumínio</div>
-    <h2>{{ fp.codigo }}{% if fp.descricao %} — {{ fp.descricao }}{% endif %}</h2>
-    <nav class="perfil-nav" id="perfil-nav" aria-label="Navegação do perfil" data-base="{{ base_url }}"
-         data-geral='{{ {"ant": ({"codigo": anterior.codigo, "pagina": anterior.pagina} if anterior else none), "prox": ({"codigo": proximo.codigo, "pagina": proximo.pagina} if proximo else none)}|tojson }}'
-         data-cats='{{ fp.viz_cat|tojson }}'>
-      <div class="pn-seq">
-        {% if anterior %}<a id="pn-ant" href="{{ base_url }}{{ anterior.pagina }}" rel="prev">‹ anterior ({{ anterior.codigo }})</a>{% else %}<span id="pn-ant" class="pn-off">‹ anterior</span>{% endif %}
-        <a href="{{ base_url }}biblioteca-perfis.html">Biblioteca de perfis</a>
-        {% if proximo %}<a id="pn-prox" href="{{ base_url }}{{ proximo.pagina }}" rel="next">próximo › ({{ proximo.codigo }})</a>{% else %}<span id="pn-prox" class="pn-off">próximo ›</span>{% endif %}
-      </div>
-    </nav>
+  <div class="perfil-topo">
+    <div class="wrap">
+      <div class="kicker"><span class="ln"></span>Perfil de alumínio</div>
+      <h1>{{ fp.codigo }}{% if fp.descricao %} <span class="sep-t">—</span> {{ fp.descricao }}{% endif %}</h1>
+      <span class="badge">{{ "compartilhado entre " ~ (categorias_perfil|join(" e ")) if categorias_perfil|length > 1 else ("exclusivo — " ~ (categorias_perfil|join("")) if categorias_perfil else "sem sistema") }}</span>
+      <nav class="perfil-nav" id="perfil-nav" aria-label="Navegação do perfil" data-base="{{ base_url }}"
+           data-geral='{{ {"ant": ({"codigo": anterior.codigo, "pagina": anterior.pagina} if anterior else none), "prox": ({"codigo": proximo.codigo, "pagina": proximo.pagina} if proximo else none)}|tojson }}'
+           data-cats='{{ fp.viz_cat|tojson }}'>
+        <div class="pn-seq">
+          {% if anterior %}<a id="pn-ant" href="{{ base_url }}{{ anterior.pagina }}" rel="prev">‹ anterior ({{ anterior.codigo }})</a>{% else %}<span id="pn-ant" class="pn-off">‹ anterior</span>{% endif %}
+          <a href="{{ base_url }}biblioteca-perfis.html">Biblioteca de perfis</a>
+          {% if proximo %}<a id="pn-prox" href="{{ base_url }}{{ proximo.pagina }}" rel="next">próximo › ({{ proximo.codigo }})</a>{% else %}<span id="pn-prox" class="pn-off">próximo ›</span>{% endif %}
+        </div>
+      </nav>
+    </div>
   </div>
 
-  <div class="block">
-    <div class="spec-sheet">
-      <div class="spec-sheet-top">
-        <div>
-          <div class="id">{{ fp.codigo }}</div>
-          <div class="name">{{ fp.descricao }}</div>
-        </div>
-        <span class="badge" style="border-color:#6B7280; color:#5B6470;">{{ "compartilhado entre " ~ (categorias_perfil|join(" e ")) if categorias_perfil|length > 1 else ("exclusivo — " ~ (categorias_perfil|join("")) if categorias_perfil else "sem sistema") }}</span>
-      </div>
-      <div class="spec-sheet-body">
-        <div class="spec-sheet-img">
-          {% if fp.tem_imagem %}<img src="{{ base_url }}assets/img/perfis/{{ fp.imagem_desenho }}" alt="Desenho técnico cotado — {{ fp.codigo }}" data-zoom>
-          <a class="spec-orig" href="{{ base_url }}assets/img/perfis/{{ fp.imagem_desenho }}" target="_blank" rel="noopener">abrir em tamanho original</a>{% endif %}
-        </div>
-        <div class="spec-props">
-          <table>
-            {% if fp.peso_kg_m %}<tr><td>Peso</td><td>{{ fp.peso_kg_m|br_num }} kg/m</td></tr>{% endif %}
-            {% if fp.material %}<tr><td>Material</td><td>{{ fp.material }}</td></tr>{% endif %}
-            {% if fp.superficie_area_mm2_mml %}<tr><td>Superfície — área</td><td>{{ fp.superficie_area_mm2_mml|br_num }} mm²/mml</td></tr>{% endif %}
-            {% if fp.superficie_perimetro_mm2_mml %}<tr><td>Superfície — perímetro</td><td>{{ fp.superficie_perimetro_mm2_mml|br_num }} mm²/mml</td></tr>{% endif %}
-            {% if fp.inercia_jx_mm4 %}<tr><td>Inércia Jx</td><td>{{ fp.inercia_jx_mm4|br_num }} mm⁴</td></tr>{% endif %}
-            {% if fp.inercia_jy_mm4 %}<tr><td>Inércia Jy</td><td>{{ fp.inercia_jy_mm4|br_num }} mm⁴</td></tr>{% endif %}
-            {% if fp.largura_ref_mm %}<tr><td>Largura de referência</td><td>{{ fp.largura_ref_mm|br_num }} mm</td></tr>{% endif %}
-            {% if fp.altura_ref_mm %}<tr><td>Altura de referência</td><td>{{ fp.altura_ref_mm|br_num }} mm</td></tr>{% endif %}
-          </table>
-          {% if fp.tem_iso %}
-          <div class="spec-render">
-            <img src="{{ base_url }}assets/img/perfis/{{ fp.imagem_isometrica }}" alt="Vista isométrica — {{ fp.codigo }}">
-            <div class="cap">VISTA ISOMÉTRICA · referência de apresentação</div>
-          </div>
-          {% endif %}
-        </div>
+  <div class="wrap perfil-corpo">
+    <div class="perfil-grade{{ '' if fp.tem_iso else ' sem-iso' }}">
+      {% if fp.tem_iso %}
+      <figure class="moldura-clara moldura-iso perfil-iso">
+        <img src="{{ base_url }}assets/img/perfis/{{ fp.imagem_isometrica }}" alt="Vista isométrica — {{ fp.codigo }}" data-zoom>
+        <figcaption>Vista isométrica · referência de apresentação</figcaption>
+      </figure>
+      {% endif %}
+      <div class="perfil-dados">
+        <h2 class="titulo-pequeno">Dados técnicos</h2>
+        {% include "partials/ficha-dados.html" %}
       </div>
     </div>
-    {% if fp.nota %}<p style="font-size:12px; color:var(--steel); margin-bottom:24px;">{{ fp.nota }}</p>{% endif %}
-    <div class="pn-used perfil-usado">
+
+    {% if fp.tem_imagem %}
+    <div class="perfil-ficha">
+      <h2 class="titulo-pequeno">Ficha técnica</h2>
+      <figure class="moldura-clara moldura-ficha">
+        <img src="{{ base_url }}assets/img/perfis/{{ fp.imagem_desenho }}" alt="Desenho técnico cotado — {{ fp.codigo }}" data-zoom>
+      </figure>
+      <a class="spec-orig" href="{{ base_url }}assets/img/perfis/{{ fp.imagem_desenho }}" target="_blank" rel="noopener">abrir em tamanho original</a>
+    </div>
+    {% endif %}
+
+    {% if fp.nota %}<p class="nota-perfil">{{ fp.nota }}</p>{% endif %}
+    <div class="perfil-usado">
       <span class="pn-label">Usado em:</span>
       {% for u in fp.usado_em %}<a href="{{ base_url }}{{ u.pagina }}">{{ u.nome }}</a>{% else %}<span>—</span>{% endfor %}
     </div>

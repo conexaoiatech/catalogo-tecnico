@@ -1,21 +1,37 @@
 {% extends "base.html" %}
 {% block content %}
-<section class="cover" id="capa">
-  <div class="cover-logo"><img src="{{ base_url }}{{ logo }}" alt="{{ logo_alt }}"></div>
-  <div class="cover-eyebrow">Documento técnico interno &nbsp;·&nbsp; <b>Solução Fechamento Inteligente</b> &nbsp;·&nbsp; Rev. 0.2 — modelo de trabalho</div>
-  <h1>Catálogo técnico de sistemas de envidraçamento</h1>
-  <p class="cover-desc">Especificação de tipologia, limites dimensionais, perfis de alumínio, montagem e usinagem para os sistemas produzidos pela Solução, sob licença Blindex®. Documento vivo — construído por seções, alimentado à medida que novos desenhos técnicos são liberados.</p>
-
-  <div class="cover-meta">
-    <div><div class="num">{{ produtos|length }}</div><div class="lbl">sistemas mapeados</div></div>
-    <div><div class="num">{{ total_perfis }}+</div><div class="lbl">perfis catalogados</div></div>
-    <div><div class="num">15</div><div class="lbl">anos de sistema</div></div>
+<section class="capa" id="capa">
+  <div class="wrap capa-hero">
+    <img class="capa-logo" src="{{ base_url }}{{ logo }}" alt="{{ logo_alt }}">
+    <span class="chip"><span class="ponto"></span>Catálogo técnico · Rev. 0.2 — modelo de trabalho</span>
+    <h1>Catálogo técnico de sistemas de envidraçamento</h1>
+    <p class="capa-lede">Especificação de tipologia, limites dimensionais, perfis de alumínio, montagem e usinagem para os sistemas produzidos pela Solução, sob licença Blindex®. Documento vivo, alimentado à medida que novos desenhos técnicos são liberados.</p>
+    <div class="capa-botoes">
+      <a class="btn-primario" href="#sistemas">Ver sistemas <span class="seta" aria-hidden="true">→</span></a>
+      <a class="btn-ghost" href="{{ base_url }}biblioteca-perfis.html">Biblioteca de perfis</a>
+    </div>
+    <div class="capa-stats">
+      <div><div class="num">{{ produtos|length }}</div><div class="lbl">sistemas mapeados</div></div>
+      <div><div class="num">{{ total_perfis }}</div><div class="lbl">perfis catalogados</div></div>
+      <div><div class="num">15</div><div class="lbl">anos de sistema</div></div>
+    </div>
   </div>
 
-  <div class="cover-index">
-    {% for p in produtos %}
-    <a href="{{ base_url }}{{ marca_slug }}/{{ p.page_slug }}.html"><span class="sw" style="background:{{ pc }};"></span>{{ p.nome }}</a>
-    {% endfor %}
+  <div class="wrap capa-sistemas" id="sistemas">
+    <div class="titulo-secao">
+      <span class="chip">Sistemas</span>
+      <h2>Escolha um sistema</h2>
+    </div>
+    <div class="cards-sistema">
+      {% for c in cards %}
+      <a class="card-sistema" href="{{ base_url }}{{ c.href }}">
+        <span class="num-sis">{{ "%02d"|format(c.ordem) }}</span>
+        <h3>{{ c.nome }}</h3>
+        {% if c.subtitulo %}<p>{{ c.subtitulo }}</p>{% endif %}
+        <span class="rodape-card"><span>{{ c.n_perfis }} {{ "perfil" if c.n_perfis == 1 else "perfis" }}</span><span class="ver">Ver sistema →</span></span>
+      </a>
+      {% endfor %}
+    </div>
   </div>
 </section>
 {% endblock %}

@@ -3,97 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080A10">
 <title>BigSpace — Catálogo Técnico Solução</title>
 <link rel="stylesheet" href="../assets/css/catalogo.css">
-
-<style>:root{ --pc:#0077B6; --tint:#E7F3FA; --brand:#0077B6; }</style>
-
+<style>:root{ --pc:#0099FF; --tint:#0A1B2E; }</style>
 </head>
-<body class="tem-trilha">
+<body>
+<a class="pular" href="#conteudo">Pular para o conteúdo</a>
 
-<div class="trilha-bar">
-  <div class="trilha-esq">
-    <a class="logo-link" href="../index.html"><img class="logo-cab" src="../assets/img/marcas/solucao.png" alt="Solução Fechamentos Inteligentes"></a>
+<header class="topo" id="topo">
+  <div class="menu-fundo" id="menu-fundo" hidden></div>
+  <div class="topo-linha wrap">
+    <a class="marca-link" href="../index.html"><img class="logo-cab" src="../assets/img/marcas/solucao_pt.png" alt="Solução Fechamento Inteligente"></a>
+    <nav class="menu" id="menu-sistemas" aria-label="Sistemas e referência">
+      <a href="../solucao/sacada.html" class="menu-item">Solução Sacadas</a><a href="../solucao/mwo.html" class="menu-item">MWO</a><a href="../solucao/bigspace.html" class="menu-item atual" aria-current="page">BigSpace</a><a href="../solucao/skinglass.html" class="menu-item">SkinGlass</a><a href="../solucao/ripado.html" class="menu-item">Ripado</a><a href="../solucao/persianas.html" class="menu-item">Persianas Integradas</a><a href="../biblioteca-perfis.html" class="menu-item">Biblioteca de perfis</a><a href="../selantes.html" class="menu-item">Selantes</a>
+    </nav>
+    <button type="button" class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="menu-sistemas" aria-label="Abrir menu"><span class="barras" aria-hidden="true"></span></button>
+  </div>
+  
+  <div class="topo-trilha wrap">
+    <a class="voltar-btn" id="voltar" href="../index.html" aria-label="Voltar para Início" title="Voltar para Início"><span aria-hidden="true">←</span> Voltar<span class="para"> para Início</span></a>
     <nav class="trilha" id="trilha" aria-label="Trilha de navegação">
       <a href="../index.html">Início</a><span class="sep" aria-hidden="true">›</span><a href="../solucao/bigspace.html" aria-current="page">BigSpace</a>
     </nav>
   </div>
-  <a class="voltar-btn" id="voltar" href="../index.html">← Voltar para Início</a>
-</div>
+  
+</header>
 
-<div class="shell">
+<div class="print-logo"><img src="../assets/img/marcas/solucao.png" alt="Solução Fechamento Inteligente"></div>
 
-  <nav class="sidebar">
-    <div class="brand-block">
-      <div class="brand-mark">SOLUÇÃO</div>
-      <div class="brand-sub">Fechamento Inteligente</div>
-      <span class="brand-tag">CATÁLOGO TÉCNICO — v0.2</span>
-      
-    </div>
-
-    <a href="../index.html" class="nav-product" style="--dot-color:#8FA3B0;"><span class="dot" style="background:#8FA3B0;"></span>Início</a>
-
-    
-    <div class="nav-group">
-      <div class="nav-group-label">Sistemas de sacada</div>
-      
-        
-        
-        <a href="../solucao/sacada.html" class="nav-product" style="--dot-color:#0077B6;"><span class="dot" style="background:#0077B6;"></span>Solução Sacadas</a>
-        
-      
-    </div>
-    
-    <div class="nav-group">
-      <div class="nav-group-label">Portas de grandes vãos</div>
-      
-        
-        
-        <a href="../solucao/mwo.html" class="nav-product" style="--dot-color:#0077B6;"><span class="dot" style="background:#0077B6;"></span>MWO</a>
-        
-      
-    </div>
-    
-    <div class="nav-group">
-      <div class="nav-group-label">Grandes vãos e pele de vidro</div>
-      
-        
-        
-        <a href="../solucao/bigspace.html" class="nav-product active" style="--dot-color:#0077B6;"><span class="dot" style="background:#0077B6;"></span>BigSpace</a>
-        
-      
-        
-        
-        <a href="../solucao/skinglass.html" class="nav-product" style="--dot-color:#0077B6;"><span class="dot" style="background:#0077B6;"></span>SkinGlass</a>
-        
-      
-    </div>
-    
-    <div class="nav-group">
-      <div class="nav-group-label">Complementares</div>
-      
-        
-        
-        <a href="../solucao/ripado.html" class="nav-product" style="--dot-color:#0077B6;"><span class="dot" style="background:#0077B6;"></span>Ripado</a>
-        
-      
-        
-        
-        <a href="../solucao/persianas.html" class="nav-product" style="--dot-color:#0077B6;"><span class="dot" style="background:#0077B6;"></span>Persianas Integradas</a>
-        
-      
-    </div>
-    
-
-    <div class="nav-group">
-      <div class="nav-group-label">Referência</div>
-      <a href="../biblioteca-perfis.html" class="nav-product" style="--dot-color:#5B6470;"><span class="dot" style="background:#5B6470;"></span>Mapa geral de perfis</a>
-      <a href="../selantes.html" class="nav-product" style="--dot-color:#C41E2A;"><span class="dot" style="background:#C41E2A;"></span>Linha de Selantes</a>
-    </div>
-  </nav>
-
-  <main class="main">
-    
+<main class="main" id="conteudo">
+  
 <section class="product" id="produto">
 
   <div class="product-hero">
@@ -171,7 +111,7 @@
     
   </div>
   
-  <div class="block" id="portas-robustas-limites" style="background:var(--paper-alt);">
+  <div class="block alt" id="portas-robustas-limites">
     <div class="block-head">
       <h3><span class="idx">2</span>Limites e dados técnicos</h3>
       <span class="status ready">dados de campo confirmados</span>
@@ -227,52 +167,56 @@
 
     
 
-<div class="spec-sheet">
-  <div class="spec-sheet-top">
+<div class="ficha-destaque">
+  <div class="ficha-destaque-top">
     <div>
       <div class="id">SS-016</div>
       <div class="name">Montante de Giro Esquerdo</div>
     </div>
-    <span class="badge" style="border-color:#6B7280; color:#5B6470;">ficha completa — perfil compartilhado</span>
-    <a class="spec-orig" href="../perfis/ss-016.html?de=portas-robustas">página do perfil →</a>
+    <span class="badge">ficha completa — perfil compartilhado</span>
+    <a class="link-seta" href="../perfis/ss-016.html?de=portas-robustas">página do perfil →</a>
   </div>
-  <div class="spec-sheet-body">
-    <div class="spec-sheet-img">
-      <img src="../assets/img/perfis/ss-016-montante_de_giro_esquerdo.jpg" alt="Desenho técnico cotado — SS-016" data-zoom>
-      <a class="spec-orig" href="../assets/img/perfis/ss-016-montante_de_giro_esquerdo.jpg" target="_blank" rel="noopener">abrir em tamanho original</a>
-    </div>
-    <div class="spec-props">
-      <table>
-        <tr><td>Peso</td><td>0,876 kg/m</td></tr>
-            
-        <tr><td>Superfície — área</td><td>323,1 mm²/mml</td></tr>
-        <tr><td>Superfície — perímetro</td><td>429,92 mm²/mml</td></tr>
-        <tr><td>Inércia Jx</td><td>87.525,16 mm⁴</td></tr>
-        <tr><td>Inércia Jy</td><td>71.528 mm⁴</td></tr>
-        <tr><td>Largura de referência</td><td>49,2 mm</td></tr>
-        <tr><td>Altura de referência</td><td>44 mm</td></tr>
-      </table>
+  <div class="ficha-destaque-corpo">
+    <div class="ficha-destaque-img">
       
-      <div class="spec-render">
-        <img src="../assets/img/perfis/ss-016-montante_de_giro_esquerdo-isometrico.jpg" alt="Vista isométrica — SS-016">
-        <div class="cap">VISTA ISOMÉTRICA · referência de apresentação</div>
-      </div>
+      <figure class="moldura-clara">
+        <img src="../assets/img/perfis/ss-016-montante_de_giro_esquerdo.jpg" alt="Desenho técnico cotado — SS-016" data-zoom>
+      </figure>
+      <a class="spec-orig" href="../assets/img/perfis/ss-016-montante_de_giro_esquerdo.jpg" target="_blank" rel="noopener">abrir em tamanho original</a>
+      
+    </div>
+    <div class="ficha-destaque-dados">
+      <table class="dados">
+  <tr><th scope="row">Peso</th><td>0,876 kg/m</td></tr>
+  
+  <tr><th scope="row">Superfície — área</th><td>323,1 mm²/mml</td></tr>
+  <tr><th scope="row">Superfície — perímetro</th><td>429,92 mm²/mml</td></tr>
+  <tr><th scope="row">Inércia Jx</th><td>87.525,16 mm⁴</td></tr>
+  <tr><th scope="row">Inércia Jy</th><td>71.528 mm⁴</td></tr>
+  <tr><th scope="row">Largura de referência</th><td>49,2 mm</td></tr>
+  <tr><th scope="row">Altura de referência</th><td>44 mm</td></tr>
+</table>
+      
+      <figure class="moldura-clara moldura-iso">
+        <img src="../assets/img/perfis/ss-016-montante_de_giro_esquerdo-isometrico.jpg" alt="Vista isométrica — SS-016" data-zoom>
+        <figcaption>Vista isométrica · referência de apresentação</figcaption>
+      </figure>
       
     </div>
   </div>
 </div>
-<p style="font-size:12px; color:var(--steel); margin-bottom:16px;">Tabela-resumo (mapa-mestre) antiga registrava 0,817 kg/m para este código; a ficha técnica individual — fonte de verdade — registra 0,876 kg/m. Divergência preservada aqui para revisão futura.</p>
+<p class="nota-perfil">Tabela-resumo (mapa-mestre) antiga registrava 0,817 kg/m para este código; a ficha técnica individual — fonte de verdade — registra 0,876 kg/m. Divergência preservada aqui para revisão futura.</p>
 
 
 
-<p style="font-size:12.5px; color:var(--steel); margin-bottom:12px;"><b>18 perfis</b></p>
+<p class="resumo-perfis"><b>18 perfis</b></p>
 
 
-<div class="profiles-grid" style="margin-bottom:24px;">
+<div class="profiles-grid">
   
   
   <a class="profile-card" href="../perfis/ss-001.html?de=portas-robustas">
-    <img class="pimg" src="../assets/img/perfis/ss-001-trilho_inferior.jpg" alt="Desenho técnico cotado — SS-001">
+    <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-001-trilho_inferior-isometrico.jpg" alt="SS-001 — Trilho Inferior" loading="lazy"></span>
     <div class="pcode">SS-001</div>
     <div class="pdesc">Trilho Inferior</div>
     <span class="pshared">compartilhado</span>
@@ -281,7 +225,7 @@
   
   
   <a class="profile-card" href="../perfis/ss-004.html?de=portas-robustas">
-    <img class="pimg" src="../assets/img/perfis/ss-004-calha_superior_de_ajuste.jpg" alt="Desenho técnico cotado — SS-004">
+    <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-004-calha_superior_de_ajuste-isometrico.jpg" alt="SS-004 — Calha Superior de Ajuste" loading="lazy"></span>
     <div class="pcode">SS-004</div>
     <div class="pdesc">Calha Superior de Ajuste</div>
     <span class="pshared">compartilhado</span>
@@ -290,7 +234,7 @@
   
   
   <a class="profile-card" href="../perfis/ss-005.html?de=portas-robustas">
-    <img class="pimg" src="../assets/img/perfis/ss-005-calha_de_ajuste.jpg" alt="Desenho técnico cotado — SS-005">
+    <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-005-calha_de_ajuste-isometrico.jpg" alt="SS-005 — Calha de Ajuste" loading="lazy"></span>
     <div class="pcode">SS-005</div>
     <div class="pdesc">Calha de Ajuste</div>
     <span class="pshared">compartilhado</span>
@@ -299,7 +243,7 @@
   
   
   <a class="profile-card" href="../perfis/ss-006.html?de=portas-robustas">
-    <img class="pimg" src="../assets/img/perfis/ss-006-capa_de_acabamento.jpg" alt="Desenho técnico cotado — SS-006">
+    <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-006-capa_de_acabamento-isometrico.jpg" alt="SS-006 — Capa de Acabamento" loading="lazy"></span>
     <div class="pcode">SS-006</div>
     <div class="pdesc">Capa de Acabamento</div>
     <span class="pshared">compartilhado</span>
@@ -308,7 +252,7 @@
   
   
   <a class="profile-card" href="../perfis/ss-007.html?de=portas-robustas">
-    <img class="pimg" src="../assets/img/perfis/ss-007-capa_de_acabamento.jpg" alt="Desenho técnico cotado — SS-007">
+    <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-007-capa_de_acabamento-isometrico.jpg" alt="SS-007 — Capa de Acabamento" loading="lazy"></span>
     <div class="pcode">SS-007</div>
     <div class="pdesc">Capa de Acabamento</div>
     <span class="pshared">compartilhado</span>
@@ -317,7 +261,7 @@
   
   
   <a class="profile-card" href="../perfis/ss-008.html?de=portas-robustas">
-    <img class="pimg" src="../assets/img/perfis/ss-008-calha_de_ajuste.jpg" alt="Desenho técnico cotado — SS-008">
+    <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-008-calha_de_ajuste-isometrico.jpg" alt="SS-008 — Calha de Ajuste" loading="lazy"></span>
     <div class="pcode">SS-008</div>
     <div class="pdesc">Calha de Ajuste</div>
     <span class="pshared">compartilhado</span>
@@ -326,7 +270,7 @@
   
   
   <a class="profile-card" href="../perfis/ss-009.html?de=portas-robustas">
-    <img class="pimg" src="../assets/img/perfis/ss-009-prolongador.jpg" alt="Desenho técnico cotado — SS-009">
+    <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-009-prolongador-isometrico.jpg" alt="SS-009 — Prolongador" loading="lazy"></span>
     <div class="pcode">SS-009</div>
     <div class="pdesc">Prolongador</div>
     <span class="pshared">compartilhado</span>
@@ -335,7 +279,7 @@
   
   
   <a class="profile-card" href="../perfis/ss-014.html?de=portas-robustas">
-    <img class="pimg" src="../assets/img/perfis/ss-014-capa_de_uniao.jpg" alt="Desenho técnico cotado — SS-014">
+    <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-014-capa_de_uniao-isometrico.jpg" alt="SS-014 — Capa de União" loading="lazy"></span>
     <div class="pcode">SS-014</div>
     <div class="pdesc">Capa de União</div>
     <span class="pshared">compartilhado</span>
@@ -344,7 +288,7 @@
   
   
   <a class="profile-card" href="../perfis/ss-016.html?de=portas-robustas">
-    <img class="pimg" src="../assets/img/perfis/ss-016-montante_de_giro_esquerdo.jpg" alt="Desenho técnico cotado — SS-016">
+    <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-016-montante_de_giro_esquerdo-isometrico.jpg" alt="SS-016 — Montante de Giro Esquerdo" loading="lazy"></span>
     <div class="pcode">SS-016</div>
     <div class="pdesc">Montante de Giro Esquerdo</div>
     <span class="pshared">compartilhado</span>
@@ -353,7 +297,7 @@
   
   
   <a class="profile-card" href="../perfis/ss-017.html?de=portas-robustas">
-    <img class="pimg" src="../assets/img/perfis/ss-017-montante_de_giro_direito.jpg" alt="Desenho técnico cotado — SS-017">
+    <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-017-montante_de_giro_direito-isometrico.jpg" alt="SS-017 — Montante de Giro Direito" loading="lazy"></span>
     <div class="pcode">SS-017</div>
     <div class="pdesc">Montante de Giro Direito</div>
     <span class="pshared">compartilhado</span>
@@ -362,7 +306,7 @@
   
   
   <a class="profile-card" href="../perfis/ss-024.html?de=portas-robustas">
-    <img class="pimg" src="../assets/img/perfis/ss-024-montante_do_quadro.jpg" alt="Desenho técnico cotado — SS-024">
+    <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-024-montante_do_quadro-isometrico.jpg" alt="SS-024 — Montante do Quadro" loading="lazy"></span>
     <div class="pcode">SS-024</div>
     <div class="pdesc">Montante do Quadro</div>
     <span class="pshared">compartilhado</span>
@@ -371,7 +315,7 @@
   
   
   <a class="profile-card" href="../perfis/ss-025.html?de=portas-robustas">
-    <img class="pimg" src="../assets/img/perfis/ss-025-arremate_e_encaixe_vedacao.jpg" alt="Desenho técnico cotado — SS-025">
+    <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-025-arremate_e_encaixe_vedacao-isometrico.jpg" alt="SS-025 — Arremate e Encaixe Vedação" loading="lazy"></span>
     <div class="pcode">SS-025</div>
     <div class="pdesc">Arremate e Encaixe Vedação</div>
     <span class="pshared">compartilhado</span>
@@ -380,7 +324,7 @@
   
   
   <a class="profile-card" href="../perfis/ss-026.html?de=portas-robustas">
-    <img class="pimg" src="../assets/img/perfis/ss-026-encaixe_vedacao.jpg" alt="Desenho técnico cotado — SS-026">
+    <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/ss-026-encaixe_vedacao-isometrico.jpg" alt="SS-026 — Encaixe Vedação" loading="lazy"></span>
     <div class="pcode">SS-026</div>
     <div class="pdesc">Encaixe Vedação</div>
     <span class="pshared">compartilhado</span>
@@ -389,7 +333,7 @@
   
   
   <a class="profile-card" href="../perfis/lt-077.html?de=portas-robustas">
-    <img class="pimg" src="../assets/img/perfis/lt-077-cantoneira_acab_lateral.jpg" alt="Desenho técnico cotado — LT-077">
+    <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/lt-077-cantoneira_acab_lateral-isometrico.jpg" alt="LT-077 — Cantoneira Acab. Lateral" loading="lazy"></span>
     <div class="pcode">LT-077</div>
     <div class="pdesc">Cantoneira Acab. Lateral</div>
     <span class="pshared">compartilhado</span>
@@ -398,7 +342,7 @@
   
   
   <a class="profile-card" href="../perfis/f98.html?de=portas-robustas">
-    <img class="pimg" src="../assets/img/perfis/f98-trilho_superior_e_inferior.jpg" alt="Desenho técnico cotado — F98">
+    <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/f98-trilho_superior_e_inferior-isometrico.jpg" alt="F98 — Trilho Superior e Inferior" loading="lazy"></span>
     <div class="pcode">F98</div>
     <div class="pdesc">Trilho Superior e Inferior</div>
     <span class="pshared">compartilhado</span>
@@ -407,7 +351,7 @@
   
   
   <a class="profile-card" href="../perfis/dsl-001.html?de=portas-robustas">
-    <img class="pimg" src="../assets/img/perfis/dsl-001-polimero_deslizante_retangular.jpg" alt="Desenho técnico cotado — DSL-001">
+    <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/dsl-001-polimero_deslizante_retangular-isometrico.jpg" alt="DSL-001 — Polímero deslizante retangular" loading="lazy"></span>
     <div class="pcode">DSL-001</div>
     <div class="pdesc">Polímero deslizante retangular</div>
     <span class="pshared">compartilhado</span>
@@ -416,7 +360,7 @@
   
   
   <a class="profile-card" href="../perfis/dsl-002.html?de=portas-robustas">
-    <img class="pimg" src="../assets/img/perfis/dsl-002-polimero_deslizante_1_rampa.jpg" alt="Desenho técnico cotado — DSL-002">
+    <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/dsl-002-polimero_deslizante_1_rampa-isometrico.jpg" alt="DSL-002 — Polímero deslizante 1 rampa" loading="lazy"></span>
     <div class="pcode">DSL-002</div>
     <div class="pdesc">Polímero deslizante 1 rampa</div>
     <span class="pshared">compartilhado</span>
@@ -425,7 +369,7 @@
   
   
   <a class="profile-card" href="../perfis/dsl-003.html?de=portas-robustas">
-    <img class="pimg" src="../assets/img/perfis/dsl-003-polimero_deslizante_2_rampa.jpg" alt="Desenho técnico cotado — DSL-003">
+    <span class="pimg-wrap"><img class="pimg" src="../assets/img/perfis-thumb/dsl-003-polimero_deslizante_2_rampa-isometrico.jpg" alt="DSL-003 — Polímero deslizante 2 rampa" loading="lazy"></span>
     <div class="pcode">DSL-003</div>
     <div class="pdesc">Polímero deslizante 2 rampa</div>
     <span class="pshared">compartilhado</span>
@@ -437,7 +381,7 @@
     
   </div>
   
-  <div class="block" id="portas-robustas-montagem" style="background:var(--paper-alt);">
+  <div class="block alt" id="portas-robustas-montagem">
     <div class="block-head">
       <h3><span class="idx">4</span>Detalhe de montagem</h3>
       <span class="status pending">a preencher</span>
@@ -471,13 +415,15 @@
 </section>
 
 
-    <footer class="doc-footer">
+  <footer class="doc-footer">
+    <div class="wrap">
       <div class="fbrand">SOLUÇÃO · FECHAMENTO INTELIGENTE</div>
       <p class="fmeta">Empresa licenciada Blindex® para soluções de envidraçamento de sacadas, grandes vãos e pele de vidro. Sistemas homologados pelo Instituto Falcão Bauer, certificação ISO 9001 e ABNT.</p>
       <p class="fcontact">(48) 3241-0555 · (48) 99207-2442 · solucaosacadas.com.br</p>
-    </footer>
-  </main>
-</div>
+    </div>
+  </footer>
+</main>
+
 <script src="../assets/js/nav.js"></script>
 <script src="../assets/js/lightbox.js"></script>
 <script src="../assets/js/filtro.js"></script>

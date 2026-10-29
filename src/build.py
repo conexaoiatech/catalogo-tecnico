@@ -6,11 +6,14 @@ preservando hist/, ESTADO_SESSAO.md, PLANO.md e ROTEIRO.md.
 Uso: python src/build.py   (executar a partir da raiz do repositório)
 """
 import csv
+import io
 import os
 import re
 import shutil
 import sys
 import yaml
+import numpy as np
+from PIL import Image
 from jinja2 import Environment, FileSystemLoader
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -135,6 +138,8 @@ def anota_perfis(perfis, img_dir=IMG_PERFIS):
         p["completo"] = not p["faltando"]
         p["tem_imagem"] = bool(p.get("imagem_desenho")) and p["imagem_desenho"] in arquivos
         p["tem_iso"] = bool(p.get("imagem_isometrica")) and p["imagem_isometrica"] in arquivos
+        origem = p["imagem_isometrica"] if p["tem_iso"] else (p["imagem_desenho"] if p["tem_imagem"] else None)
+        p["thumb"] = ("assets/img/perfis-thumb/" + origem) if origem else None
         if not p["tem_imagem"]:
             print(f"AVISO: {p.get('codigo', codigo)} sem imagem de desenho existente em {img_dir}")
         if p["faltando"]:
@@ -221,8 +226,9 @@ def valida_marcas(marcas):
         if not marcas[slug].get("publicada"):
             raise SystemExit(f"Build interrompido: marca '{slug}' esta em MARCAS_ATIVAS mas nao esta publicada em marcas.yaml.")
     for slug, m in marcas.items():
-        if m.get("publicada") and not os.path.isfile(os.path.join(SRC, m["logo"])):
-            raise SystemExit(f"Build interrompido: logo da marca '{slug}' nao encontrado em src/{m['logo']}.")
+        for campo in ("logo", "logo_claro"):
+            if m.get("publicada") and not os.path.isfile(os.path.join(SRC, m.get(campo, ""))):
+                raise SystemExit(f"Build interrompido: {campo} da marca '{slug}' nao encontrado em src/{m.get(campo)}.")
         if not os.path.isfile(os.path.join(SRC, m["logo"])):
             print(f"AVISO: logo da marca nao publicada '{slug}' ausente em src/{m['logo']}")
 
@@ -235,6 +241,81 @@ def _ignora_pasta_vazia_em_uso(func, caminho, exc_info):
         print(f"AVISO: pasta em uso por outro programa, mantida sem arquivos: {os.path.relpath(caminho, ROOT)}")
         return
     raise exc_info[1]
+
+
+def recorta_ficha(im):
+    """Corta as margens brancas da ficha (e a moldura fina da folha), com um respiro pequeno."""
+    im = im.convert("RGB")
+    g = np.asarray(im.convert("L"))
+    alto, larg = g.shape
+    escuro = g < 215
+    linhas = np.where(escuro.sum(axis=1) > 0.85 * larg)[0]
+    colunas = np.where(escuro.sum(axis=0) > 0.55 * alto)[0]
+    x0, y0, x1, y1 = 0, 0, larg, alto
+    if len(linhas) >= 2 and len(colunas) >= 2 and linhas.max() - linhas.min() > 0.3 * alto:
+        x0, x1 = int(colunas.min()) + 5, int(colunas.max()) - 4
+        y0, y1 = int(linhas.min()) + 5, int(linhas.max()) - 4
+    miolo = g[y0:y1, x0:x1] < 235
+    ys, xs = np.where(miolo)
+    if len(xs) == 0:
+        return im
+    pad = max(24, larg // 60)
+    cx0, cx1 = max(x0, x0 + int(xs.min()) - pad), min(x1, x0 + int(xs.max()) + pad)
+    cy0, cy1 = max(y0, y0 + int(ys.min()) - pad), min(y1, y0 + int(ys.max()) + pad)
+    if cx1 - cx0 < 100 or cy1 - cy0 < 100:
+        return im
+    return im.crop((cx0, cy0, cx1, cy1))
+
+
+def gera_imagens(perfis):
+    """Em docs/: fichas recortadas (mesmo nome do src) e miniaturas isometricas em
+    assets/img/perfis-thumb/. Os originais em src nao sao alterados."""
+    pasta = os.path.join(DOCS, "assets", "img", "perfis")
+    thumbs = os.path.join(DOCS, "assets", "img", "perfis-thumb")
+    os.makedirs(thumbs, exist_ok=True)
+    n_ficha = n_thumb = 0
+    for p in perfis.values():
+        if p.get("tem_imagem"):
+            with Image.open(os.path.join(IMG_PERFIS, p["imagem_desenho"])) as im:
+                recorta_ficha(im).save(os.path.join(pasta, p["imagem_desenho"]), "JPEG", quality=88, optimize=True)
+            n_ficha += 1
+        origem = p["imagem_isometrica"] if p.get("tem_iso") else (p["imagem_desenho"] if p.get("tem_imagem") else None)
+        if origem:
+            with Image.open(os.path.join(IMG_PERFIS, origem)) as im:
+                im = recorta_ficha(im) if origem == p.get("imagem_desenho") else im.convert("RGB")
+                im.thumbnail((520, 520), Image.LANCZOS)
+                im.save(os.path.join(thumbs, origem), "JPEG", quality=82, optimize=True)
+            n_thumb += 1
+    print(f"Imagens: {n_ficha} fichas recortadas e {n_thumb} miniaturas em docs/.")
+
+
+def gera_logo(origem, destino, largura=640, tirar_fundo_preto=False):
+    """Copia otimizada do logo (largura maxima 640, PNG). Com tirar_fundo_preto, o preto vira
+    transparencia (alpha = brilho, cor desmisturada), para o logo assentar em qualquer fundo escuro."""
+    with Image.open(origem) as im:
+        im = im.convert("RGBA")
+        if im.width > largura:
+            im = im.resize((largura, round(im.height * largura / im.width)), Image.LANCZOS)
+        if tirar_fundo_preto:
+            a = np.asarray(im).astype("float32")
+            alfa = a[..., :3].max(axis=2) / 255.0
+            alfa[alfa < 0.03] = 0
+            for c in range(3):
+                a[..., c] = np.where(alfa > 0, np.clip(a[..., c] / np.maximum(alfa, 1e-6), 0, 255), 0)
+            a[..., 3] = alfa * 255
+            im = Image.fromarray(a.astype("uint8"), "RGBA")
+        os.makedirs(os.path.dirname(destino), exist_ok=True)
+        im.save(destino, "PNG", optimize=True)
+    return os.path.getsize(destino)
+
+
+def gera_logos(marcas):
+    for slug, m in marcas.items():
+        if not m.get("publicada"):
+            continue
+        t = gera_logo(os.path.join(SRC, m["logo"]), os.path.join(DOCS, m["logo"]), tirar_fundo_preto=True)
+        c = gera_logo(os.path.join(SRC, m["logo_claro"]), os.path.join(DOCS, m["logo_claro"]))
+        print(f"Logos da marca {slug}: {m['logo']} {t/1024:.1f} KB (fundo escuro), {m['logo_claro']} {c/1024:.1f} KB (impressao).")
 
 
 def limpa_docs():
@@ -319,6 +400,19 @@ def main():
     for slug, cat in sorted(categorias.items(), key=lambda kv: kv[1]["ordem"]):
         nav_groups.setdefault(cat["nav_group"], []).append(cat)
 
+    def menu_da_marca(marca_slug, base_url, current_page):
+        """Itens do menu do cabecalho: sistemas da marca (ordem das categorias), biblioteca e selantes."""
+        itens = []
+        for cat_slug, cat in sorted(categorias.items(), key=lambda kv: kv[1]["ordem"]):
+            produto = marcas[marca_slug]["produtos"].get(cat_slug)
+            if produto:
+                rel = f"{marca_slug}/{produto['page_slug']}.html"
+                itens.append(dict(nome=produto["nome"], href=base_url + rel, atual=(current_page == rel)))
+        itens.append(dict(nome="Biblioteca de perfis", href=base_url + "biblioteca-perfis.html",
+                          atual=(current_page == "biblioteca-perfis.html" or str(current_page).startswith("perfis/"))))
+        itens.append(dict(nome="Selantes", href=base_url + "selantes.html", atual=(current_page == "selantes.html")))
+        return itens
+
     def base_ctx(base_url, marca_slug, current_page):
         marca = marcas.get(marca_slug) if marca_slug else None
         return dict(
@@ -327,12 +421,15 @@ def main():
             marcas=marcas,
             marcas_ativas=MARCAS_ATIVAS,
             sidebar_marca=marca,
-            pc=marca["color"] if marca else "#5B6470",
-            tint=marca["tint"] if marca else "#F1F0EC",
+            pc=(marca or marcas[MARCAS_ATIVAS[0]])["color"],
+            tint=(marca or marcas[MARCAS_ATIVAS[0]])["tint"],
             nav_groups=nav_groups,
             current_page=current_page,
             logo=marcas[marca_slug or MARCAS_ATIVAS[0]]["logo"],
+            logo_claro=marcas[marca_slug or MARCAS_ATIVAS[0]]["logo_claro"],
             logo_alt=marcas[marca_slug or MARCAS_ATIVAS[0]]["logo_alt"],
+            menu=menu_da_marca(marca_slug or MARCAS_ATIVAS[0], base_url, current_page),
+            inicio_href=base_url + "index.html",
         )
 
     def render(template_name, out_path, **ctx):
@@ -357,8 +454,16 @@ def main():
                 produtos_da_marca.append(produto)
 
         ctx = base_ctx(base_url, marca_slug, current_page)
-        ctx.update(page_title=f"Capa {marca['label']}", produtos=produtos_da_marca,
-                    total_perfis=len(perfis))
+        cards = []
+        for cat_slug, cat in sorted(categorias.items(), key=lambda kv: kv[1]["ordem"]):
+            produto = marca["produtos"].get(cat_slug)
+            if produto:
+                n = sum(len(g.get("codigos", [])) for b in cat.get("blocks", []) if b.get("tipo") == "profiles"
+                        for g in b.get("grupos", []))
+                cards.append(dict(nome=produto["nome"], subtitulo=produto.get("subtitulo", ""),
+                                  href=f"{marca_slug}/{produto['page_slug']}.html", n_perfis=n, ordem=len(cards) + 1))
+        ctx.update(page_title=f"Capa {marca['label']}", produtos=produtos_da_marca, cards=cards,
+                   total_perfis=len(perfis))
         render("index.html", capa_path, **ctx)
 
         for cat_slug, cat in categorias.items():
@@ -425,14 +530,17 @@ def main():
     ctx = base_ctx("", None, "selantes.html")
     ini = inicio("")
     ctx.update(trilha=[ini, dict(label="Linha de Selantes", href="selantes.html")], voltar=ini,
-               page_title="Linha de Selantes", selantes=selantes, pc="#C41E2A", tint="#FBE9EA")
+               page_title="Linha de Selantes", selantes=selantes)
     render("selantes.html", "selantes.html", **ctx)
 
     # ---- assets ----
     # logos de marcas nao publicadas ficam so na fonte (nao vao para docs/)
     nao_publicados = {os.path.normpath(os.path.join(SRC, m["logo"])) for m in marcas.values() if not m.get("publicada")}
     shutil.copytree(os.path.join(SRC, "assets"), os.path.join(DOCS, "assets"), dirs_exist_ok=True,
-                    ignore=lambda d, nomes: [n for n in nomes if n in IGNORAR_ARQUIVOS or os.path.normpath(os.path.join(d, n)) in nao_publicados])
+                    ignore=lambda d, nomes: list(nomes) if os.path.basename(d) == "marcas" else
+                    [n for n in nomes if n in IGNORAR_ARQUIVOS or os.path.normpath(os.path.join(d, n)) in nao_publicados])
+    gera_logos(marcas)
+    gera_imagens(perfis)
 
     print(f"Build concluído. Marcas publicadas: {MARCAS_ATIVAS}. Perfis: {len(perfis)}. Categorias: {len(categorias)}.")
 

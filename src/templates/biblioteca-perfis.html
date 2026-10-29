@@ -13,12 +13,12 @@
       <h3><span class="idx">1</span>Relação de peças — desenho mestre</h3>
       <span class="block-note">Fonte: {{ biblioteca.fonte_desenho_mestre }}</span>
     </div>
-    <div class="master-map">
-      <img src="{{ base_url }}assets/img/biblioteca/{{ biblioteca.imagem }}" alt="Relação de peças — desenho mestre">
+    <div class="master-map moldura-clara">
+      <img src="{{ base_url }}assets/img/biblioteca/{{ biblioteca.imagem }}" alt="Relação de peças — desenho mestre" data-zoom>
     </div>
   </div>
 
-  <div class="block" id="bib-index" style="background:var(--paper-alt);">
+  <div class="block alt" id="bib-index">
     <div class="block-head">
       <h3><span class="idx">2</span>Índice de compartilhamento entre produtos</h3>
     </div>
@@ -51,7 +51,7 @@
     <div class="profiles-grid" id="bib-grid">
       {% for fp in perfis_ordenados %}
       <a class="profile-card" id="{{ fp.codigo }}" href="{{ base_url }}{{ fp.pagina }}" data-cats="{{ fp.categorias|join(' ') }}" data-busca="{{ (fp.codigo ~ ' ' ~ (fp.descricao or ''))|lower }}">
-        {% if fp.tem_imagem %}<img class="pimg" src="{{ base_url }}assets/img/perfis/{{ fp.imagem_desenho }}" alt="Desenho técnico cotado — {{ fp.codigo }}">{% endif %}
+        {% if fp.thumb %}<span class="pimg-wrap"><img class="pimg" src="{{ base_url }}{{ fp.thumb }}" alt="{{ fp.codigo }} — {{ fp.descricao }}" loading="lazy"></span>{% endif %}
         <div class="pcode">{{ fp.codigo }}</div>
         {% if fp.descricao %}<div class="pdesc">{{ fp.descricao }}</div>{% endif %}
         {% if fp.categorias|length > 1 %}<span class="pshared">compartilhado</span>{% endif %}
