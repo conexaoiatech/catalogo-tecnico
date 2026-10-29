@@ -16,3 +16,16 @@ Thumbs.db
 
 # Log de plotagem do CAD
 plot.log
+
+# Extensoes de CAD nunca entram no repo
+*.dwg
+*.DWG
+*.dxf
+*.DXF
+*.sldprt
+*.SLDPRT
+*.sldasm
+*.bak
+*.plt
+*.step
+*.stp
