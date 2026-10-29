@@ -57,7 +57,6 @@ blindex:
     sacada:
       nome: "Blindex Sacadas"
       page_slug: sacadas
-      nota: "Também referido como Solução Sacadas nos materiais comerciais anteriores."
     portas-minimalistas:
       nome: "Unique"
       page_slug: unique
