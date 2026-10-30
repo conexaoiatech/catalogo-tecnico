@@ -221,8 +221,8 @@ def gerar(saida_dir=os.path.join(DOCS, "pdf")):
 
 
 def gerar_relacao(marca_slug, marca, rev, pagina_html, saida_dir=os.path.join(DOCS, "pdf")):
-    """PDF da relação de peças da marca, A4 paisagem: imprime a página docs/<marca>/relacao-pecas.html (já gerada
-    pelo build, com o CSS de impressão: 2 perfis por página) com o cabeçalho e o rodapé do fabricante dos PDFs por sistema."""
+    """PDF da relação de peças da marca, A4 retrato: imprime a página docs/<marca>/relacao-pecas.html (já gerada
+    pelo build, com o CSS de impressão: 3 perfis por página) com o cabeçalho e o rodapé do fabricante dos PDFs por sistema."""
     from pypdf import PdfWriter
     env = Environment(loader=FileSystemLoader(os.path.join(SRC, "templates", "pdf")), autoescape=True)
     logo = _b64(Image.open(os.path.join(SRC, marca["logo_claro"])), lado=600)
@@ -231,7 +231,7 @@ def gerar_relacao(marca_slug, marca, rev, pagina_html, saida_dir=os.path.join(DO
     destino = os.path.join(saida_dir, marca_slug, "relacao-pecas.pdf")
     os.makedirs(os.path.dirname(destino), exist_ok=True)
     bruto = destino + ".tmp"
-    _pdf(None, bruto, cab=cab, rod=rod, url="file:///" + pagina_html.replace("\\", "/"), paisagem=True)
+    _pdf(None, bruto, cab=cab, rod=rod, url="file:///" + pagina_html.replace("\\", "/"))
     w = PdfWriter()
     w.append(bruto)
     w.add_metadata({"/Title": f"Relação de peças — {marca['label']}", "/Author": FABRICANTE})

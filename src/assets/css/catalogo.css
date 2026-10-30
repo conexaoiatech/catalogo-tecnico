@@ -541,36 +541,42 @@ body.lb-open{overflow:hidden;}
   .rel-filtros{flex-wrap:nowrap; overflow-x:auto;} .rel-filtro{white-space:nowrap;}
 }
 
-/* A4 paisagem, 2 perfis por pagina; o PDF usa esta mesma folha (src/build_pdf.py gerar_relacao) */
+/* A4 retrato, 3 perfis por pagina (JS/Playwright usa as margens de 14 mm: folha util 182 x 262 mm); o PDF usa esta mesma folha
+   (src/build_pdf.py gerar_relacao). A folha util de 182 mm cai nas regras max-width:700/1100px, por isso o reset abaixo. */
 @media print{
-  @page{size:A4 landscape; margin:14mm;}
+  @page{size:A4 portrait; margin:14mm;}
   body:has(.rel) .print-logo, body:has(.rel) .doc-footer, .rel-filtros, .rel-pdf, .rel-cab{display:none !important;}
   .rel{padding:0;}
   .rel-linhas{display:block; padding:0;}
-  .rel-linha{break-inside:avoid; border:0.3mm solid #888 !important; border-radius:2mm; margin-bottom:5mm; height:78mm; display:flex; flex-direction:column;}
-  .rel-linha:nth-child(2n+1):not(:first-child){break-before:page;}
-  .rel .rel-linha .rel-faixa{background:#05070C !important; padding:3mm 5mm; gap:2mm 8mm; flex:none;}
+  .rel-linha{break-inside:avoid; border:0.3mm solid #888 !important; border-radius:1.5mm; margin-bottom:4mm; height:82mm; display:flex; flex-direction:column;}
+  .rel-linha:nth-child(3n+1):not(:first-child){break-before:page;}
+  .rel .rel-linha .rel-faixa{background:#05070C !important; padding:2mm 3.5mm; gap:1mm 3mm; flex:none; flex-wrap:nowrap; align-items:flex-start;}
   .rel .rel-linha .rel-faixa *{color:#F2F4F8 !important;}
-  .rel .rel-linha .rel-faixa .rel-cod{color:#00E5FF !important; font-size:20pt;}
-  .rel .rel-linha .rel-faixa .rel-rev{color:#00E5FF !important; border:0.3mm solid #00E5FF !important; font-size:7pt; padding:0 1.5mm;}
-  .rel .rel-linha .rel-faixa .rel-sep{font-size:16pt;}
-  .rel .rel-linha .rel-faixa .rel-nome{font-size:13pt;}
-  .rel .rel-linha .rel-faixa .rel-sub{font-size:6.5pt; margin-top:1.2mm; color:#9AA3B5 !important;}
-  .rel .rel-linha .rel-faixa .rel-compat-rot{font-size:5.5pt; color:#9AA3B5 !important;}
-  .rel .rel-linha .rel-faixa .rel-pilula{font-size:6.5pt; padding:0.6mm 2.4mm; background:rgba(61,90,254,0.25) !important; border:0.2mm solid #5A74FF !important;}
-  .rel .rel-linha .rel-faixa .rel-logo{height:9mm;}
-  .rel-corpo{flex:1; min-height:0; padding:3mm 5mm 4mm; gap:4mm; grid-template-columns:minmax(0,1fr) minmax(0,1.25fr) minmax(0,1fr);}
-  .rel-dados-painel{grid-column:auto;}  /* a folha de 269 mm cai na regra max-width:1100px; na impressao as 3 colunas ficam */
-  .rel .rel-linha .rel-iso{background:#F4F6F9 !important; min-height:0; padding:2mm; gap:1.5mm; border:0.2mm solid #ccc;}
-  .rel .rel-linha .rel-iso img{max-height:40mm;}
-  .rel .rel-linha .rel-iso figcaption, .rel .rel-linha .rel-sem{font-size:6pt; color:#5B6573 !important;}
+  .rel-faixa-esq{flex:1 1 auto; min-width:0;}
+  .rel-tit{gap:0 2.5mm; flex-wrap:nowrap; align-items:baseline;}
+  .rel .rel-linha .rel-faixa .rel-cod{color:#00E5FF !important; font-size:17pt;}
+  .rel .rel-linha .rel-faixa .rel-rev{color:#00E5FF !important; border:0.3mm solid #00E5FF !important; font-size:7pt; padding:0 1.2mm;}
+  .rel .rel-linha .rel-faixa .rel-sep{font-size:13pt;}
+  .rel .rel-linha .rel-faixa .rel-nome{font-size:11pt;}
+  .rel .rel-linha .rel-faixa .rel-sub{font-size:7pt; letter-spacing:.08em; margin-top:1mm; color:#9AA3B5 !important;}
+  .rel .rel-linha .rel-faixa-dir{flex:0 0 auto; width:auto; max-width:50%; gap:2.5mm; justify-content:flex-end; align-items:flex-start;}
+  .rel .rel-linha .rel-faixa .rel-compat{align-items:flex-end; gap:1mm;}
+  .rel .rel-linha .rel-faixa .rel-compat-rot{font-size:7pt; letter-spacing:.1em; color:#9AA3B5 !important;}
+  .rel .rel-linha .rel-faixa .rel-pilulas{justify-content:flex-end; gap:1mm;}
+  .rel .rel-linha .rel-faixa .rel-pilula{font-size:7pt; padding:0.3mm 1.8mm; background:rgba(61,90,254,0.25) !important; border:0.2mm solid #5A74FF !important;}
+  .rel .rel-linha .rel-faixa .rel-logo{height:6mm; max-width:26mm;}
+  .rel-corpo{flex:1; min-height:0; padding:2mm 3.5mm 2.5mm; gap:2.5mm; grid-template-columns:minmax(0,0.85fr) minmax(0,1.25fr) minmax(0,1fr);}
+  .rel-dados-painel{grid-column:auto;}
+  .rel .rel-linha .rel-iso{background:#F4F6F9 !important; min-height:0; padding:1.5mm; gap:1mm; border:0.2mm solid #ccc; overflow:hidden;}
+  .rel .rel-linha .rel-iso img{width:100%; max-height:44mm;}
+  .rel .rel-linha .rel-iso figcaption, .rel .rel-linha .rel-sem{font-size:7pt; line-height:1.2; color:#5B6573 !important;}
   .rel .rel-linha .rel-painel{background:#fff !important; border:0.25mm solid #999; min-height:0;}
-  .rel .rel-linha .rel-painel-cab{padding:1.4mm 3mm; font-size:6pt; background:#EEF1F5 !important; border-bottom:0.25mm solid #999;}
+  .rel .rel-linha .rel-painel-cab{padding:1mm 2.5mm; font-size:7pt; letter-spacing:.1em; background:#EEF1F5 !important; border-bottom:0.25mm solid #999;}
   .rel .rel-linha .rel-painel-cod{font-size:8pt; color:#000 !important;}
-  .rel .rel-linha .rel-desenho-img{background:#fff !important; min-height:0; padding:1.5mm;}
-  .rel .rel-linha .rel-desenho-img img{max-height:41mm;}
+  .rel .rel-linha .rel-desenho-img{background:#fff !important; min-height:0; padding:0; position:relative;}
+  .rel .rel-linha .rel-desenho-img img{position:absolute; inset:1.5mm; width:calc(100% - 3mm); height:calc(100% - 3mm); max-height:none; object-fit:contain;}
   .rel-dados{padding:0;}
-  .rel-dados li{padding:1.1mm 3mm; gap:2mm; font-size:7pt; grid-template-columns:4mm minmax(0,1fr) auto; border-bottom:0.2mm solid #ccc;}
+  .rel-dados li{padding:0.8mm 2.5mm; gap:1.5mm; font-size:7pt; line-height:1.2; grid-template-columns:3.6mm minmax(0,1fr) auto; border-bottom:0.2mm solid #ccc;}
   .rel .rel-linha .rel-ico{color:#0A5FA8 !important; width:3.4mm; height:3.4mm;}
   .rel .rel-linha .rel-rot{color:#333 !important;}
   .rel .rel-linha .rel-val{color:#000 !important; -webkit-text-fill-color:#000;}
