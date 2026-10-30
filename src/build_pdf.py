@@ -53,7 +53,13 @@ def _num(v, casas=2):
 
 
 def recorta_desenho(path):
-    """A ficha CAD traz a tabela no topo: devolve só o desenho cotado (abaixo da tabela, sem o quadro)."""
+    """Desenho cotado da ficha (ver recorta_desenho_img) como data URI PNG."""
+    return _b64(recorta_desenho_img(path))
+
+
+def recorta_desenho_img(path):
+    """A ficha CAD traz a tabela no topo: devolve (PIL, tons de cinza) só o desenho cotado
+    (abaixo da tabela, sem o quadro). Usado no PDF por sistema e na relação de peças."""
     im = Image.open(path).convert("L")
     g = np.array(im)
     a0 = g < 200
@@ -63,7 +69,7 @@ def recorta_desenho(path):
     a[:, a.sum(0) > .6 * h] = False          # laterais do quadro
     linhas = np.where(a.any(1))[0]
     if not len(linhas):
-        return _b64(im)
+        return im
     faixas, gap = [[linhas[0], linhas[0]]], .03 * h
     for y in linhas[1:]:
         if y - faixas[-1][1] > gap:
@@ -80,9 +86,9 @@ def recorta_desenho(path):
     corpo = a[ini:]
     ys, xs = np.where(corpo)
     if not len(ys):
-        return _b64(im)
+        return im
     out = g[ini:][ys.min():ys.max() + 1, xs.min():xs.max() + 1]
-    return _b64(ImageOps.expand(Image.fromarray(out), border=20, fill=255))
+    return ImageOps.expand(Image.fromarray(out), border=20, fill=255)
 
 
 def _iso(path):
@@ -120,16 +126,21 @@ def _ficha(p, produtos_marca):
     )
 
 
-def _pdf(html, path, cab=None, rod=None):
+def _pdf(html, path, cab=None, rod=None, url=None, margem_topo="20mm"):
+    """PDF A4 pelo Chromium. Com url, carrega a página já gerada em docs/ (file://); senão usa o html."""
     from playwright.sync_api import sync_playwright
     with sync_playwright() as pw:
         br = pw.chromium.launch()
         pg = br.new_page()
-        pg.set_content(html, wait_until="networkidle")
+        if url:
+            pg.goto(url, wait_until="load")
+            pg.wait_for_timeout(300)
+        else:
+            pg.set_content(html, wait_until="networkidle")
         kw = dict(path=path, format="A4", print_background=True)
         if cab:
             kw.update(display_header_footer=True, header_template=cab, footer_template=rod,
-                      margin={"top": "20mm", "bottom": "15mm", "left": "14mm", "right": "14mm"})
+                      margin={"top": margem_topo, "bottom": "15mm", "left": "14mm", "right": "14mm"})
         else:
             kw.update(margin={"top": "0", "bottom": "0", "left": "0", "right": "0"})
         pg.pdf(**kw)
@@ -207,6 +218,26 @@ def gerar(saida_dir=os.path.join(DOCS, "pdf")):
     for d, n, k in gerados:
         print(f"PDF {os.path.relpath(d, ROOT)}  {n} pág  {k} fichas")
     return gerados
+
+
+def gerar_relacao(marca_slug, marca, rev, pagina_html, saida_dir=os.path.join(DOCS, "pdf")):
+    """PDF da relação de peças da marca: imprime a página docs/<marca>/relacao-pecas.html (já gerada
+    pelo build, com o CSS de impressão) e põe o rodapé do fabricante (o mesmo dos PDFs por sistema)."""
+    from pypdf import PdfWriter
+    env = Environment(loader=FileSystemLoader(os.path.join(SRC, "templates", "pdf")), autoescape=True)
+    rod = env.get_template("rodape.html").render(marca=marca, fabricante=FABRICANTE, rev=rev, site=SITE)
+    destino = os.path.join(saida_dir, marca_slug, "relacao-pecas.pdf")
+    os.makedirs(os.path.dirname(destino), exist_ok=True)
+    bruto = destino + ".tmp"
+    _pdf(None, bruto, cab="<div></div>", rod=rod, url="file:///" + pagina_html.replace("\\", "/"), margem_topo="14mm")
+    w = PdfWriter()
+    w.append(bruto)
+    w.add_metadata({"/Title": f"Relação de peças — {marca['label']}", "/Author": FABRICANTE})
+    with open(destino, "wb") as f:
+        w.write(f)
+    os.remove(bruto)
+    print(f"PDF {os.path.relpath(destino, ROOT)}  {len(w.pages)} pág")
+    return destino
 
 
 if __name__ == "__main__":

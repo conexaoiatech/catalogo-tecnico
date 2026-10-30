@@ -482,3 +482,50 @@ body.lb-open{overflow:hidden;}
 
 /* botao de download do PDF na pagina de sistema */
 .product-acoes{margin-top:22px;}
+
+/* ---------------- Relacao de pecas ---------------- */
+.rel{padding:48px 0 72px;}
+.rel-cab{display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:16px 24px; padding-bottom:24px; border-bottom:1px solid var(--line);}
+.rel-cab h1{margin:6px 0 0; font-size:clamp(30px, 5vw, 46px); letter-spacing:-0.02em;}
+.rel-meta{margin:8px 0 0; color:var(--text-dim); font-size:14px;}
+.rel-sistema{padding-top:36px;}
+.rel-sistema h2{display:flex; align-items:baseline; gap:14px; margin:0 0 18px; font-size:24px; font-family:var(--font-display);}
+.rel-num{color:var(--accent-2); font-size:14px; font-weight:700;}
+.rel-qtd{margin-left:auto; color:var(--text-dim); font-size:13px; font-weight:500; font-family:var(--font-body);}
+.rel-grade{display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); grid-auto-rows:1fr; gap:16px;}
+.rel-card{
+  display:flex; flex-direction:column; gap:3px; padding:12px 12px 14px; min-width:0;
+  background:linear-gradient(180deg, var(--surface), var(--surface-2));
+  border:1px solid var(--line); border-radius:var(--r-md);
+  transition:transform .35s var(--ease), border-color .35s ease;
+}
+.rel-card:hover{transform:translateY(-4px); border-color:rgba(var(--acao-rgb),0.55);}
+.rel-img{display:flex; align-items:center; justify-content:center; aspect-ratio:4/3; margin-bottom:8px; background:#fff; border-radius:10px; overflow:hidden;}
+.rel-img img{width:100%; height:100%; object-fit:contain;}
+.rel-sem{color:#8B93A7; font-size:12px;}
+.rel-cod{display:flex; align-items:center; gap:8px; font-family:var(--font-display); font-weight:700; font-size:20px; color:var(--accent-2); line-height:1.1;}
+.rel-rev{padding:1px 6px; border:1px solid var(--accent-2); border-radius:5px; font-size:10.5px; letter-spacing:.06em;}
+.rel-nome{font-size:13.5px; line-height:1.3; color:var(--text);}
+.rel-peso{margin-top:auto; padding-top:8px; font-family:var(--font-display); font-weight:600; font-size:13px; color:var(--text);}
+.rel-barra, .rel-tambem{font-size:12px; color:var(--text-dim); line-height:1.3;}
+.rel-peso + .rel-barra, .rel-peso + .rel-tambem{margin-top:0;}
+
+@media print{
+  @page{size:A4 portrait; margin:12mm;}
+  .rel{padding:0;}
+  .rel-pdf, .doc-footer{display:none !important;}
+  .rel-cab{padding-bottom:4mm; border-bottom:0.4mm solid #000;}
+  .rel-cab h1{font-size:20pt; margin:0;}
+  .rel-meta{font-size:8pt; margin-top:1mm;}
+  .rel-sistema{padding-top:5mm;}
+  .rel-sistema + .rel-sistema{break-before:page; padding-top:0;}
+  .rel-sistema h2{font-size:13pt; margin-bottom:3mm; padding-bottom:1.5mm; border-bottom:0.3mm solid #888;}
+  .rel-grade{grid-template-columns:repeat(4, minmax(0, 1fr)); gap:2.5mm;}
+  .rel-card{padding:1.6mm; gap:0; border:0.25mm solid #888 !important; border-radius:1.5mm; break-inside:avoid;}
+  .rel-img{aspect-ratio:16/10; margin-bottom:1mm; border:0.2mm solid #ccc; border-radius:1mm;}
+  .rel-cod{font-size:10pt;}
+  .rel-rev{border:0.25mm solid #000 !important; font-size:6pt; padding:0 1mm;}
+  .rel-nome{font-size:6.5pt; line-height:1.2;}
+  .rel-peso{font-size:6.5pt; padding-top:.6mm;}
+  .rel-barra, .rel-tambem{font-size:5.5pt; line-height:1.2;}
+}

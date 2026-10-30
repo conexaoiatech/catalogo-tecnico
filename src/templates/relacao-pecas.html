@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="rel" id="relacao">
+  <div class="wrap">
+    <header class="rel-cab">
+      <div class="rel-cab-texto">
+        <div class="kicker"><span class="ln"></span>Catálogo técnico · {{ marca.label }}</div>
+        <h1>Relação de peças</h1>
+        <p class="rel-meta">Revisão {{ rev }} · {{ secoes|length }} sistemas · {{ total_perfis }} perfis</p>
+      </div>
+      <a class="btn-ghost rel-pdf" href="{{ pdf_href }}" download>Baixar PDF <span aria-hidden="true">↓</span></a>
+    </header>
+
+    {% for s in secoes %}
+    <section class="rel-sistema" id="rel-{{ s.slug }}">
+      <h2><span class="rel-num">{{ "%02d"|format(loop.index) }}</span>{{ s.nome }}<span class="rel-qtd">{{ s.perfis|length }} {{ "perfil" if s.perfis|length == 1 else "perfis" }}</span></h2>
+      <div class="rel-grade">
+        {% for p in s.perfis %}
+        <a class="rel-card" href="{{ base_url }}{{ p.pagina }}?de={{ s.slug }}">
+          <span class="rel-img">{% if p.desenho_relacao %}<img src="{{ base_url }}{{ p.desenho_relacao }}" alt="Desenho técnico — {{ p.codigo }}">{% else %}<span class="rel-sem">sem desenho</span>{% endif %}</span>
+          <span class="rel-cod">{{ p.codigo }}{% if p.revisado %}<span class="rel-rev">REV</span>{% endif %}</span>
+          {% if p.descricao %}<span class="rel-nome">{{ p.descricao }}</span>{% endif %}
+          {% if p.peso_kg_m %}<span class="rel-peso">{{ p.peso_kg_m|kg_m }} kg/m</span>{% endif %}
+          {% if p.barra_ref %}<span class="rel-barra">Barra {{ p.barra_ref }}</span>{% endif %}
+          {% if p.tambem %}<span class="rel-tambem">também em: {{ p.tambem|join(", ") }}</span>{% endif %}
+        </a>
+        {% endfor %}
+      </div>
+    </section>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

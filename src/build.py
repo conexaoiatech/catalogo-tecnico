@@ -6,6 +6,7 @@ preservando hist/, ESTADO_SESSAO.md, PLANO.md e ROTEIRO.md.
 Uso: python src/build.py   (executar a partir da raiz do repositório)
 """
 import csv
+import datetime
 import io
 import os
 import re
@@ -20,6 +21,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 from padroes import IGNORAR_ARQUIVOS, RE_ISO, campos_faltando, chave_codigo, chave_ordem, nome_padrao, nome_valido  # noqa: E402
 from validar_catalogo import validar  # noqa: E402
+import build_pdf  # noqa: E402  (recorte do desenho cotado e PDF; o Playwright so e importado ao gerar PDF)
 
 SRC = os.path.join(ROOT, "src")
 DATA = os.path.join(SRC, "data")
@@ -33,6 +35,7 @@ PRESERVAR = ["hist", "ESTADO_SESSAO.md", "PLANO.md", "ROTEIRO.md"]
 
 # Marcas publicadas: as que tem publicada: true em src/data/marcas.yaml.
 MARCA_PADRAO = "solucao"  # tema das paginas sem marca propria (selantes)
+RELACAO_MARCAS = ("solucao",)  # marcas com {marca}/relacao-pecas.html e PDF (modelo; as demais entram depois)
 
 def _registra_renomeacao(antigo, novo):
     """Grava de-para em relatorios/renomeacao_imagens.csv ANTES de renomear."""
@@ -209,6 +212,47 @@ def perfis_da_marca(perfis, categorias, marcas, marca_slug):
                 ant=viz(lista[i - 1]) if i > 0 else None,
                 prox=viz(lista[i + 1]) if i < len(lista) - 1 else None)
     return pm, sorted(pm.values(), key=_ordem_codigo)
+
+
+def relacao_da_marca(perfis_m, categorias, marcas, marca_slug):
+    """Secoes da relacao de pecas: um por sistema da marca (ordem das categorias, nome pela marca), com os
+    perfis na ordem unica de scripts/padroes.py. 'tambem' lista os outros sistemas da marca onde o perfil aparece."""
+    por_arquivo = {q["arquivo"]: q for q in perfis_m.values()}
+    produtos = marcas[marca_slug]["produtos"]
+    secoes = []
+    for cat_slug, cat in sorted(categorias.items(), key=lambda kv: kv[1]["ordem"]):
+        produto = produtos.get(cat_slug)
+        if not produto:
+            continue
+        chaves = {chave_codigo(c) for b in cat.get("blocks", []) if b.get("tipo") == "profiles"
+                  for g in b.get("grupos", []) for c in g.get("codigos", [])}
+        itens = []
+        for k in sorted(chaves, key=chave_ordem):
+            q = dict(por_arquivo[k])
+            q["tambem"] = [n for n in q["nomes_marca"] if n != produto["nome"]]
+            itens.append(q)
+        secoes.append(dict(slug=cat_slug, nome=produto["nome"], perfis=itens))
+    return secoes
+
+
+def gera_desenhos_relacao(secoes):
+    """Em docs/assets/img/relacao/: so o desenho cotado de cada perfil (sem a tabela da ficha CAD), JPEG leve.
+    Preenche p['desenho_relacao'] (caminho relativo a docs/) nos perfis que tem imagem."""
+    pasta = os.path.join(DOCS, "assets", "img", "relacao")
+    os.makedirs(pasta, exist_ok=True)
+    feitos = {}
+    for s in secoes:
+        for p in s["perfis"]:
+            if not p.get("tem_imagem"):
+                continue
+            nome = p["imagem_desenho"]
+            if nome not in feitos:
+                im = build_pdf.recorta_desenho_img(os.path.join(IMG_PERFIS, nome))
+                im.thumbnail((700, 700), Image.LANCZOS)
+                im.convert("RGB").save(os.path.join(pasta, nome), "JPEG", quality=85, optimize=True)
+                feitos[nome] = f"assets/img/relacao/{nome}"
+            p["desenho_relacao"] = feitos[nome]
+    return len(feitos)
 
 
 def inicio(base_url, marca_slug):
@@ -409,6 +453,8 @@ def main():
     env = Environment(loader=FileSystemLoader(os.path.join(SRC, "templates")), autoescape=False)
     env.filters["categoria_titulo"] = lambda slug: categorias.get(slug, {}).get("titulo", slug)
     env.filters["br_num"] = br_num
+    env.filters["kg_m"] = lambda v: f"{float(v):.3f}".replace(".", ",")
+    rev = datetime.date.today().strftime("%d/%m/%Y")  # mesma regra do PDF (build_pdf.gerar)
 
     limpa_docs()
 
@@ -424,6 +470,9 @@ def main():
         itens.append(dict(nome="Biblioteca de perfis", href=f"{base_url}{marca_slug}/biblioteca-perfis.html",
                           atual=(current_page == f"{marca_slug}/biblioteca-perfis.html"
                                  or str(current_page).startswith(f"{marca_slug}/perfis/"))))
+        if marca_slug in RELACAO_MARCAS:
+            itens.append(dict(nome="Relação de peças", href=f"{base_url}{marca_slug}/relacao-pecas.html",
+                              atual=(current_page == f"{marca_slug}/relacao-pecas.html")))
         if marca_slug == "solucao":
             itens.append(dict(nome="Selantes", href=base_url + "selantes.html", atual=(current_page == "selantes.html")))
         return itens
@@ -467,7 +516,8 @@ def main():
             cards.append(dict(nome=produto["nome"], subtitulo=produto.get("subtitulo", ""),
                               href=f"{produto['page_slug']}.html", n_perfis=n, ordem=len(cards) + 1))
         ctx = base_ctx("../", marca_slug, f"{marca_slug}/index.html")
-        ctx.update(page_title=f"Capa {marca['label']}", cards=cards, produtos=cards, total_perfis=len(perfis_m))
+        ctx.update(page_title=f"Capa {marca['label']}", cards=cards, produtos=cards, total_perfis=len(perfis_m),
+                   tem_relacao=marca_slug in RELACAO_MARCAS)
         render("index.html", f"{marca_slug}/index.html", **ctx)
 
         # ---- paginas de sistema ----
@@ -525,6 +575,25 @@ def main():
                 categorias_perfil=fp["nomes_marca"],
             )
             render("perfil.html", fp["pagina"], **ctx)
+        # ---- relacao de pecas (so as marcas de RELACAO_MARCAS) ----
+        if marca_slug in RELACAO_MARCAS:
+            secoes = relacao_da_marca(perfis_m, categorias, marcas, marca_slug)
+            n_img = gera_desenhos_relacao(secoes)
+            ctx = base_ctx("../", marca_slug, f"{marca_slug}/relacao-pecas.html")
+            ini = inicio("../", marca_slug)
+            ctx.update(
+                trilha=[ini, dict(label="Relação de peças", href="relacao-pecas.html")],
+                voltar=ini,
+                page_title="Relação de peças",
+                secoes=secoes, rev=rev, total_perfis=len(perfis_m),
+                pdf_href=f"../pdf/{marca_slug}/relacao-pecas.pdf",
+            )
+            render("relacao-pecas.html", f"{marca_slug}/relacao-pecas.html", **ctx)
+            print(f"Relação de peças {marca_slug}: " + ", ".join(f"{s['nome']} {len(s['perfis'])}" for s in secoes)
+                  + f". {n_img} desenhos em docs/assets/img/relacao/.")
+            sem_desenho = sorted({p["codigo"] for s in secoes for p in s["perfis"] if not p.get("desenho_relacao")})
+            if sem_desenho:
+                print(f"Relação de peças {marca_slug}: sem desenho: {', '.join(sem_desenho)}.")
         resumo.append((marca_slug, len(marca["produtos"]), len(perfis_m)))
 
     # ---- entrada: escolha de marca ----
@@ -568,6 +637,9 @@ def main():
     if "--sem-pdf" not in sys.argv:
         import build_pdf
         build_pdf.gerar()
+        for sl in RELACAO_MARCAS:
+            if marcas.get(sl, {}).get("publicada"):
+                build_pdf.gerar_relacao(sl, marcas[sl], rev, os.path.join(DOCS, sl, "relacao-pecas.html"))
 
     for sl, n_s, n_p in resumo:
         print(f"Marca {sl}: {n_s} sistemas, {n_p} perfis.")
