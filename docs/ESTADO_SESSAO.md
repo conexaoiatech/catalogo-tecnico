@@ -1,40 +1,36 @@
-Canônico em docs/ (build preserva). Atualizado 2026-10-29.
+Canônico em docs/ (build preserva). Atualizado 2026-10-30.
 
 # ESTADO_SESSAO — catalogo_tecnico
 
 ## Sessão
-- A 97 (claude_ia) e B 98 (claude_code), vinculadas, de 2026-10-29 11:20 a 22:32.
-- Passos 102 a 107 e 3x. Demanda 296.
-- Repositório conexaoiatech/catalogo-tecnico. Site: https://conexaoiatech.github.io/catalogo-tecnico/ (a raiz é a escolha de marca; solucao/ e blindex/ publicadas).
+- A 99 (claude_ia) e B 100 (claude_code), vinculadas, fechadas em 2026-10-30 (99 às 20:33, 100 às 20:34).
+- Passo 109 (id 110 em gov_passos) e demanda 302, ambos concluídos.
+- Último commit: 7815278 (em origin/main).
+- Repositório conexaoiatech/catalogo-tecnico. Site no ar em catalogo.solucaointeligentes.com (VPS srv1849835), com deploy automático por GitHub Actions e rsync restrito por rrsync. A raiz é a escolha de marca; solucao/ e blindex/ publicadas.
 
 ## Feito
-- Demandas 20, 22, 295 e 296 fechadas; 21 como INCONSISTENTE; 2 demandas novas criadas à mão (navegação, layout escuro e Blindex; dados estruturais e gráfico de pressão).
-- SS-016 como card no BigSpace (sem ficha em destaque); edição manual de marcas.yaml publicada.
-- .gitignore bloqueia extensões de CAD e referencia/.
-- PLANO, ROTEIRO, CLAUDE.md, INSTRUÇÃO consolidada, GUIA_EDICAO e README atualizados.
-- Conduta v2026-10-29a (a preferência "uma pergunta por vez" saiu da instrução e foi para a conduta).
-- Catálogo em PDF publicado no commit 6c11ba0, com 10 PDFs em docs/pdf; HIST registrados em docs/hist.
+- Relação de peças gerada dos YAML, em linha por perfil (isométrica, desenho técnico e dados técnicos), A4 retrato com 3 por página: Solução com 40 perfis e Blindex com 39 (docs/{marca}/relacao-pecas.html e docs/pdf/{marca}/relacao-pecas.pdf).
+- Campo codigo_extrusora (PPF) em 7 perfis: SS-001, SS-002, SS-003, SS-004, SS-005, SS-007 e SS-010.
+- Recorte do desenho corrigido por regra geral em src/build_pdf.py (SS-003, SS-019 e SS-027 completos); os 10 PDFs por sistema foram regenerados.
+- Versão folheável da relação de peças na seção 1 da biblioteca de perfis de cada marca (pypdfium2 5.14.0 e page-flip 2.0.7, sem CDN).
+- GUIA_EDICAO atualizado com a relação de peças, o visualizador, a pasta folhear e o recorte.
+- Demanda 302 e passo 109 fechados; sessões 99 e 100 fechadas.
 
 ## Decisões
 - Regras únicas em scripts/padroes.py: nome de imagem (minúsculo, {codigo}-{detalhe}.jpg e -isometrico.jpg), status calculado de perfil completo e ordem por código (SS, LT, F, FE, DSL).
 - src/data/marcas.yaml guarda nomes dos sistemas, cores e logos por marca (Solução e Blindex publicadas).
-- Layout escuro no padrão do SITESOLU, com cabeçalho único, menu em gaveta no celular e impressão em fundo branco.
-- Navegação por trilha e ?de= (origem do perfil), com vizinhos por sistema dentro de cada marca.
+- Relação de peças: A4 retrato, 3 perfis por página (aprovado pela pessoa); RELACAO_MARCAS em src/build.py = solucao e blindex; cada marca só lista os perfis dos próprios sistemas, com o rodapé do fabricante Solução.
+- Recorte do desenho: a ficha CAD tem 3 linhas de tabela no topo e o desenho começa depois delas (sem RECORTE_EXCECOES).
 - Ficha individual prevalece sobre o YAML, com exceções: SS-002 (vale o YAML) e FE-0207 (área 274.43, ficha corrigida).
 - Gráficos de pressão adiados: src/data/estrutural.yaml está PRELIMINAR e publicar_graficos é false.
 - O build corrige nome de imagem, valida o catálogo e regenera docs/ preservando hist/, ESTADO_SESSAO.md, PLANO.md e ROTEIRO.md.
 
 ## Pendente
-- PDF determinístico (alta), demanda 300
-- Logos dos 10 produtos em src/assets/img/produtos, demanda 300
-- Gráficos de pressão, demanda 298 (EM_ANALISE, adiada até o Coordenador de Produção validar), 16 DXF e 3D por extrusão
-- Conferir o site publicado: solucao/sacada.html (botão) e pdf/solucao/sacada.pdf
-- Conferir a cota de cima no recorte de SS-003, SS-019 e SS-027
-- Conferir data_fim das sessões 97 e 98
-- Verificar o git remote local
-- Decidir entre apagar e ignorar: sacada.pdf e skin-vista.pdf na raiz, relatorios/referencia_layout_sitesolu.md e relatorios/teste_visual/
-- Ficha repete tabela, pinch-zoom no aparelho, conferir logo com fundo convertido
-- Confirmar selantes.html só na Solução
+- 3w: 404.html no repo conexaoiatech.github.io (redirecionamento do link antigo), repo catalogo-tecnico privado, testar o link antigo
+- 3x: GUIA_EDICAO passo 4 ainda cita GitHub Pages; requirements sem Playwright e pypdf; campos sem uso em biblioteca.yaml (imagem e fonte_desenho_mestre); fechar a demanda da hospedagem; trocar 3 linhas da instrução do projeto
+- Demanda 300 (PDF determinístico, logos dos 10 produtos)
+- Demanda 298 (gráficos de pressão, adiada até o Coordenador de Produção validar)
+- data_fim das sessões 97 e 98
 
 ## Próximo passo
-Estou entrando; depois escolher entre E5 (gráficos de pressão) e o 3D por extrusão.
+3w.
