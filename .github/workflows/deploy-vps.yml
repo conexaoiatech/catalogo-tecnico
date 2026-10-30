@@ -1,0 +1,26 @@
+name: deploy-vps
+on:
+  push:
+    branches: [main]
+    paths: ['docs/**', '.github/workflows/deploy-vps.yml']
+  workflow_dispatch:
+concurrency: deploy-vps
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepara SSH
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
+      - name: rsync docs/
+        run: |
+          rsync -rlptz --delete --chmod=D755,F644 \
+            --exclude 'hist/' --exclude '*.md' \
+            docs/ deploy-catalogo@2.25.88.230:/
