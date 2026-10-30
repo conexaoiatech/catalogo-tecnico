@@ -564,6 +564,11 @@ def main():
     gera_logos(marcas)
     gera_imagens(perfis)
 
+    # ---- PDF por sistema e marca (docs/pdf/<marca>/<page_slug>.pdf) ----
+    if "--sem-pdf" not in sys.argv:
+        import build_pdf
+        build_pdf.gerar()
+
     for sl, n_s, n_p in resumo:
         print(f"Marca {sl}: {n_s} sistemas, {n_p} perfis.")
     print(f"Build concluído. Marcas publicadas: {publicadas}. Perfis: {len(perfis)}. Categorias: {len(categorias)}.")

@@ -11,6 +11,9 @@
     <div class="product-badges">
       {% for b in badges %}<span class="badge">{{ b }}</span>{% endfor %}
     </div>
+    <div class="product-acoes">
+      <a class="btn-primario" href="../pdf/{{ marca_slug }}/{{ produto.page_slug }}.pdf" download>Baixar catálogo em PDF <span class="seta" aria-hidden="true">↓</span></a>
+    </div>
   </div>
 
   <nav class="section-nav">

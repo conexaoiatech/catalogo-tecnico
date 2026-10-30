@@ -1,0 +1,75 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8">{% include "_estilo.html" %}</head><body>
+
+<h2>{{ produto.nome }}</h2>
+<p class="lede">{{ cat.lede }}</p>
+
+{% for b in blocos %}
+<div class="bloco-wrap">
+  {% if b.tipo == "diff_grid" %}
+    <h3>{{ b.titulo }}</h3>
+    <div class="grid">{% for i in b['itens'] %}<div><b>{{ i.titulo }}</b><p>{{ i.texto }}</p></div>{% endfor %}</div>
+  {% elif b.tipo == "limits_table" %}
+    <div class="bloco">
+    {% if b.dados_orcamento %}<div class="duas"><div>{% endif %}
+      <h3>{{ b.titulo }}</h3>
+      <table class="lim">{% if b.caption %}<caption>{{ b.caption }}</caption>{% endif %}{% for l in b.linhas %}<tr><td>{{ l[0] }}</td><td>{{ l[1] }}</td></tr>{% endfor %}</table>
+    {% if b.dados_orcamento %}</div><div>
+      <h3>Dados para orçamento</h3>
+      <ul class="chk">{% for d in b.dados_orcamento %}<li>{{ d }}</li>{% endfor %}</ul>
+    </div></div>{% endif %}
+    </div>
+  {% elif b.tipo == "fabric_tables" %}
+    <h3>{{ b.titulo }}</h3>
+    {% for t in b.tabelas %}
+    <table class="tab bloco">{% if t.caption %}<caption>{{ t.caption }}</caption>{% endif %}
+      <tr>{% for c in t.colunas %}<th>{{ c }}</th>{% endfor %}</tr>
+      {% for l in t.linhas %}<tr>{% for v in l %}<td>{{ v }}</td>{% endfor %}</tr>{% endfor %}
+    </table>
+    {% endfor %}
+  {% elif b.tipo == "cert_strip" %}
+    <div class="bloco"><h3>{{ b.titulo }}</h3>
+    <div class="cert">{% for c in b['itens'] %}<div><b>{{ c.codigo }}</b>{{ c.texto }}</div>{% endfor %}</div></div>
+  {% elif b.tipo == "placeholder" %}
+    <div class="bloco"><h3>{{ b.titulo }}</h3>
+    <div class="pend"><b>{{ b.subtitulo }}</b>Seção entra no PDF quando for liberada na fonte.</div></div>
+  {% endif %}
+</div>
+{% endfor %}
+
+{% if indice %}
+<section class="quebra">
+  <h2>Perfis utilizados</h2>
+  <p class="lede">Relação dos perfis do sistema. Cada perfil tem ficha individual nas páginas seguintes, com desenho cotado, propriedades geométricas e vista isométrica.</p>
+  <h3>Índice</h3>
+  <table class="idx">
+    <tr><th>Código</th><th>Descrição</th><th class="r">Peso (kg/m)</th></tr>
+    {% for i in indice %}<tr><td class="c">{{ i.codigo }}</td><td>{{ i.descricao }}</td><td class="r">{{ i.peso }}</td></tr>{% endfor %}
+  </table>
+</section>
+{% endif %}
+
+{% for par in pares %}
+<section class="quebra">
+  {% for f in par %}
+  <div class="ficha">
+    <div class="des">
+      {% if f.desenho %}<img src="{{ f.desenho }}" alt="{{ f.codigo }}"><span class="esc">Desenho sem escala · cotas em mm</span>
+      {% else %}<span class="sem">Desenho técnico em elaboração</span>{% endif %}
+    </div>
+    <div class="dad">
+      <div class="cod">{{ f.codigo }}</div>
+      <div class="nome">{{ f.descricao }}</div>
+      <table class="prop">
+        {% for titulo, linhas in f.grupos %}
+        <tr class="g"><td colspan="2">{{ titulo }}</td></tr>
+        {% for r, v, u in linhas %}<tr><td>{{ r }}</td><td>{{ v }}{% if u %} {{ u }}{% endif %}</td></tr>{% endfor %}
+        {% endfor %}
+      </table>
+      <div class="iso">{% if f.iso %}<img src="{{ f.iso }}" alt="isométrico {{ f.codigo }}">{% endif %}</div>
+      {% if f.sistemas %}<div class="uso">Usado em: <b>{{ f.sistemas | join(' · ') }}</b></div>{% endif %}
+    </div>
+  </div>
+  {% endfor %}
+</section>
+{% endfor %}
+</body></html>

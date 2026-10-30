@@ -1,0 +1,30 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8">{% include "_estilo.html" %}
+<style>
+@page { margin: 0; }
+.capa { width: 210mm; height: 297mm; position: relative; overflow: hidden; }
+.faixa { position: absolute; left: 0; top: 0; bottom: 0; width: 9mm; background: var(--cor); }
+.topo { position: absolute; top: 24mm; left: 24mm; }
+.topo img { height: 16mm; }
+.meio { position: absolute; top: 88mm; left: 24mm; right: 18mm; }
+.tag { font-size: 8.5pt; letter-spacing: .2em; text-transform: uppercase; color: var(--cor); font-weight: 700; }
+.logo-prod { max-height: 30mm; max-width: 150mm; margin: 6mm 0 4mm; display: block; }
+h1 { font-size: 40pt; line-height: 1.05; margin: 4mm 0 2mm; }
+.tipo { font-size: 16pt; color: var(--cinza); font-weight: 300; margin-bottom: 8mm; }
+.meio .lede { font-size: 10.5pt; max-width: 140mm; }
+.badges { display: flex; flex-wrap: wrap; gap: 2mm; margin-top: 8mm; }
+.badges span { border: 0.25mm solid var(--cor); border-radius: 10mm; padding: 1mm 3.2mm; font-size: 7.5pt; }
+.base { position: absolute; bottom: 18mm; left: 24mm; right: 18mm; display: flex; justify-content: space-between; font-size: 7.5pt; color: var(--cinza); border-top: 0.2mm solid var(--linha); padding-top: 3mm; }
+</style></head><body>
+<section class="capa">
+  <div class="faixa"></div>
+  <div class="topo"><img src="{{ logo }}" alt="{{ marca.logo_alt }}"></div>
+  <div class="meio">
+    <div class="tag">Catálogo técnico de perfis</div>
+    {% if logo_prod %}<img class="logo-prod" src="{{ logo_prod }}" alt="{{ produto.nome }}">{% else %}<h1>{{ produto.nome }}</h1>{% endif %}
+    <div class="tipo">{{ cat.nav_group }}{% if produto.subtitulo %} · {{ produto.subtitulo }}{% endif %}</div>
+    <p class="lede">{{ marca.capa_lede }}</p>
+    <div class="badges">{% for x in badges %}<span>{{ x }}</span>{% endfor %}</div>
+  </div>
+  <div class="base"><span>Produzido por {{ fabricante }}</span><span>Revisão {{ rev }} · medidas em mm</span></div>
+</section>
+</body></html>

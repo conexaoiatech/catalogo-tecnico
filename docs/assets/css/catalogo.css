@@ -479,3 +479,6 @@ body.lb-open{overflow:hidden;}
 .card-marca .rodape-card{margin-top:auto; padding-top:12px; display:flex; gap:18px; justify-content:space-between; align-items:center; width:100%; font-size:13px; color:var(--text-dim);}
 .card-marca .ver{color:var(--accent-2); font-weight:600;}
 @media (max-width:700px){ .entrada-cards{grid-template-columns:1fr;} }
+
+/* botao de download do PDF na pagina de sistema */
+.product-acoes{margin-top:22px;}
