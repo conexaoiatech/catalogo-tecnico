@@ -25,14 +25,16 @@ Canônico em docs/ (build preserva). Atualizado 2026-10-29.
 - O build corrige nome de imagem, valida o catálogo e regenera docs/ preservando hist/, ESTADO_SESSAO.md, PLANO.md e ROTEIRO.md.
 
 ## Pendente
-- E5: gráficos de pressão (modelo por sistema e DXF dos 16 perfis estruturais, relatorios/dxf_pendentes.md).
-- 3D por extrusão do DXF.
-- Ids das 2 demandas novas criadas à mão (não constam no repo).
-- Ficha do perfil ainda repete a tabela de dados.
-- Pinch-zoom no celular não testado em aparelho.
-- Conferir o logo solucao_pt com o fundo convertido em transparência.
-- Destino de relatorios/ (referencia_layout_sitesolu.md e teste_visual/ seguem sem rastreio).
-- PDF determinístico (hash das entradas, preservar docs/pdf), logos dos 10 produtos em src/assets/img/produtos e conferir o site publicado.
+- PDF determinístico (alta), demanda 300
+- Logos dos 10 produtos em src/assets/img/produtos, demanda 300
+- Gráficos de pressão, demanda 298 (EM_ANALISE, adiada até o Coordenador de Produção validar), 16 DXF e 3D por extrusão
+- Conferir o site publicado: solucao/sacada.html (botão) e pdf/solucao/sacada.pdf
+- Conferir a cota de cima no recorte de SS-003, SS-019 e SS-027
+- Conferir data_fim das sessões 97 e 98
+- Verificar o git remote local
+- Decidir entre apagar e ignorar: sacada.pdf e skin-vista.pdf na raiz, relatorios/referencia_layout_sitesolu.md e relatorios/teste_visual/
+- Ficha repete tabela, pinch-zoom no aparelho, conferir logo com fundo convertido
+- Confirmar selantes.html só na Solução
 
 ## Próximo passo
 Estou entrando; depois escolher entre E5 (gráficos de pressão) e o 3D por extrusão.
