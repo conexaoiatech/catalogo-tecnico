@@ -3,9 +3,12 @@ Canônico em docs/ (build preserva). Atualizado 2026-10-29.
 # ESTADO_SESSAO — catalogo_tecnico
 
 ## Sessão
-- A 95 (claude_ia) e B 96 (claude_code), vinculadas, de 2026-10-28 14:14 a 2026-10-29.
-- Passos 81 a 100 e 3p. Demanda 20.
+- A 97 (claude_ia) e B 98 (claude_code) fechadas em 2026-10-29.
 - Repositório conexaoiatech/catalogo-tecnico. Site: https://conexaoiatech.github.io/catalogo-tecnico/ (a raiz é a escolha de marca; solucao/ e blindex/ publicadas).
+
+## Feito
+- Catálogo em PDF publicado no commit 6c11ba0, com 10 PDFs em docs/pdf.
+- HIST registrados em docs/hist (último 62f3213).
 
 ## Decisões
 - Regras únicas em scripts/padroes.py: nome de imagem (minúsculo, {codigo}-{detalhe}.jpg e -isometrico.jpg), status calculado de perfil completo e ordem por código (SS, LT, F, FE, DSL).
@@ -17,12 +20,17 @@ Canônico em docs/ (build preserva). Atualizado 2026-10-29.
 - O build corrige nome de imagem, valida o catálogo e regenera docs/ preservando hist/, ESTADO_SESSAO.md, PLANO.md e ROTEIRO.md.
 
 ## Pendente
-- Gráficos de pressão: modelo por sistema e DXF dos 16 perfis estruturais sem módulo W (relatorios/dxf_pendentes.md).
-- 3D por extrusão do DXF.
-- log_solu_fd_pt.png está solto na raiz do repositório, fora do git.
-- selantes.html fica fora do escopo da Blindex (só Solução).
-- UPDATEs de gov_demandas: 20, 22, 295, 296 e uma demanda nova para os gráficos.
-- relatorios/referencia_layout_sitesolu.md e relatorios/teste_visual/ não foram versionados.
+- PDF determinístico (hash das entradas, preservar docs/pdf, data de revisão igual à última mudança).
+- Logos dos 10 produtos em src/assets/img/produtos.
+- Conferir o site publicado.
+- Conferir a cota de cima no recorte de SS-003, SS-019 e SS-027.
+- Registrar passo e demanda do PDF pelos scripts.
+- Id 21: decidir.
+- Id 295: varredura de dwg e sldprt.
+- Id 296: PLANO, ROTEIRO e CLAUDE.md.
+- Conferir os 2 registros de demanda criados à mão.
+- selantes.html fica fora do escopo (só Solução).
 
 ## Próximo passo
-Estou entrando; depois fazer os UPDATEs de gov_demandas.
+A pessoa escolhe entre PDF só quando os dados mudarem e logos dos produtos.
+Arquivos sem rastreio na raiz (sacada.pdf, skin-vista.pdf, relatorios/referencia_layout_sitesolu.md, relatorios/teste_visual) ficam fora do commit.
