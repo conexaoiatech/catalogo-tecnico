@@ -9,6 +9,7 @@ inercia_jx_mm4: 11830.9
 inercia_jy_mm4: 8203.01
 largura_ref_mm: 24.3
 altura_ref_mm: 31.23
+codigo_extrusora: "PPF 0972"
 imagem_desenho: ss-002-montante_do_vidro_8.jpg
 imagem_isometrica: ss-002-montante_do_vidro_8-isometrico.jpg
 nota: 'Divergencias aplicadas (ficha individual prevalece): descricao: YAML anterior

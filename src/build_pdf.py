@@ -126,7 +126,7 @@ def _ficha(p, produtos_marca):
     )
 
 
-def _pdf(html, path, cab=None, rod=None, url=None, margem_topo="20mm"):
+def _pdf(html, path, cab=None, rod=None, url=None, paisagem=False):
     """PDF A4 pelo Chromium. Com url, carrega a página já gerada em docs/ (file://); senão usa o html."""
     from playwright.sync_api import sync_playwright
     with sync_playwright() as pw:
@@ -137,10 +137,10 @@ def _pdf(html, path, cab=None, rod=None, url=None, margem_topo="20mm"):
             pg.wait_for_timeout(300)
         else:
             pg.set_content(html, wait_until="networkidle")
-        kw = dict(path=path, format="A4", print_background=True)
+        kw = dict(path=path, format="A4", landscape=paisagem, print_background=True)
         if cab:
             kw.update(display_header_footer=True, header_template=cab, footer_template=rod,
-                      margin={"top": margem_topo, "bottom": "15mm", "left": "14mm", "right": "14mm"})
+                      margin={"top": "20mm", "bottom": "15mm", "left": "14mm", "right": "14mm"})
         else:
             kw.update(margin={"top": "0", "bottom": "0", "left": "0", "right": "0"})
         pg.pdf(**kw)
@@ -221,15 +221,17 @@ def gerar(saida_dir=os.path.join(DOCS, "pdf")):
 
 
 def gerar_relacao(marca_slug, marca, rev, pagina_html, saida_dir=os.path.join(DOCS, "pdf")):
-    """PDF da relação de peças da marca: imprime a página docs/<marca>/relacao-pecas.html (já gerada
-    pelo build, com o CSS de impressão) e põe o rodapé do fabricante (o mesmo dos PDFs por sistema)."""
+    """PDF da relação de peças da marca, A4 paisagem: imprime a página docs/<marca>/relacao-pecas.html (já gerada
+    pelo build, com o CSS de impressão: 2 perfis por página) com o cabeçalho e o rodapé do fabricante dos PDFs por sistema."""
     from pypdf import PdfWriter
     env = Environment(loader=FileSystemLoader(os.path.join(SRC, "templates", "pdf")), autoescape=True)
+    logo = _b64(Image.open(os.path.join(SRC, marca["logo_claro"])), lado=600)
+    cab = env.get_template("cabecalho.html").render(marca=marca, logo=logo, produto=dict(nome="Relação de peças"))
     rod = env.get_template("rodape.html").render(marca=marca, fabricante=FABRICANTE, rev=rev, site=SITE)
     destino = os.path.join(saida_dir, marca_slug, "relacao-pecas.pdf")
     os.makedirs(os.path.dirname(destino), exist_ok=True)
     bruto = destino + ".tmp"
-    _pdf(None, bruto, cab="<div></div>", rod=rod, url="file:///" + pagina_html.replace("\\", "/"), margem_topo="14mm")
+    _pdf(None, bruto, cab=cab, rod=rod, url="file:///" + pagina_html.replace("\\", "/"), paisagem=True)
     w = PdfWriter()
     w.append(bruto)
     w.add_metadata({"/Title": f"Relação de peças — {marca['label']}", "/Author": FABRICANTE})

@@ -1,4 +1,16 @@
 {% extends "base.html" %}
+{% macro ico(nome) -%}
+<svg class="rel-ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+{%- if nome == "peso" %}<path d="M6 8h12l2 12H4L6 8z"/><circle cx="12" cy="5" r="2.2"/>
+{%- elif nome == "area" %}<rect x="4" y="4" width="16" height="16" rx="1.5"/><path d="M4 12L12 4M4 20L20 4M12 20l8-8"/>
+{%- elif nome == "perimetro" %}<rect x="4" y="4" width="16" height="16" rx="1.5" stroke-dasharray="3 2.4"/>
+{%- elif nome == "jx" %}<path d="M3 12h18M18 9l3 3-3 3"/><circle cx="12" cy="12" r="5"/>
+{%- elif nome == "jy" %}<path d="M12 21V3M9 6l3-3 3 3"/><circle cx="12" cy="12" r="5"/>
+{%- elif nome == "extrusora" %}<path d="M9 4L7 20M17 4l-2 16M4 9h16M3 15h16"/>
+{%- elif nome == "barra" %}<rect x="2.5" y="9" width="19" height="6" rx="1"/><path d="M7 9v3M12 9v3M17 9v3"/>
+{%- elif nome == "material" %}<path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/>
+{%- endif %}</svg>
+{%- endmacro %}
 {% block content %}
 <section class="rel" id="relacao">
   <div class="wrap">
@@ -6,28 +18,66 @@
       <div class="rel-cab-texto">
         <div class="kicker"><span class="ln"></span>Catálogo técnico · {{ marca.label }}</div>
         <h1>Relação de peças</h1>
-        <p class="rel-meta">Revisão {{ rev }} · {{ secoes|length }} sistemas · {{ total_perfis }} perfis</p>
+        <p class="rel-meta">Revisão {{ rev }} · {{ linhas|length }} perfis</p>
       </div>
       <a class="btn-ghost rel-pdf" href="{{ pdf_href }}" download>Baixar PDF <span aria-hidden="true">↓</span></a>
     </header>
 
-    {% for s in secoes %}
-    <section class="rel-sistema" id="rel-{{ s.slug }}">
-      <h2><span class="rel-num">{{ "%02d"|format(loop.index) }}</span>{{ s.nome }}<span class="rel-qtd">{{ s.perfis|length }} {{ "perfil" if s.perfis|length == 1 else "perfis" }}</span></h2>
-      <div class="rel-grade">
-        {% for p in s.perfis %}
-        <a class="rel-card" href="{{ base_url }}{{ p.pagina }}?de={{ s.slug }}">
-          <span class="rel-img">{% if p.desenho_relacao %}<img src="{{ base_url }}{{ p.desenho_relacao }}" alt="Desenho técnico — {{ p.codigo }}">{% else %}<span class="rel-sem">sem desenho</span>{% endif %}</span>
-          <span class="rel-cod">{{ p.codigo }}{% if p.revisado %}<span class="rel-rev">REV</span>{% endif %}</span>
-          {% if p.descricao %}<span class="rel-nome">{{ p.descricao }}</span>{% endif %}
-          {% if p.peso_kg_m %}<span class="rel-peso">{{ p.peso_kg_m|kg_m }} kg/m</span>{% endif %}
-          {% if p.barra_ref %}<span class="rel-barra">Barra {{ p.barra_ref }}</span>{% endif %}
-          {% if p.tambem %}<span class="rel-tambem">também em: {{ p.tambem|join(", ") }}</span>{% endif %}
-        </a>
-        {% endfor %}
-      </div>
-    </section>
-    {% endfor %}
+    <div class="rel-filtros" role="group" aria-label="Filtrar por sistema">
+      <button type="button" class="rel-filtro ativo" data-filtro="todos" aria-pressed="true">Todos</button>
+      {% for f in filtros %}<button type="button" class="rel-filtro" data-filtro="{{ f.slug }}" aria-pressed="false">{{ f.nome }}</button>{% endfor %}
+    </div>
+
+    <div class="rel-linhas" id="rel-linhas">
+      {% for p in linhas %}
+      <article class="rel-linha" data-sistemas="{{ p.sistemas|map(attribute='slug')|join(' ') }}">
+        <div class="rel-faixa">
+          <div class="rel-faixa-esq">
+            <div class="rel-tit">
+              <a class="rel-cod rel-esticado" href="{{ base_url }}{{ p.pagina }}?de={{ p.sistemas[0].slug }}" data-base="{{ base_url }}{{ p.pagina }}">{{ p.codigo }}</a>
+              {% if p.descricao %}<span class="rel-sep" aria-hidden="true">|</span><span class="rel-nome">{{ p.descricao }}</span>{% endif %}
+              {% if p.revisado %}<span class="rel-rev">REV</span>{% endif %}
+            </div>
+            <div class="rel-sub">Catálogo de perfis <span aria-hidden="true">|</span> Sistemas {{ p.sistemas|map(attribute='nome')|join(' · ') }}</div>
+          </div>
+          <div class="rel-faixa-dir">
+            <div class="rel-compat">
+              <span class="rel-compat-rot">Sistemas compatíveis</span>
+              <span class="rel-pilulas">{% for u in p.sistemas %}<a class="rel-pilula" href="{{ base_url }}{{ u.pagina }}">{{ u.nome }}</a>{% endfor %}</span>
+            </div>
+            <img class="rel-logo" src="{{ base_url }}{{ logo }}" alt="{{ logo_alt }}">
+          </div>
+        </div>
+
+        <div class="rel-corpo">
+          <figure class="rel-iso">
+            {% if p.iso_rel %}<img src="{{ base_url }}{{ p.iso_rel }}" alt="Vista isométrica — {{ p.codigo }}"><figcaption>Vista isométrica · referência de apresentação</figcaption>
+            {% else %}<span class="rel-sem">sem vista isométrica</span>{% endif %}
+          </figure>
+
+          <div class="rel-painel rel-desenho">
+            <div class="rel-painel-cab"><span>Desenho técnico</span><span class="rel-painel-cod">{{ p.codigo }}</span></div>
+            <div class="rel-desenho-img">{% if p.desenho_relacao %}<img src="{{ base_url }}{{ p.desenho_relacao }}" alt="Desenho técnico cotado — {{ p.codigo }}">{% else %}<span class="rel-sem">sem desenho técnico</span>{% endif %}</div>
+          </div>
+
+          <div class="rel-painel rel-dados-painel">
+            <div class="rel-painel-cab"><span>Dados técnicos</span></div>
+            <ul class="rel-dados">
+              {% if p.peso_kg_m %}<li>{{ ico("peso") }}<span class="rel-rot">Peso</span><span class="rel-val">{{ p.peso_kg_m|br_num }} kg/m</span></li>{% endif %}
+              {% if p.material %}<li>{{ ico("material") }}<span class="rel-rot">Material</span><span class="rel-val">{{ p.material }}</span></li>{% endif %}
+              {% if p.superficie_area_mm2_mml %}<li>{{ ico("area") }}<span class="rel-rot">Superfície — área</span><span class="rel-val">{{ p.superficie_area_mm2_mml|br_num }} mm²/mml</span></li>{% endif %}
+              {% if p.superficie_perimetro_mm2_mml %}<li>{{ ico("perimetro") }}<span class="rel-rot">Superfície — perímetro</span><span class="rel-val">{{ p.superficie_perimetro_mm2_mml|br_num }} mm²/mml</span></li>{% endif %}
+              {% if p.inercia_jx_mm4 %}<li>{{ ico("jx") }}<span class="rel-rot">Inércia Jx</span><span class="rel-val">{{ p.inercia_jx_mm4|br_num }} mm⁴</span></li>{% endif %}
+              {% if p.inercia_jy_mm4 %}<li>{{ ico("jy") }}<span class="rel-rot">Inércia Jy</span><span class="rel-val">{{ p.inercia_jy_mm4|br_num }} mm⁴</span></li>{% endif %}
+              {% if p.codigo_extrusora %}<li>{{ ico("extrusora") }}<span class="rel-rot">Código extrusora</span><span class="rel-val">{{ p.codigo_extrusora }}</span></li>{% endif %}
+              {% if p.barra_ref %}<li>{{ ico("barra") }}<span class="rel-rot">Barra</span><span class="rel-val">{{ p.barra_ref }}</span></li>{% endif %}
+            </ul>
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
   </div>
 </section>
+<script src="{{ base_url }}assets/js/relacao.js"></script>
 {% endblock %}

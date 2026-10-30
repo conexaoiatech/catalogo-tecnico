@@ -10,6 +10,7 @@ superficie_area_mm2_mml: 168.72
 superficie_perimetro_mm2_mml: 234.08
 inercia_jx_mm4: 20036.97
 inercia_jy_mm4: 61621.92
+codigo_extrusora: "PPF 0969"
 imagem_desenho: ss-005-calha_de_ajuste.jpg
 imagem_isometrica: ss-005-calha_de_ajuste-isometrico.jpg
 nota: 'Divergencias aplicadas (ficha individual prevalece): descricao: YAML anterior

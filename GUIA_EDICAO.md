@@ -18,13 +18,16 @@ Para quem vai alterar um texto do catálogo sem mexer no código. Tudo o que apa
 | Frase da página de escolha de marca e frase da capa de cada marca | `src/data/marcas.yaml` → `entrada_texto` e `capa_lede` |
 | Nome da marca, legenda abaixo do logo, cores | `src/data/marcas.yaml` → `label`, `brand_sub`, `color`, `acao`, `destaque` |
 | Descrição, nota e dados de um perfil (peso, área, inércia) | `src/data/perfis/{CODIGO}.yaml` (ex.: `SS-016.yaml`, `FE-0202.yaml`) |
+| Código da extrusora de um perfil (ex.: `PPF 0968`) | `src/data/perfis/{CODIGO}.yaml`, campo opcional `codigo_extrusora` (aparece em "Dados técnicos" da página de perfil e na relação de peças; sem o campo, a linha não aparece) |
+| Página e PDF da "Relação de peças" (uma linha por perfil, filtro por sistema, PDF A4 paisagem com 2 perfis por página) | `src/templates/relacao-pecas.html` (rótulos e campos mostrados), `src/assets/js/relacao.js` (filtro) e a parte "Relação de peças" de `src/assets/css/catalogo.css` (tela e impressão). Os dados vêm dos YAML de perfil; nada é digitado no template |
+| Quais marcas têm a relação de peças | constante `RELACAO_MARCAS` em `src/build.py` (hoje só `solucao`; página `docs/{marca}/relacao-pecas.html`, PDF `docs/pdf/{marca}/relacao-pecas.pdf`) |
 | Lista de perfis de um sistema | `src/data/categorias/{sistema}.yaml`, bloco `perfis` → `grupos` → `codigos` |
 | Texto de apresentação do "Mapa geral de perfis" | `src/data/biblioteca.yaml` → `intro` |
 | Linha de selantes | `src/data/selantes.yaml` |
 | Rodapé (empresa, certificações, telefones) | `src/templates/base.html` |
 | Título e frase da página "Escolha a marca" | `src/templates/entrada.html` |
 | Capa de cada marca (selo "Rev. 0.2", título, "Escolha um sistema", números) | `src/templates/index.html` |
-| Rótulos da página de perfil ("Dados técnicos", "Ficha técnica", "Usado em:") | `src/templates/perfil.html` e `src/templates/partials/ficha-dados.html` |
+| Rótulos da página de perfil ("Dados técnicos", "Ficha técnica", "Usado em:") e das linhas da tabela de dados | `src/templates/perfil.html` e `src/templates/partials/ficha-dados.html` |
 | Rótulos do Mapa geral de perfis (títulos, busca, filtros) | `src/templates/biblioteca-perfis.html` |
 | Aparência (espaços, tamanhos, cores do layout) | `src/assets/css/catalogo.css` |
 

@@ -8,6 +8,7 @@ superficie_area_mm2_mml: 176.42
 superficie_perimetro_mm2_mml: 200.12
 inercia_jx_mm4: 11261.12
 inercia_jy_mm4: 8166.05
+codigo_extrusora: "PPF 0973"
 imagem_desenho: ss-010-montante_do_vidro_10mm.jpg
 imagem_isometrica: ss-010-montante_do_vidro_10mm-isometrico.jpg
 nota: 'Divergencias aplicadas (ficha individual prevalece): descricao: YAML anterior

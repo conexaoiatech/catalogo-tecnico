@@ -12,5 +12,6 @@ inercia_jx_mm4: 23607.63
 inercia_jy_mm4: 62744.7
 largura_ref_mm: 41.95
 altura_ref_mm: 29.6
+codigo_extrusora: "PPF 0968"
 imagem_desenho: ss-001-trilho_inferior.jpg
 imagem_isometrica: ss-001-trilho_inferior-isometrico.jpg

@@ -7,6 +7,7 @@ superficie_area_mm2_mml: 531.26
 superficie_perimetro_mm2_mml: 469.13
 inercia_jx_mm4: 258502.18
 inercia_jy_mm4: 157587.07
+codigo_extrusora: "PPF 0965"
 imagem_desenho: ss-003-trilho_superior.jpg
 imagem_isometrica: ss-003-trilho_superior-isometrico.jpg
 nota: 'Divergencias aplicadas (ficha individual prevalece): descricao: YAML anterior
