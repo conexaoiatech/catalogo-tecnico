@@ -20,7 +20,9 @@ Para quem vai alterar um texto do catálogo sem mexer no código. Tudo o que apa
 | Descrição, nota e dados de um perfil (peso, área, inércia) | `src/data/perfis/{CODIGO}.yaml` (ex.: `SS-016.yaml`, `FE-0202.yaml`) |
 | Código da extrusora de um perfil (ex.: `PPF 0968`) | `src/data/perfis/{CODIGO}.yaml`, campo opcional `codigo_extrusora` (aparece em "Dados técnicos" da página de perfil e na relação de peças; sem o campo, a linha não aparece) |
 | Página e PDF da "Relação de peças" (uma linha por perfil, filtro por sistema, PDF A4 paisagem com 2 perfis por página) | `src/templates/relacao-pecas.html` (rótulos e campos mostrados), `src/assets/js/relacao.js` (filtro) e a parte "Relação de peças" de `src/assets/css/catalogo.css` (tela e impressão). Os dados vêm dos YAML de perfil; nada é digitado no template |
-| Quais marcas têm a relação de peças | constante `RELACAO_MARCAS` em `src/build.py` (hoje só `solucao`; página `docs/{marca}/relacao-pecas.html`, PDF `docs/pdf/{marca}/relacao-pecas.pdf`) |
+| Quais marcas têm a relação de peças | constante `RELACAO_MARCAS` em `src/build.py` (hoje `solucao` e `blindex`; página `docs/{marca}/relacao-pecas.html`, PDF `docs/pdf/{marca}/relacao-pecas.pdf`). Cada marca só lista os perfis dos próprios sistemas, com os nomes de sistema do `marcas.yaml` |
+| Relação de peças folheável (seção 1 da biblioteca de perfis: título, texto "Gerada dos dados técnicos · revisão", botões Baixar PDF e Ver em lista) | `src/templates/biblioteca-perfis.html` (textos), `src/assets/js/folhear.js` (setas, contador, teclado, arrastar) e a parte "Relação de peças folheável" de `src/assets/css/catalogo.css`. As páginas vêm do PDF: o build converte cada página em JPG (150 dpi) em `docs/assets/img/folhear/{marca}/relacao-pecas-NN.jpg` (não editar à mão). A biblioteca de efeito de página é `src/assets/js/vendor/page-flip.browser.js` (StPageFlip 2.0.7, licença MIT em `LICENSE-page-flip-2.0.7.txt`; nada é carregado de CDN) |
+| Recorte do desenho técnico nas fichas (relação de peças e PDFs por sistema) | `src/build_pdf.py`, função `recorta_desenho_img`: regra geral (a ficha CAD tem 3 linhas de tabela no topo; o desenho começa depois delas, com folga). Não há exceções; se uma ficha nova não recortar bem, a lista `RECORTE_EXCECOES` em `scripts/padroes.py` seria o lugar (hoje não existe) |
 | Lista de perfis de um sistema | `src/data/categorias/{sistema}.yaml`, bloco `perfis` → `grupos` → `codigos` |
 | Texto de apresentação do "Mapa geral de perfis" | `src/data/biblioteca.yaml` → `intro` |
 | Linha de selantes | `src/data/selantes.yaml` |
@@ -52,7 +54,7 @@ Se o mesmo texto aparece em mais de um arquivo, altere em todos. Se não encontr
 
 ## 5. Gerar, conferir e publicar
 1. **Validar os dados:** no terminal do VS Code (`Ctrl+'`), rode `python scripts/validar_catalogo.py`. Deve mostrar (a) a (e) OK.
-2. **Gerar o site:** `python src/build.py`. Deve terminar com "Build concluído". (Se o Windows reclamar de pasta em uso, feche o Explorer na pasta `docs`.)
+2. **Gerar o site:** `python src/build.py` (dependências em `src/requirements.txt`, incluindo `pypdfium2`, que transforma as páginas do PDF da relação de peças em imagem para o visualizador folheável; o PDF também usa Playwright e pypdf). Deve terminar com "Build concluído". (Se o Windows reclamar de pasta em uso, feche o Explorer na pasta `docs`.)
 3. **Conferir no navegador:** botão direito em `docs/index.html` → **Open with Live Server**. Navegue até a página que você alterou e confira o texto.
 4. **Publicar:** peça ao Claude.ai o bloco de publicação do que você alterou, cole no Claude Code aberto em `C:\GITHUB\CATALOGO_TECNICO` e deixe executar. O bloco valida, gera o site, confere os links, faz o commit e o push na branch `main`. O site atualiza no GitHub Pages: https://conexaoiatech.github.io/catalogo-tecnico/ (pode levar alguns minutos).
 

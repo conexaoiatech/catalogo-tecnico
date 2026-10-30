@@ -2,7 +2,7 @@
 
 Lê a fonte única (src/data: marcas, categorias, perfis) e gera docs/pdf/<marca>/<page_slug>.pdf.
 Chamado no fim do build.py; também roda sozinho: python src/build_pdf.py
-Requisitos: playwright (Chromium) e pypdf.  pip install playwright pypdf  ·  playwright install chromium
+Requisitos: playwright (Chromium), pypdf e pypdfium2.  pip install playwright pypdf pypdfium2  ·  playwright install chromium
 Logo de produto (opcional): src/assets/img/produtos/<marca>-<page_slug>.png; sem arquivo, a capa usa o nome em texto.
 """
 import base64
@@ -57,38 +57,58 @@ def recorta_desenho(path):
     return _b64(recorta_desenho_img(path))
 
 
+LINHAS_TABELA_FICHA = 3  # a ficha CAD traz sempre 3 linhas de tabela (código/nome, peso/superfície/inércia, valores)
+
+
+def _linhas_finas(mascara, eixo, limite, espessura_max):
+    """Índices de linhas (eixo=1: linhas da imagem; eixo=0: colunas) que cruzam mais que `limite` da imagem e
+    formam uma risca FINA (até espessura_max px): a moldura da folha. Barras grossas do perfil não entram."""
+    longas = np.where(mascara.sum(eixo) > limite)[0]
+    if not len(longas):
+        return longas
+    finas, inicio = [], 0
+    for i in range(1, len(longas) + 1):
+        if i == len(longas) or longas[i] != longas[i - 1] + 1:
+            if longas[i - 1] - longas[inicio] + 1 <= espessura_max:
+                finas.extend(longas[inicio:i])
+            inicio = i
+    return np.array(finas, dtype=int)
+
+
 def recorta_desenho_img(path):
-    """A ficha CAD traz a tabela no topo: devolve (PIL, tons de cinza) só o desenho cotado
-    (abaixo da tabela, sem o quadro). Usado no PDF por sistema e na relação de peças."""
+    """A ficha CAD traz a tabela no topo: devolve (PIL, tons de cinza) só o desenho cotado, sem a tabela e sem a
+    moldura da folha. Regra geral: a tabela são as LINHAS_TABELA_FICHA primeiras faixas de tinta (intervalo de 0,4 %
+    da altura entre faixas); o desenho começa na faixa seguinte e o corte leva uma folga, para nenhuma parte do perfil
+    nem das cotas ficar de fora. Usado no PDF por sistema e na relação de peças."""
     im = Image.open(path).convert("L")
     g = np.array(im)
     a0 = g < 200
     h, w = a0.shape
+    esp = max(12, round(0.006 * max(h, w)))              # moldura: riscas até ~12 px (ficha SS-016 é menor e tem borda de 10 px)
     a = a0.copy()
-    a[a.sum(1) > .6 * w, :] = False          # linhas do quadro
-    a[:, a.sum(0) > .6 * h] = False          # laterais do quadro
+    a[_linhas_finas(a0, 1, .6 * w, esp), :] = False      # linhas da moldura
+    a[:, _linhas_finas(a0, 0, .6 * h, esp)] = False      # laterais da moldura
     linhas = np.where(a.any(1))[0]
     if not len(linhas):
         return im
-    faixas, gap = [[linhas[0], linhas[0]]], .03 * h
+    faixas, gap = [[linhas[0], linhas[0]]], .004 * h
     for y in linhas[1:]:
         if y - faixas[-1][1] > gap:
             faixas.append([y, y])
         else:
             faixas[-1][1] = y
-    y0, y1 = faixas[0]
-    if y1 - y0 > .3 * h:
-        # tabela colada no desenho: fundo da tabela = última borda longa no topo da faixa
-        longas = [y for y in range(y0, int(y0 + .25 * h)) if a0[y].sum() > .3 * w]
-        ini = max(longas) + 4 if longas else y0
-    else:
-        ini = faixas[1][0] if len(faixas) > 1 else y0   # 1ª faixa = tabela (dado já vem do YAML)
-    corpo = a[ini:]
+    if len(faixas) <= LINHAS_TABELA_FICHA:
+        return im
+    fim_tabela = faixas[LINHAS_TABELA_FICHA - 1][1]
+    corpo = a[fim_tabela + 1:]
     ys, xs = np.where(corpo)
     if not len(ys):
         return im
-    out = g[ini:][ys.min():ys.max() + 1, xs.min():xs.max() + 1]
-    return ImageOps.expand(Image.fromarray(out), border=20, fill=255)
+    folga = max(12, round(0.006 * max(h, w)))
+    y0 = max(fim_tabela + 1, fim_tabela + 1 + int(ys.min()) - folga)
+    y1 = min(h, fim_tabela + 1 + int(ys.max()) + 1 + folga)
+    x0, x1 = max(0, int(xs.min()) - folga), min(w, int(xs.max()) + 1 + folga)
+    return ImageOps.expand(Image.fromarray(g[y0:y1, x0:x1]), border=20, fill=255)
 
 
 def _iso(path):
@@ -240,6 +260,27 @@ def gerar_relacao(marca_slug, marca, rev, pagina_html, saida_dir=os.path.join(DO
     os.remove(bruto)
     print(f"PDF {os.path.relpath(destino, ROOT)}  {len(w.pages)} pág")
     return destino
+
+
+def paginas_em_imagem(pdf_path, marca_slug, dpi=150, qualidade=82, saida_dir=os.path.join(DOCS, "assets", "img", "folhear")):
+    """Cada página do PDF vira JPG (docs/assets/img/folhear/<marca>/relacao-pecas-<nn>.jpg) para o visualizador
+    folheável da biblioteca de perfis. Devolve (caminhos relativos a docs/, total de bytes)."""
+    import pypdfium2 as pdfium
+    pasta = os.path.join(saida_dir, marca_slug)
+    os.makedirs(pasta, exist_ok=True)
+    caminhos, total = [], 0
+    pdf = pdfium.PdfDocument(pdf_path)
+    try:
+        for i in range(len(pdf)):
+            im = pdf[i].render(scale=dpi / 72).to_pil().convert("RGB")
+            nome = f"relacao-pecas-{i + 1:02d}.jpg"
+            destino = os.path.join(pasta, nome)
+            im.save(destino, "JPEG", quality=qualidade, optimize=True)
+            total += os.path.getsize(destino)
+            caminhos.append(f"assets/img/folhear/{marca_slug}/{nome}")
+    finally:
+        pdf.close()
+    return caminhos, total
 
 
 if __name__ == "__main__":

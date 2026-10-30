@@ -35,7 +35,7 @@ PRESERVAR = ["hist", "ESTADO_SESSAO.md", "PLANO.md", "ROTEIRO.md"]
 
 # Marcas publicadas: as que tem publicada: true em src/data/marcas.yaml.
 MARCA_PADRAO = "solucao"  # tema das paginas sem marca propria (selantes)
-RELACAO_MARCAS = ("solucao",)  # marcas com {marca}/relacao-pecas.html e PDF (modelo; as demais entram depois)
+RELACAO_MARCAS = ("solucao", "blindex")  # marcas com {marca}/relacao-pecas.html, PDF e versao folheavel na biblioteca
 
 def _registra_renomeacao(antigo, novo):
     """Grava de-para em relatorios/renomeacao_imagens.csv ANTES de renomear."""
@@ -494,6 +494,7 @@ def main():
             f.write(html)
 
     resumo = []
+    ctx_biblioteca = {}
     for marca_slug in publicadas:
         marca = marcas[marca_slug]
         perfis_m, ordem_m = perfis_da_marca(perfis, categorias, marcas, marca_slug)
@@ -551,7 +552,10 @@ def main():
                      if any(cs in p["cats_marca"] for p in perfis_m.values())],
             grupos_compartilhamento=grupos_list,
         )
+        ctx.update(rev=rev, tem_relacao=marca_slug in RELACAO_MARCAS, folhear=None,
+                   pdf_href=f"../pdf/{marca_slug}/relacao-pecas.pdf", lista_href="relacao-pecas.html")
         render("biblioteca-perfis.html", f"{marca_slug}/biblioteca-perfis.html", **ctx)
+        ctx_biblioteca[marca_slug] = ctx
 
         # ---- uma pagina por perfil ----
         for i, fp in enumerate(ordem_m):
@@ -632,8 +636,13 @@ def main():
         import build_pdf
         build_pdf.gerar()
         for sl in RELACAO_MARCAS:
-            if marcas.get(sl, {}).get("publicada"):
-                build_pdf.gerar_relacao(sl, marcas[sl], rev, os.path.join(DOCS, sl, "relacao-pecas.html"))
+            if not marcas.get(sl, {}).get("publicada"):
+                continue
+            pdf = build_pdf.gerar_relacao(sl, marcas[sl], rev, os.path.join(DOCS, sl, "relacao-pecas.html"))
+            paginas, tamanho = build_pdf.paginas_em_imagem(pdf, sl)
+            print(f"Folhear {sl}: {len(paginas)} páginas em docs/assets/img/folhear/{sl}/, {tamanho / 1024 / 1024:.2f} MB.")
+            # a biblioteca so sabe quantas paginas tem a relacao depois do PDF: refaz a pagina com o visualizador
+            render("biblioteca-perfis.html", f"{sl}/biblioteca-perfis.html", **dict(ctx_biblioteca[sl], folhear=dict(paginas=paginas)))
 
     for sl, n_s, n_p in resumo:
         print(f"Marca {sl}: {n_s} sistemas, {n_p} perfis.")

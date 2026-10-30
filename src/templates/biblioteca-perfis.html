@@ -10,12 +10,33 @@
 
   <div class="block" id="bib-mapa">
     <div class="block-head">
-      <h3><span class="idx">1</span>Relação de peças — desenho mestre</h3>
-      <span class="block-note">Fonte: {{ biblioteca.fonte_desenho_mestre }}</span>
+      <h3><span class="idx">1</span>Relação de peças</h3>
+      <span class="block-note">Gerada dos dados técnicos · revisão {{ rev }}</span>
     </div>
-    <div class="master-map moldura-clara">
-      <img src="{{ base_url }}assets/img/biblioteca/{{ biblioteca.imagem }}" alt="Relação de peças — desenho mestre" data-zoom>
+    {% if folhear %}
+    {% set total = folhear.paginas|length %}
+    <div class="folhear" id="folhear" data-total="{{ total }}" hidden>
+      <div class="folhear-palco">
+        <button type="button" class="folhear-seta folhear-ant" aria-label="Página anterior" disabled>←</button>
+        <div class="folhear-livro" id="folhear-livro">
+          {% for pg in folhear.paginas %}
+          <div class="folhear-pagina" data-density="{{ 'hard' if loop.first or loop.last else 'soft' }}"><img src="{{ base_url }}{{ pg }}" alt="Relação de peças, página {{ loop.index }} de {{ total }}" draggable="false"></div>
+          {% endfor %}
+        </div>
+        <button type="button" class="folhear-seta folhear-prox" aria-label="Próxima página">→</button>
+      </div>
+      <div class="folhear-barra">
+        <span class="folhear-contador" id="folhear-contador" aria-live="polite">1 / {{ total }}</span>
+        <a class="btn-primario" href="{{ pdf_href }}" download>Baixar PDF <span class="seta" aria-hidden="true">↓</span></a>
+        <a class="btn-ghost" href="{{ lista_href }}">Ver em lista</a>
+      </div>
     </div>
+    <noscript><p class="folhear-sem-js">A versão folheável precisa de JavaScript. <a href="{{ pdf_href }}">Baixar o PDF da relação de peças</a> · <a href="{{ lista_href }}">Ver em lista</a></p></noscript>
+    <script src="{{ base_url }}assets/js/vendor/page-flip.browser.js"></script>
+    <script src="{{ base_url }}assets/js/folhear.js"></script>
+    {% elif tem_relacao %}
+    <p class="folhear-sem-js"><a href="{{ pdf_href }}">Baixar o PDF da relação de peças</a> · <a href="{{ lista_href }}">Ver em lista</a></p>
+    {% endif %}
   </div>
 
   <div class="block alt" id="bib-index">

@@ -581,3 +581,27 @@ body.lb-open{overflow:hidden;}
   .rel .rel-linha .rel-rot{color:#333 !important;}
   .rel .rel-linha .rel-val{color:#000 !important; -webkit-text-fill-color:#000;}
 }
+
+/* ---------------- Relacao de pecas folheavel (biblioteca de perfis) ---------------- */
+.folhear[hidden]{display:none !important;}
+.folhear{max-width:1120px; margin:0 auto;}
+.folhear-palco{position:relative; display:flex; align-items:center; gap:14px;}
+.folhear-livro{flex:1 1 auto; min-width:0; touch-action:pan-y;}
+.folhear-pagina{background:#fff; overflow:hidden;}
+.folhear-pagina img{display:block; width:100%; height:100%; object-fit:contain; background:#fff; user-select:none; -webkit-user-drag:none;}
+.folhear-seta{
+  flex:none; width:48px; height:48px; border-radius:50%; cursor:pointer; font-size:22px; line-height:1;
+  color:var(--text); background:var(--surface); border:1px solid var(--line);
+  transition:border-color .25s, background .25s, opacity .25s;
+}
+.folhear-seta:hover:not(:disabled){border-color:var(--accent-2); background:var(--surface-2);}
+.folhear-seta:disabled{opacity:.3; cursor:default;}
+.folhear-barra{display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:12px 20px; margin-top:20px;}
+.folhear-contador{min-width:92px; text-align:center; font-family:var(--font-display); font-weight:600; font-size:15px; font-variant-numeric:tabular-nums;}
+.folhear-sem-js{margin:0; color:var(--text-dim); font-size:14.5px;}
+.folhear-sem-js a{color:var(--accent-2); font-weight:600;}
+@media (max-width:700px){
+  .folhear-seta{position:absolute; top:50%; transform:translateY(-50%); z-index:3; width:40px; height:40px; background:rgba(8,10,16,0.72);}
+  .folhear-ant{left:4px;} .folhear-prox{right:4px;}
+}
+@media print{ .folhear{display:none !important;} }
