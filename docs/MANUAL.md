@@ -11,3 +11,4 @@ Procedimentos e lições só deste projeto. Regra geral fica nas skills (conduta
 
 ## Governança
 - 2026-11-13 · Motor gov_engine roda só por .venv\Scripts\python.exe com a pasta atual em C:\GITHUB\GOV_IA_CORE · origem: demanda 351
+- 2026-11-13 · Número do próximo passo: conferir gov_passos do projeto, não só o ROTEIRO (o 109 saiu repetido: P=110 e P=158) · origem: HIST_2026-11-13_a_2026-11-13_catalogo_tecnico_projnovo-regularizacao-a7.md#P9
