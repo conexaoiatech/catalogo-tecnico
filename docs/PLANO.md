@@ -38,7 +38,7 @@ Formato: id · data · de → para · motivo · impacto.
 - D24 · 2026-10-28 · tema claro → tema escuro total no padrão SITESOLU; logo solucao_pt.png; aprovado pela pessoa · identidade do site da Solução · passo 3n
 - D25 · 2026-10-29 · Blindex depois → Blindex agora; sem a nota "Nome técnico de origem"; sem "Solução Sacadas"; fonte "Desenho-mestre CAD" · pedido da pessoa · passos 3o e 3p publicados
 - D26 · 2026-10-29 · Blindex sem decisão sobre o fabricante → Blindex mantém a Solução como fabricante · decisão da pessoa · textos da marca Blindex citam a Solução (ex.: "Licenciado Solução Fechamento Inteligente")
-- D27 · 2026-10-29 · repo a decidir → repo continua público · decisão da pessoa · CAD bruto e dados comerciais nunca entram no git
+- D27 · 2026-10-29 · repo a decidir → repo continua público · decisão da pessoa · CAD bruto e dados comerciais nunca entram no git · superada por 2026-11-13
 - D28 · 2026-10-29 · guia de edição fora do repo → guia de edição vira GUIA_EDICAO.md no repo · mantê-lo junto do código que ele descreve · ao mudar caminho, arquivo de texto ou template, atualizar o guia no mesmo commit
 - D29 · 2026-10-29 · escrita em gov_* por SQL manual (regra antiga, chamada D4 no GOV_IA_CORE, sem relação com o D4 deste plano) → escrita em gov_* só pelos scripts · regra antiga superada · demandas e passos passam por gov-demanda.ps1 e gov-passo.ps1
 - D30 · 2026-10-29 · preferência "uma pergunta por vez" na instrução do projeto → regra da conduta v2026-10-29a (sai da instrução) · vale para todos os projetos · instrução consolidada no 3w/3x
@@ -50,3 +50,4 @@ Formato: id · data · de → para · motivo · impacto.
 - 2026-11-13 18:26 · [sem-n8n] · etapas do manual sem objeto → exceção sem_n8n em projetos · projeto sem workflow n8n · A7 fecha com as etapas aplicáveis
 - 2026-11-13 18:34 · [relatorios] · não versionados → commit de referencia_layout_sitesolu.md e relatorios/teste_visual/ no .gitignore · referência serve à equipe, teste visual é gerado · 1 arquivo novo no git
 - 2026-11-13 18:34 · [demanda-21] · INCONSISTENTE sem destino → mantida com observação de encerramento · skill substituída pela conduta · sai das divergências
+- 2026-11-13 19:24 · [repo-visibilidade] · instrução com repo público → repo privado, decisão de 30/10 mantida · só a hospedagem sai do GitHub · instrução corrigida; tornar privado na interface segue na pendência 3w
