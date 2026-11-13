@@ -32,3 +32,10 @@ plot.log
 
 # Material de referencia local (guias, prototipo e copias de estado)
 referencia/
+
+# Governanca GOV_IA_CORE
+naocomitar/
+.mcp-secrets.local.json
+
+# Saida gerada de teste visual
+relatorios/teste_visual/

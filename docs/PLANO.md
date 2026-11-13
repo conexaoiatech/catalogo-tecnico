@@ -8,14 +8,14 @@ Entregas (cada uma cita a parte do objetivo):
 - E4 · Versão Blindex — FEITA (objetivo: "versões Blindex")
 - E5 · Dados estruturais e gráficos de pressão — EM ANÁLISE, demanda nova de gráficos (objetivo: "especificações"; critério: gráficos validados pelo responsável técnico)
 - E6 · Governança no repo e guia de edição — EM EXECUÇÃO, demanda 296 (objetivo: manter o catálogo por quem o consulta e o atualiza)
-Fora de escopo: publicar CAD bruto; preços e condições comerciais; linha de adesivos e selantes Blindex/Neoklon; migração para o servidor próprio definitivo; editar à mão arquivos gerados em docs/.
+Fora de escopo: publicar CAD bruto; preços e condições comerciais; linha de adesivos e selantes Blindex/Neoklon; editar à mão arquivos gerados em docs/.
 
 ## Decisões
 Formato: id · data · de → para · motivo · impacto.
 - D1 · 2026-10-27 · subpastas por produto → pasta única src/assets/img/perfis · perfil compartilhado entre sistemas · a pessoa achatou as pastas; o build lê só a raiz
 - D2 · 2026-10-27 · SS-0108 → ss-108 (confirmado em 2026-10-28 pela ficha "SS-0108 Montante do Vidro 12 mm") · código oficial · a leitura "SS-0208" foi erro de OCR
 - D3 · 2026-10-27 · lista sem os FE → FE: 6 perfis (0202, 0203, 0204, 0205, 0207, 0208), código com 4 dígitos, DXF em cad-fonte\ARQUIVOS\SKINGLASS, dados calculados · faltavam na lista · YAML criados e preenchidos
-- D4 · 2026-10-28 · push em master → main · master não existe · todos os blocos usam main
+- D4 · 2026-10-28 · push em master → main · master não existe · todos os blocos usam main · superada por 2026-11-13
 - D5 · 2026-10-28 · duas imagens do SS-014 → fica SS-014-capa_uniao (o outro foi apagado pela pessoa) · duplicata · ss-014-capa_de_uniao
 - D6 · 2026-10-28 · renomear no passo 3 → renomear junto com a leitura das fichas, nome = {codigo}-{descrição da ficha} · pedido da pessoa · 72+ imagens renomeadas
 - D7 · 2026-10-28 · ficha vale sobre o YAML → SS-002: vale o YAML (c8dc33f), não a ficha · correção anterior · exceção à regra da ficha
@@ -42,3 +42,11 @@ Formato: id · data · de → para · motivo · impacto.
 - D28 · 2026-10-29 · guia de edição fora do repo → guia de edição vira GUIA_EDICAO.md no repo · mantê-lo junto do código que ele descreve · ao mudar caminho, arquivo de texto ou template, atualizar o guia no mesmo commit
 - D29 · 2026-10-29 · escrita em gov_* por SQL manual (regra antiga, chamada D4 no GOV_IA_CORE, sem relação com o D4 deste plano) → escrita em gov_* só pelos scripts · regra antiga superada · demandas e passos passam por gov-demanda.ps1 e gov-passo.ps1
 - D30 · 2026-10-29 · preferência "uma pergunta por vez" na instrução do projeto → regra da conduta v2026-10-29a (sai da instrução) · vale para todos os projetos · instrução consolidada no 3w/3x
+- 2026-11-13 17:25 · [entrada] · cadastro novo → regularização de projeto já cadastrado · cadastro de 18/09 conferido no vps · demanda 351, sem INSERT em projetos
+- 2026-11-13 17:26 · [bracket] · — → [CATALOGOTECNICO] · seção 4 do MANUAL_GIC_NOVOPROJETO · sem exceção
+- 2026-11-13 17:27 · [branch] · padrão master → main com exceção em projetos.excecoes_convencao · Pages e deploy-vps saem de main · sem mudança no repo
+- 2026-11-13 17:27 · [alvo] · GitHub Pages verdade → https://catalogo.solucaointeligentes.com verdade, Pages só redireciona · site no ar na VPS desde 30/10 · instrução atualizada
+- 2026-11-13 17:27 · [escopo] · migração para o servidor próprio no fora de escopo → removida · virou o alvo · instrução e PLANO atualizados
+- 2026-11-13 18:26 · [sem-n8n] · etapas do manual sem objeto → exceção sem_n8n em projetos · projeto sem workflow n8n · A7 fecha com as etapas aplicáveis
+- 2026-11-13 18:34 · [relatorios] · não versionados → commit de referencia_layout_sitesolu.md e relatorios/teste_visual/ no .gitignore · referência serve à equipe, teste visual é gerado · 1 arquivo novo no git
+- 2026-11-13 18:34 · [demanda-21] · INCONSISTENTE sem destino → mantida com observação de encerramento · skill substituída pela conduta · sai das divergências

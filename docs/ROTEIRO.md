@@ -35,6 +35,7 @@ Progresso: 30/30 passos FEITO.
 | 106 | 3u · Ajustes do 3t: ROTEIRO, protótipo fora do git e instrução do projeto | E6 | 296 | docs/ROTEIRO.md, README.md, INSTRUÇÃO_CLAUDE_IA.txt | FEITO | d851fcc; texto da instrução era versão antiga, substituído no 3x |
 | 107 | 3w · Consolidar a instrução do projeto a partir das versões na raiz | E6 | 296 | INSTRUÇÃO_CLAUDE_IA_atualizada.txt | FEITO | sem commit; consolidado aplicado no 3x |
 | 108 | 3x · Aplicar a instrução consolidada no repo, README e ROTEIRO | E6 | 296 | INSTRUÇÃO_CLAUDE_IA.txt, README.md, docs/ROTEIRO.md, docs/PLANO.md | FEITO | ver git log |
+| 109 | Regularização A7 do repo | E6 | 351 | repo | EM EXECUÇÃO | gov_passos 158 |
 
 ## Fila (espelho de gov_demandas backlog)
 - 2026-10-28 · Gráficos de pressão: definir o modelo estrutural por sistema (Sacada: vão do vidro; SkinGlass: conjunto coluna + meio-coluna) com o Coordenador de Produção; estrutural.yaml segue PRELIMINAR e publicar_graficos false · D22 (E5)
